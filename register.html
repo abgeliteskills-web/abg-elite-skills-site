@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | ABG Elite Skills</title>
+    <meta
+      name="description"
+      content="Start an ABG Elite Skills registration, review the camp options, and see the player's assigned group and ice time based on birth year."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="register">
+    <div class="site-bg"></div>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="./index.html" aria-label="ABG Elite Skills home">
+          <img
+            class="brand-logo"
+            src="./assets/abg-elite-skills-logo.webp"
+            alt="ABG Elite Skills logo"
+          />
+          <span class="brand-text">
+            <strong>ABG Elite Skills</strong>
+            <small>Premium hockey development in Edmonton</small>
+          </span>
+        </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-label="Open menu">
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="site-nav" aria-label="Primary">
+          <a class="nav-link" href="./index.html">Home</a>
+          <a class="nav-link" href="./camps.html">Camps</a>
+          <a class="nav-link" href="./coaches.html">Coaches</a>
+          <a class="nav-link" href="./about.html">About</a>
+        </nav>
+
+        <a class="text-link header-text-link" href="./camps.html">Back To Camps</a>
+      </header>
+
+      <main>
+        <section class="page-hero reveal register-hero">
+          <div class="page-hero-copy">
+            <p class="eyebrow">Registration</p>
+            <h1>Register for 2026 camps.</h1>
+            <p class="register-hero-lead">
+              Enter your player details first, then choose the camp that fits best.
+            </p>
+            <div class="register-hero-contact">
+              <span>Questions before you register?</span>
+              <a href="mailto:abgeliteskills@gmail.com">abgeliteskills@gmail.com</a>
+              <a href="tel:+15877100406">587-710-0406</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section reveal register-layout">
+          <form class="registration-form" data-register-form>
+            <section class="registration-panel">
+              <p class="eyebrow">Player Information</p>
+              <h2>Player Information</h2>
+              <div class="form-grid">
+                <label class="form-field form-field-full">
+                  <span>Player Full Name</span>
+                  <input type="text" name="player-name" autocomplete="name" required />
+                </label>
+                <label class="form-field">
+                  <span>Player Position</span>
+                  <select name="player-position" required>
+                    <option value="">Select</option>
+                    <option>Forward</option>
+                    <option>Defenceman</option>
+                    <option>Forward/Defenceman</option>
+                    <option>Goalie</option>
+                  </select>
+                </label>
+                <label class="form-field">
+                  <span>Player Birth Year</span>
+                  <input
+                    id="player-birth-year"
+                    type="number"
+                    name="player-birth-year"
+                    inputmode="numeric"
+                    min="2010"
+                    max="2020"
+                    placeholder="2015"
+                    required
+                  />
+                </label>
+                <label class="form-field form-field-full">
+                  <span>Current Team and Organization</span>
+                  <input type="text" name="current-team" />
+                </label>
+              </div>
+            </section>
+
+            <section class="registration-panel">
+              <p class="eyebrow">Camp Selection</p>
+              <h2>Choose camps</h2>
+              <p class="registration-section-note">
+                Based on the birth year above, each camp will show the matching ice time.
+              </p>
+              <div class="registration-error" data-camp-error hidden>
+                Select at least one camp before continuing.
+              </div>
+              <div class="registration-camp-grid" data-registration-camps></div>
+            </section>
+
+            <section class="registration-panel">
+              <p class="eyebrow">Parent / Guardian Information</p>
+              <h2>Parent / Guardian Information</h2>
+              <div class="form-grid">
+                <label class="form-field">
+                  <span>Parent 1 Full Name</span>
+                  <input type="text" name="parent-1-name" autocomplete="name" required />
+                </label>
+                <label class="form-field">
+                  <span>Parent 1 Phone Number</span>
+                  <input type="tel" name="parent-1-phone" autocomplete="tel" required />
+                </label>
+                <label class="form-field form-field-full">
+                  <span>Parent 1 Email</span>
+                  <input type="email" name="parent-1-email" autocomplete="email" required />
+                </label>
+                <label class="form-field">
+                  <span>Parent 2 Full Name (Optional)</span>
+                  <input type="text" name="parent-2-name" autocomplete="name" />
+                </label>
+                <label class="form-field">
+                  <span>Parent 2 Phone Number (Optional)</span>
+                  <input type="tel" name="parent-2-phone" autocomplete="tel" />
+                </label>
+                <label class="form-field form-field-full">
+                  <span>Parent 2 Email (Optional)</span>
+                  <input type="email" name="parent-2-email" autocomplete="email" />
+                </label>
+              </div>
+            </section>
+
+            <section class="registration-panel">
+              <p class="eyebrow">Optional Details</p>
+              <h2>A Few Quick Details</h2>
+              <div class="form-grid">
+                <label class="form-field">
+                  <span>How did you hear about ABG?</span>
+                  <input type="text" name="heard-about" required />
+                </label>
+                <label class="form-field">
+                  <span>Who referred you? (Optional)</span>
+                  <input type="text" name="referred-by" />
+                </label>
+                <label class="form-field form-field-full">
+                  <span>What is one skill or habit your player wants to level up this summer? (Optional)</span>
+                  <textarea name="player-goal" rows="5"></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="registration-panel registration-submit-panel">
+              <div class="registration-submit-copy">
+              <p class="eyebrow">Review</p>
+              <h2>Review and submit</h2>
+              <ul class="registration-summary-list" data-summary-camps></ul>
+                <div class="registration-summary-total">
+                  <span>Total Camp Cost</span>
+                  <strong data-summary-total>$0</strong>
+                </div>
+              </div>
+              <div class="registration-submit-actions">
+                <button class="button" type="submit">Submit Registration Request</button>
+                <p class="registration-summary-note">
+                  We’ll review the details and follow up with the next confirmation step.
+                </p>
+              </div>
+              <div class="registration-notice" data-registration-notice>
+                <strong>Registration request reviewed.</strong>
+                <p>
+                  Your camp choices and player details are ready for the final confirmation step.
+                </p>
+              </div>
+            </section>
+          </form>
+        </section>
+      </main>
+
+      <footer class="register-footer">
+        <p>Questions? Email <a href="mailto:abgeliteskills@gmail.com">abgeliteskills@gmail.com</a> or call/text <a href="tel:+15877100406">587-710-0406</a>.</p>
+        <div class="register-footer-links">
+          <a href="./camps.html">Back to camps</a>
+          <a href="./index.html">Home</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="./data.js"></script>
+    <script src="./script.js"></script>
+    <script src="./register.js"></script>
+  </body>
+</html>

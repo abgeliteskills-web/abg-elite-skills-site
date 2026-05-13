@@ -129,6 +129,28 @@ const camps = [
       registrationUrl:
         "https://docs.google.com/forms/d/e/1FAIpQLScyyE3i7Hiqhz6Ja7cmHQQ5MA1ToqnkeTxz0Av2-hBRThMbyA/viewform?usp=header",
     },
+    {
+      month: "Year-Round",
+      title: "Private Sessions",
+      shortDescription:
+        "One-on-one or small private group instruction for players who want a more personalized development plan.",
+      fullDescription:
+        "Private sessions are built around the player’s specific needs, whether that means skill work, skating details, puck touches, confidence-building reps, or more position-specific coaching. Families can reach out directly to set up the right fit.",
+      dates: "Book by request",
+      location: "Edmonton ice slots arranged directly with ABG",
+      locationUrl:
+        "mailto:abgeliteskills@gmail.com?subject=Private%20Session%20Inquiry",
+      ages: ["2010-2019", "Small groups", "Private 1-on-1"],
+      schedule: ["Flexible scheduling", "Available by request", "Contact for availability"],
+      price: "Contact for rates",
+      status: "Private",
+      featured: false,
+      ratio: "Personalized instruction",
+      image: "./assets/About%20Hero.jpg",
+      imagePosition: "center 24%",
+      registrationUrl:
+        "mailto:abgeliteskills@gmail.com?subject=Private%20Session%20Inquiry",
+    },
 ];
 
 // COACHES
@@ -378,7 +400,7 @@ const testimonials = [
     },
 ];
 
-export const siteData = {
+window.siteData = {
   camps,
   coaches,
   testimonials,

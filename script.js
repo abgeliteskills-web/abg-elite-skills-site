@@ -1,12 +1,26 @@
-import { siteData } from "./data.js?v=6";
+const siteData = window.siteData || {
+  camps: [],
+  coaches: [],
+  testimonials: [],
+};
 
 const campTargets = document.querySelectorAll("[data-camp-grid]");
 const coachTargets = document.querySelectorAll("[data-coach-grid]");
 const testimonialTargets = document.querySelectorAll("[data-testimonial-slider]");
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
+const publicCamps = siteData.camps.filter((camp) => camp.status !== "Private");
+
+const slugify = (value) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const getCampRegistrationUrl = (camp) => `./register.html?camp=${encodeURIComponent(slugify(camp.title))}`;
 
 const renderCampCard = (camp) => {
+  const campSlug = slugify(camp.title);
   const imageStyles = [
     camp.imagePosition ? `object-position: ${camp.imagePosition};` : "",
     camp.imageScale ? `transform: scale(${camp.imageScale});` : "",
@@ -26,7 +40,7 @@ const renderCampCard = (camp) => {
     .join("");
 
   return `
-    <article class="camp-card">
+    <article class="camp-card" id="${campSlug}">
       <div class="camp-card-media">
         <img src="${camp.image}" alt="${camp.title} camp photo"${imageStyles ? ` style="${imageStyles}"` : ""} />
       </div>
@@ -55,7 +69,7 @@ const renderCampCard = (camp) => {
           <p class="camp-schedule-label">Age Groups & Ice Times</p>
           <ul class="age-list">${ageItems}</ul>
         </div>
-        <a class="button" href="${camp.registrationUrl}" target="_blank" rel="noreferrer">Register</a>
+        <a class="button" href="${getCampRegistrationUrl(camp)}">Register</a>
       </div>
     </article>
   `;
@@ -181,7 +195,7 @@ const renderTestimonialSlider = (testimonials) => {
 
 for (const target of campTargets) {
   const mode = target.dataset.campGrid;
-  const camps = mode === "featured" ? siteData.camps.filter((camp) => camp.featured) : siteData.camps;
+  const camps = mode === "featured" ? publicCamps.filter((camp) => camp.featured) : publicCamps;
   target.innerHTML = camps.map(renderCampCard).join("");
 }
 
