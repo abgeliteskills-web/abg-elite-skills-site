@@ -2324,6 +2324,18 @@ body[data-page="about"] .page-hero-visual img {
   .hero-video-panel {
     max-width: none;
   }
+
+  .home-featured-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-featured-card-flagship {
+    transform: none;
+  }
+
+  .home-featured-top {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 860px) {
@@ -2361,6 +2373,24 @@ body[data-page="about"] .page-hero-visual img {
   .camp-slot-time {
     justify-self: start;
     text-align: left;
+  }
+
+  .home-featured-section {
+    padding: 24px 20px 26px;
+  }
+
+  .home-featured-heading p:last-child {
+    max-width: none;
+  }
+
+  .home-featured-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .home-featured-actions .button {
+    width: 100%;
+    min-width: 0;
   }
 
   footer.site-footer {
