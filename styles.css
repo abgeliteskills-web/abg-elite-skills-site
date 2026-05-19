@@ -25,6 +25,8 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 body {
@@ -33,6 +35,7 @@ body {
   font-family: "Manrope", sans-serif;
   color: var(--text);
   background: linear-gradient(180deg, #071018 0%, #09131d 42%, #0b1621 100%);
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img {
@@ -78,7 +81,9 @@ a {
   border-radius: 24px;
   background: rgba(7, 14, 22, 0.78);
   backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   box-shadow: var(--shadow);
+  transform: translateZ(0);
 }
 
 .brand {
@@ -274,6 +279,7 @@ h3,
 }
 
 .hero-home .hero-copy {
+  align-content: start;
   padding: 34px 36px;
 }
 
@@ -376,10 +382,10 @@ h1 {
 
 .hero-home h1 {
   margin-bottom: 0;
-  font-size: clamp(2.55rem, 4.6vw, 4.55rem);
+  font-size: clamp(2.5rem, 4.15vw, 4.25rem);
   line-height: 0.92;
   letter-spacing: 0.015em;
-  max-width: 11ch;
+  max-width: 100%;
 }
 
 .hero-league-strip {
@@ -1062,9 +1068,12 @@ span {
 }
 
 .camp-more {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 14px 0;
+  overflow: hidden;
+  border: 1px solid rgba(122, 201, 255, 0.14);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.06), rgba(255, 255, 255, 0.015)),
+    rgba(5, 13, 22, 0.54);
 }
 
 .camp-more summary {
@@ -1072,13 +1081,30 @@ span {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  min-height: 52px;
+  padding: 0 16px;
   color: var(--text);
   font-family: "Barlow Condensed", sans-serif;
-  font-size: 1rem;
+  font-size: 1.02rem;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
   list-style: none;
+  transition:
+    color 180ms ease,
+    background 180ms ease;
+}
+
+.camp-more summary:hover {
+  color: #ffffff;
+  background: rgba(122, 201, 255, 0.06);
+}
+
+.camp-more summary:focus-visible {
+  outline: 2px solid rgba(122, 201, 255, 0.7);
+  outline-offset: -4px;
+  background: rgba(122, 201, 255, 0.08);
 }
 
 .camp-more summary::-webkit-details-marker {
@@ -1087,9 +1113,16 @@ span {
 
 .camp-more summary::after {
   content: "+";
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(122, 201, 255, 0.22);
+  border-radius: 999px;
   color: var(--ice);
   font-size: 1.35rem;
   line-height: 1;
+  background: rgba(122, 201, 255, 0.08);
 }
 
 .camp-more[open] summary::after {
@@ -1097,7 +1130,10 @@ span {
 }
 
 .camp-more .camp-description {
-  margin-top: 12px;
+  margin: 0;
+  padding: 0 16px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 14px;
 }
 
 .camp-schedule-block {
@@ -2864,8 +2900,10 @@ h3 { font-weight: 600; }
 
 /* 10 — Page hero h1 — bigger, punchier on interior pages */
 .page-hero-copy h1 {
-  font-size: clamp(3rem, 6.5vw, 5.6rem);
-  line-height: 0.92;
+  max-width: 12.5ch;
+  font-size: clamp(2.9rem, 5.8vw, 5.05rem);
+  line-height: 0.9;
+  text-wrap: balance;
 }
 
 /* 11 — Section rhythm — slightly more breathing room */
@@ -2882,6 +2920,118 @@ h3 { font-weight: 600; }
 /* 13 — Feature card padding adjustment for left border */
 .feature-card {
   padding-left: 28px;
+}
+
+/* 14 — Final polish pass — sharpened surfaces, laptop hero rhythm, richer lower sections */
+.page-hero-copy,
+.hero-copy,
+.content-panel,
+.registration-panel,
+.camp-card,
+.coach-profile,
+.final-cta,
+.feature-card {
+  box-shadow:
+    0 24px 58px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.page-hero-copy,
+.hero-copy {
+  align-content: center;
+}
+
+.page-hero-visual {
+  min-height: clamp(340px, 42vw, 500px);
+}
+
+.page-hero-copy > p:not(.eyebrow),
+.section-heading > p,
+.content-panel > p,
+.final-cta > div > p:not(.eyebrow) {
+  color: var(--muted-strong);
+}
+
+.section-heading {
+  position: relative;
+  padding-bottom: 18px;
+}
+
+.section-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: min(420px, 100%);
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 46, 52, 0.55), rgba(122, 201, 255, 0.24), transparent);
+}
+
+.feature-card,
+.content-panel,
+.registration-panel {
+  background:
+    radial-gradient(circle at top right, rgba(122, 201, 255, 0.08), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 42%),
+    var(--panel);
+}
+
+.register-footer {
+  padding: 20px 22px;
+  border: 1px solid rgba(122, 201, 255, 0.12);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.06), transparent 45%),
+    rgba(11, 22, 34, 0.72);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 1081px) and (max-width: 1240px) {
+  .page-shell {
+    width: min(var(--max-width), calc(100% - 36px));
+  }
+
+  .site-header {
+    margin-bottom: 24px;
+  }
+
+  .hero-home {
+    gap: 22px;
+  }
+
+  .hero-home-kicker {
+    font-size: clamp(1.45rem, 2.45vw, 2.05rem);
+  }
+
+  .hero-home h1 {
+    max-width: 100%;
+    font-size: clamp(2.3rem, 3.55vw, 3.6rem);
+  }
+
+  .hero-copy,
+  .hero-home .hero-copy,
+  .hero-video-panel,
+  .page-hero-copy {
+    padding: 28px;
+  }
+
+  .hero-text,
+  .page-hero-copy > p:not(.eyebrow) {
+    font-size: 1rem;
+    line-height: 1.58;
+  }
+
+  .hero-video-frame {
+    max-width: 470px;
+  }
+
+  .page-hero-copy h1 {
+    font-size: clamp(2.75rem, 5vw, 4.55rem);
+  }
+
+  .page-hero-visual {
+    min-height: 380px;
+  }
 }
 
 @media (max-width: 640px) {
