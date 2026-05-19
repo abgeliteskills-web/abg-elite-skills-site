@@ -61,6 +61,7 @@ const renderCampCard = (camp) => {
         <p class="camp-location">
           <a href="${camp.locationUrl}" target="_blank" rel="noreferrer">${camp.location}</a>
         </p>
+        <a class="button" href="${getCampRegistrationUrl(camp)}">Register</a>
         <details class="camp-more">
           <summary>More Camp Details</summary>
           <p class="camp-description">${camp.fullDescription}</p>
@@ -69,7 +70,6 @@ const renderCampCard = (camp) => {
           <p class="camp-schedule-label">Age Groups & Ice Times</p>
           <ul class="age-list">${ageItems}</ul>
         </div>
-        <a class="button" href="${getCampRegistrationUrl(camp)}">Register</a>
       </div>
     </article>
   `;

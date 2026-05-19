@@ -645,6 +645,13 @@ span {
   background: rgba(255, 255, 255, 0.06);
 }
 
+/* Urgent status badge — red tint for capacity warnings */
+.home-featured-status-urgent {
+  border-color: rgba(255, 46, 52, 0.38);
+  color: #ffb3b5;
+  background: rgba(255, 46, 52, 0.12);
+}
+
 .home-featured-top {
   display: flex;
   justify-content: space-between;
@@ -668,6 +675,14 @@ span {
   object-fit: cover;
   display: block;
   transform: scale(1.02);
+}
+
+.home-featured-card:not(.home-featured-card-flagship) .home-featured-media img {
+  object-position: center 70%;
+}
+
+.home-featured-card-flagship .home-featured-media img {
+  object-position: center 18%;
 }
 
 .home-featured-top h3 {
@@ -2095,6 +2110,10 @@ footer.site-footer .footer-links {
 
 footer.site-footer .footer-links a {
   color: var(--text);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.08rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   text-decoration: none;
 }
 
@@ -2199,13 +2218,41 @@ body[data-page="about"] .page-hero-visual img {
     justify-self: center;
   }
 
+  /* Remove the 11ch cap so the headline fills the column instead of wrapping every word */
+  .hero-home h1 {
+    max-width: 100%;
+  }
+
   .hero-league-strip,
   .hero-league-badges {
     justify-content: center;
   }
 
   .hero-proof-list {
-    justify-content: center;
+    display: block;
+    text-align: center;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .hero-proof-list li {
+    display: inline;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .hero-proof-list li::after {
+    content: " · ";
+    color: rgba(255, 255, 255, 0.28);
+  }
+
+  .hero-proof-list li:last-child::after {
+    content: "";
   }
 
   .hero-video-panel {
@@ -2357,12 +2404,48 @@ body[data-page="about"] .page-hero-visual img {
     padding-top: 8px;
   }
 
+  .hero-home-kicker {
+    display: none;
+  }
+
   .site-nav.is-open {
     display: flex;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: 12px;
+    margin-top: 6px;
+    position: relative;
+  }
+
+  .site-nav.is-open::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), rgba(122, 201, 255, 0.5) 60%, transparent);
+  }
+
+  /* Active nav link — red left border accent on mobile */
+  .site-nav .nav-link.active {
+    border-left: 3px solid var(--accent);
+    border-radius: 0 999px 999px 0;
+    padding-left: 14px;
+    color: var(--text);
+    background: rgba(255, 46, 52, 0.07);
   }
 
   .site-header > .button {
     display: none;
+  }
+
+  /* Show Register button at the bottom of the open nav */
+  .site-nav.is-open ~ .button {
+    display: flex;
+    grid-column: 1 / -1;
+    justify-content: center;
+    margin-top: 4px;
+    width: 100%;
   }
 
   .age-list li {
@@ -2481,6 +2564,324 @@ body[data-page="about"] .page-hero-visual img {
   body[data-page="coaches"] .coach-profile {
     gap: 20px;
   }
+}
+
+/* ============================================================
+   COACHES PAGE — specific overrides
+   ============================================================ */
+
+/* Coach highlights — ice arrows instead of default bullets */
+.coach-highlights {
+  list-style: none;
+  padding-left: 0;
+}
+
+.coach-highlights li {
+  position: relative;
+  padding-left: 22px;
+}
+
+.coach-highlights li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--ice);
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  line-height: inherit;
+}
+
+/* Pathway card bullet points — ice arrows */
+.coach-pathway-points {
+  list-style: none;
+  padding-left: 0;
+}
+
+.coach-pathway-points li {
+  position: relative;
+  padding-left: 20px;
+}
+
+.coach-pathway-points li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--ice);
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-size: 0.9em;
+  line-height: inherit;
+}
+
+/* Pathway card label — ice condensed uppercase */
+.coach-pathway-body > p {
+  margin: 0;
+  color: var(--ice);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   REGISTER PAGE — specific overrides
+   ============================================================ */
+
+/* Form inputs — ice border so fields are clearly visible against dark panels */
+body[data-page="register"] .form-field input,
+body[data-page="register"] .form-field select,
+body[data-page="register"] .form-field textarea {
+  border-color: rgba(122, 201, 255, 0.18);
+  background: rgba(122, 201, 255, 0.03);
+}
+
+body[data-page="register"] .form-field input:focus,
+body[data-page="register"] .form-field select:focus,
+body[data-page="register"] .form-field textarea:focus {
+  border-color: rgba(122, 201, 255, 0.42);
+  outline: none;
+  background: rgba(122, 201, 255, 0.06);
+}
+
+/* Registration panel eyebrows — add red line decoration (consistent with rest of site) */
+.registration-panel .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.registration-panel .eyebrow::before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Submit panel — red accent to signal the conversion moment */
+.registration-submit-panel {
+  border-color: rgba(255, 46, 52, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 46, 52, 0.08), transparent 40%),
+    var(--panel);
+}
+
+/* Total cost — make the price hit harder */
+.registration-summary-total strong {
+  font-size: 2.2rem;
+  color: var(--text);
+}
+
+/* ============================================================
+   ABOUT PAGE — specific overrides
+   ============================================================ */
+
+/* Hero copy — ice wash (trust/story page, not urgency) */
+body[data-page="about"] .page-hero-copy {
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.06), transparent 32%),
+    var(--panel);
+}
+
+/* "The ABG Mission" h2 — ice color on the red panel-dark for premium contrast */
+body[data-page="about"] .panel-dark h2 {
+  color: var(--ice);
+}
+
+/* "Why It Matters" panel — ice top border to contrast with red panel-dark */
+body[data-page="about"] .layout-two .content-panel:not(.panel-dark) {
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.07), transparent 38%),
+    rgba(11, 22, 34, 0.82);
+  border-color: rgba(122, 201, 255, 0.18);
+}
+
+/* ============================================================
+   CAMPS PAGE — specific overrides
+   ============================================================ */
+
+/* Jordan Biro image — show face, not feet */
+body[data-page="camps"] .page-hero-visual img {
+  object-position: center 14%;
+}
+
+/* Hero copy — ice blue accent instead of red (informational, not urgency) */
+body[data-page="camps"] .page-hero-copy {
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.07), transparent 34%),
+    var(--panel);
+}
+
+/* Specialty camp cards (4th, 5th) — ice border to distinguish from main 3 */
+.camp-grid .camp-card:nth-child(4),
+.camp-grid .camp-card:nth-child(5) {
+  border-color: rgba(122, 201, 255, 0.18);
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.05), rgba(255, 255, 255, 0.01)),
+    rgba(11, 22, 34, 0.82);
+}
+
+/* ============================================================
+   TASTE REDESIGN PASS — premium athletic feel
+   ============================================================ */
+
+/* Hero kicker fix — .eyebrow at line 361 overrides the clamp rule at line 229
+   since both are single-class; re-assert here where it wins by source order */
+.hero-home-kicker {
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+}
+
+/* 1 — Explicit heading weights */
+h1, h2 { font-weight: 700; }
+h3 { font-weight: 600; }
+
+/* 2 — Eyebrow line-prefix decoration for section-level contexts */
+.section-heading .eyebrow,
+.content-panel .eyebrow,
+.final-cta .eyebrow,
+.home-featured-heading .eyebrow,
+.page-hero-copy .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-heading .eyebrow::before,
+.content-panel .eyebrow::before,
+.final-cta .eyebrow::before,
+.home-featured-heading .eyebrow::before,
+.page-hero-copy .eyebrow::before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+/* 3 — Trust bar — stat-scale headlines */
+.trust-bar div {
+  padding: 28px 28px 24px;
+}
+
+.trust-bar strong {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+}
+
+.trust-bar span {
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+/* 4 — Feature card left accent border (kept per DESIGN.md, was missing) */
+.feature-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent) 0%, rgba(122, 201, 255, 0.35) 100%);
+  pointer-events: none;
+}
+
+/* 5 — Section heading sizes — differentiate split headings */
+.split-heading > div > h2 {
+  font-size: clamp(2.2rem, 4.8vw, 4rem);
+  line-height: 0.92;
+}
+
+/* 6 — Coaches section intro — stronger headline */
+.coaches-home-section .content-panel h2 {
+  font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+  line-height: 0.93;
+  max-width: 18ch;
+}
+
+/* 7 — Final CTA — dramatically scaled, radial accent */
+.final-cta {
+  padding: 34px 34px;
+  background:
+    radial-gradient(circle at top right, rgba(255, 46, 52, 0.14), transparent 32%),
+    linear-gradient(180deg, rgba(255, 46, 52, 0.07), transparent 38%),
+    rgba(11, 22, 34, 0.82);
+}
+
+.final-cta h2 {
+  font-size: clamp(2.6rem, 5.4vw, 5rem);
+  line-height: 0.92;
+  margin-bottom: 10px;
+}
+
+.final-cta > div > p:not(.eyebrow) {
+  max-width: 38ch;
+  font-size: 1.06rem;
+}
+
+/* 8 — Check list — accent arrow bullets */
+.check-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.check-list li {
+  position: relative;
+  padding-left: 22px;
+}
+
+.check-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent);
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  line-height: inherit;
+}
+
+/* 9 — Camp grid flagship highlight (2nd = July, 3rd = August) */
+.camp-grid .camp-card:nth-child(2) {
+  border-color: rgba(255, 46, 52, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 46, 52, 0.06), rgba(255, 255, 255, 0.015)),
+    rgba(11, 22, 34, 0.88);
+}
+
+.camp-grid .camp-card:nth-child(3) {
+  border-color: rgba(122, 201, 255, 0.18);
+}
+
+/* 10 — Page hero h1 — bigger, punchier on interior pages */
+.page-hero-copy h1 {
+  font-size: clamp(3rem, 6.5vw, 5.6rem);
+  line-height: 0.92;
+}
+
+/* 11 — Section rhythm — slightly more breathing room */
+.section {
+  margin-bottom: 52px;
+}
+
+/* 12 — About mission panels — size up the headings */
+.layout-two .content-panel h2 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 0.93;
+}
+
+/* 13 — Feature card padding adjustment for left border */
+.feature-card {
+  padding-left: 28px;
 }
 
 @media (max-width: 640px) {
@@ -2619,6 +3020,19 @@ body[data-page="about"] .page-hero-visual img {
 
   h1 {
     font-size: clamp(2.8rem, 14vw, 4.4rem);
+  }
+
+  /* Smaller, more compact hero headline on phones so it doesn't wrap into 7 lines */
+  .hero-home h1 {
+    font-size: clamp(2.1rem, 9.5vw, 3.4rem);
+    text-wrap: balance;
+  }
+
+  /* Fix league badges: 2x2 grid instead of 3+1 orphan layout */
+  .hero-league-badges {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
   }
 
   h2 {
