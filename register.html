@@ -8,13 +8,40 @@
       name="description"
       content="Start an ABG Elite Skills registration, review the camp options, and see the player's assigned group and ice time based on birth year."
     />
-    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <link rel="canonical" href="https://abgeliteskills.com/register.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="ABG Elite Skills" />
+    <meta property="og:title" content="Register | ABG Elite Skills" />
+    <meta
+      property="og:description"
+      content="Register for ABG Elite Skills 2026 hockey camps in Edmonton and choose the right age group, ice time, and camp option for your player."
+    />
+    <meta property="og:url" content="https://abgeliteskills.com/register.html" />
+    <meta
+      property="og:image"
+      content="https://abgeliteskills.com/assets/About%20Hero.jpg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Register | ABG Elite Skills" />
+    <meta
+      name="twitter:description"
+      content="Register for ABG Elite Skills 2026 hockey camps in Edmonton and choose the right camp option for your player."
+    />
+    <meta
+      name="twitter:image"
+      content="https://abgeliteskills.com/assets/About%20Hero.jpg"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" href="./assets/abg-elite-skills-logo.webp" type="image/webp" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body data-page="register">
@@ -54,7 +81,8 @@
             <p class="eyebrow">Registration</p>
             <h1>Register for 2026 camps.</h1>
             <p class="register-hero-lead">
-              Enter your player details first, then choose the camp that fits best.
+              Choose the camp that fits your player, submit the details, and ABG will follow up
+              with confirmation and payment instructions.
             </p>
             <div class="register-hero-contact">
               <span>Questions before you register?</span>
@@ -92,7 +120,7 @@
                     name="player-birth-year"
                     inputmode="numeric"
                     min="2010"
-                    max="2020"
+                    max="2019"
                     placeholder="2015"
                     required
                   />
@@ -152,8 +180,8 @@
               <h2>A Few Quick Details</h2>
               <div class="form-grid">
                 <label class="form-field">
-                  <span>How did you hear about ABG?</span>
-                  <input type="text" name="heard-about" required />
+                  <span>How did you hear about ABG? (Optional)</span>
+                  <input type="text" name="heard-about" />
                 </label>
                 <label class="form-field">
                   <span>Who referred you? (Optional)</span>
@@ -168,18 +196,18 @@
 
             <section class="registration-panel registration-submit-panel">
               <div class="registration-submit-copy">
-              <p class="eyebrow">Review</p>
-              <h2>Review and submit</h2>
-              <ul class="registration-summary-list" data-summary-camps></ul>
+                <p class="eyebrow">Review</p>
+                <h2>Review and submit</h2>
+                <ul class="registration-summary-list" data-summary-camps></ul>
                 <div class="registration-summary-total">
                   <span>Total Camp Cost</span>
                   <strong data-summary-total>$0</strong>
                 </div>
               </div>
               <div class="registration-submit-actions">
-                <button class="button" type="submit">Submit Registration Request</button>
+                <button class="button" type="submit">Submit Registration</button>
                 <p class="registration-summary-note">
-                  We’ll review the details and follow up with the next confirmation step.
+                  No payment is taken on this form. ABG will follow up with confirmation and payment details.
                 </p>
               </div>
               <div class="registration-notice" data-registration-notice>
@@ -202,8 +230,8 @@
       </footer>
     </div>
 
-    <script src="./data.js"></script>
-    <script src="./script.js"></script>
-    <script src="./register.js"></script>
+    <script src="./data.js?v=20260520b"></script>
+    <script src="./script.js?v=20260520b"></script>
+    <script src="./register.js?v=20260520b"></script>
   </body>
 </html>

@@ -553,6 +553,11 @@ span {
 
 .home-featured-heading p:last-child {
   max-width: 32ch;
+  padding: 18px 18px 18px 20px;
+  border-left: 3px solid rgba(255, 46, 52, 0.72);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
 }
 
 .home-featured-section {
@@ -651,7 +656,7 @@ span {
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* Urgent status badge — red tint for capacity warnings */
+/* Highlight badge for the featured July camp */
 .home-featured-status-urgent {
   border-color: rgba(255, 46, 52, 0.38);
   color: #ffb3b5;
@@ -1219,6 +1224,10 @@ span {
   object-fit: cover;
   object-position: var(--coach-preview-position, center top);
   border-radius: 0;
+}
+
+.coach-profile-top img {
+  object-position: var(--coach-profile-position, center 16%);
 }
 
 .coach-card-body {
@@ -3161,7 +3170,7 @@ h3 { font-weight: 600; }
   }
 
   .coach-card-media {
-    aspect-ratio: 4 / 3.85;
+    aspect-ratio: 4 / 4.55;
   }
 
   .coach-card img {
@@ -3250,8 +3259,10 @@ h3 { font-weight: 600; }
   }
 
   body[data-page="coaches"] .coach-profile-top img {
-    max-height: 240px;
-    object-position: center 16%;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: var(--coach-profile-position, center 16%);
   }
 
   body[data-page="coaches"] .coach-profile-intro {

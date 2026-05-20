@@ -133,15 +133,15 @@ const camps = [
       month: "Year-Round",
       title: "Private Sessions",
       shortDescription:
-        "One-on-one or small private group instruction for players who want a more personalized development plan.",
+        "Private, small-group, and team coaching options for players or groups who want more personalized development.",
       fullDescription:
-        "Private sessions are built around the player’s specific needs, whether that means skill work, skating details, puck touches, confidence-building reps, or more position-specific coaching. Families can reach out directly to set up the right fit.",
+        "Private sessions can be built around one player, a small group, or a full team. ABG can come out to support team practices with skill stations, skating details, puck touches, position-specific coaching, and confidence-building reps. Families and teams can reach out directly to set up the right fit.",
       dates: "Book by request",
-      location: "Edmonton ice slots arranged directly with ABG",
+      location: "Edmonton ice slots or team practices arranged directly with ABG",
       locationUrl:
         "mailto:abgeliteskills@gmail.com?subject=Private%20Session%20Inquiry",
-      ages: ["2010-2019", "Small groups", "Private 1-on-1"],
-      schedule: ["Flexible scheduling", "Available by request", "Contact for availability"],
+      ages: ["Any age group", "Small groups", "Team coaching"],
+      schedule: ["Flexible scheduling", "Private 1-on-1", "Available by request"],
       price: "Contact for rates",
       status: "Private",
       featured: false,

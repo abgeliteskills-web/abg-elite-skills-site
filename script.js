@@ -10,6 +10,7 @@ const testimonialTargets = document.querySelectorAll("[data-testimonial-slider]"
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 const publicCamps = siteData.camps.filter((camp) => camp.status !== "Private");
+const campLineup = siteData.camps.filter((camp) => camp.featured || camp.status === "Private");
 
 const slugify = (value) =>
   value
@@ -18,6 +19,15 @@ const slugify = (value) =>
     .replace(/^-+|-+$/g, "");
 
 const getCampRegistrationUrl = (camp) => `./register.html?camp=${encodeURIComponent(slugify(camp.title))}`;
+
+const getCampCtaLabel = (camp) =>
+  camp.status === "Private" ? "Ask About Private Or Team Coaching" : "Register";
+
+const getCampCtaUrl = (camp) =>
+  camp.status === "Private" ? camp.registrationUrl : getCampRegistrationUrl(camp);
+
+const getCampScheduleLabel = (camp) =>
+  camp.status === "Private" ? "Options & Availability" : "Age Groups & Ice Times";
 
 const renderCampCard = (camp) => {
   const campSlug = slugify(camp.title);
@@ -61,13 +71,13 @@ const renderCampCard = (camp) => {
         <p class="camp-location">
           <a href="${camp.locationUrl}" target="_blank" rel="noreferrer">${camp.location}</a>
         </p>
-        <a class="button" href="${getCampRegistrationUrl(camp)}">Register</a>
+        <a class="button" href="${getCampCtaUrl(camp)}">${getCampCtaLabel(camp)}</a>
         <details class="camp-more">
           <summary>More Camp Details</summary>
           <p class="camp-description">${camp.fullDescription}</p>
         </details>
         <div class="camp-schedule-block">
-          <p class="camp-schedule-label">Age Groups & Ice Times</p>
+          <p class="camp-schedule-label">${getCampScheduleLabel(camp)}</p>
           <ul class="age-list">${ageItems}</ul>
         </div>
       </div>
@@ -106,7 +116,11 @@ const renderCoachCard = (coach, mode = "preview") => {
     return `
       <article class="coach-profile">
         <div class="coach-profile-top">
-          <img src="${coach.headshot}" alt="${coach.name} headshot" />
+          <img
+            src="${coach.headshot}"
+            alt="${coach.name} headshot"
+            style="--coach-profile-position: ${coach.mobilePreviewPosition || coach.previewPosition || "center top"};"
+          />
           <div class="coach-profile-intro">
             <p class="program-month">${coach.role}</p>
             <h3>${coach.name}</h3>
@@ -195,7 +209,7 @@ const renderTestimonialSlider = (testimonials) => {
 
 for (const target of campTargets) {
   const mode = target.dataset.campGrid;
-  const camps = mode === "featured" ? publicCamps.filter((camp) => camp.featured) : publicCamps;
+  const camps = mode === "featured" ? publicCamps.filter((camp) => camp.featured) : campLineup;
   target.innerHTML = camps.map(renderCampCard).join("");
 }
 

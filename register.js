@@ -349,11 +349,11 @@ const setupRegistrationPage = () => {
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = "Submit Registration Request";
+        submitButton.textContent = "Submit Registration";
       }
       if (registrationSummaryNote) {
         registrationSummaryNote.textContent =
-          "We’ll review the details and follow up with the next confirmation step.";
+          "No payment is taken on this form. ABG will follow up with confirmation and payment details.";
       }
     }
   });
