@@ -230,9 +230,6 @@ h3,
   grid-column: 1 / -1;
   justify-self: center;
   margin-bottom: -2px;
-  font-size: clamp(1.7rem, 3vw, 2.5rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
 }
 
 .hero-copy,
@@ -486,6 +483,48 @@ span {
 .site-footer p,
 .footer-links a {
   color: var(--muted);
+}
+
+.hero-camp-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.hero-camp-dates span {
+  padding: 5px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.hero-testimonial {
+  margin: 4px 0 0;
+  padding: 12px 16px;
+  border-left: 2px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: rgba(255, 46, 52, 0.06);
+}
+
+.hero-testimonial p {
+  margin: 0 0 4px;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.hero-testimonial cite {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-style: normal;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .hero-actions {
@@ -765,6 +804,66 @@ span {
 .home-featured-actions .button {
   min-width: 168px;
   justify-content: center;
+}
+
+.home-specialty-row {
+  margin-top: 20px;
+}
+
+.home-specialty-label {
+  margin-bottom: 14px;
+}
+
+.home-specialty-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.home-specialty-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.home-specialty-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.home-specialty-month {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.home-specialty-card h3 {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.8vw, 1.45rem);
+}
+
+.home-specialty-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.home-specialty-card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .section {
@@ -2273,6 +2372,53 @@ body[data-page="about"] .page-hero-visual img {
     justify-content: center;
   }
 
+  .hero-league-strip {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-league-badges {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .hero-league-badge {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 40px;
+    padding: 6px 4px;
+    justify-content: center;
+  }
+
+  .hero-league-badge img {
+    max-width: 44px;
+    max-height: 20px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .button-secondary {
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: var(--muted);
+    font-size: 0.9rem;
+    padding: 10px 0;
+    text-align: center;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .hero-actions .button-secondary:hover {
+    color: var(--text);
+    background: none;
+  }
+
   .hero-proof-list {
     display: block;
     text-align: center;
@@ -2748,6 +2894,10 @@ body[data-page="about"] .layout-two .content-panel:not(.panel-dark) {
    CAMPS PAGE — specific overrides
    ============================================================ */
 
+.camps-hero-actions {
+  margin-top: 8px;
+}
+
 /* Jordan Biro image — show face, not feet */
 body[data-page="camps"] .page-hero-visual img {
   object-position: center 14%;
@@ -3187,11 +3337,16 @@ h3 { font-weight: 600; }
     text-wrap: balance;
   }
 
-  /* Fix league badges: 2x2 grid instead of 3+1 orphan layout */
   .hero-league-badges {
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    justify-content: center;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .hero-league-badge {
+    flex: 1 1 0;
+    min-width: 0;
   }
 
   h2 {
