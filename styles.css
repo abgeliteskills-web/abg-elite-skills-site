@@ -485,22 +485,15 @@ span {
   color: var(--muted);
 }
 
-.hero-camp-dates {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 2px;
-}
-
-.hero-camp-dates span {
-  padding: 5px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  color: var(--text);
+.hero-dates-inline {
+  margin: 0;
+  color: var(--muted);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  background: rgba(255, 255, 255, 0.05);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hero-testimonial {
@@ -2455,6 +2448,11 @@ body[data-page="about"] .page-hero-visual img {
     text-align: center;
   }
 
+  .hero-dates-inline {
+    white-space: normal;
+    text-align: center;
+  }
+
   .philosophy-flow {
     grid-template-columns: 1fr;
   }
@@ -3143,6 +3141,18 @@ h3 { font-weight: 600; }
     linear-gradient(180deg, rgba(122, 201, 255, 0.06), transparent 45%),
     rgba(11, 22, 34, 0.72);
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 1081px) {
+  .hero-video-frame {
+    max-height: 580px;
+  }
+
+  .hero-video {
+    aspect-ratio: unset;
+    height: 532px;
+    object-fit: cover;
+  }
 }
 
 @media (min-width: 1081px) and (max-width: 1240px) {
