@@ -9,7 +9,8 @@ const registrationSlugify = (value) =>
     .replace(/^-+|-+$/g, "");
 
 const getRegistrationCampSlug = (camp) => registrationSlugify(camp.title);
-const formatRegistrationCurrency = (value) => `$${value.toFixed(0)}`;
+const formatRegistrationCurrency = (value) =>
+  `$${Number.isInteger(value) ? value.toFixed(0) : value.toFixed(2)}`;
 const parseRegistrationCampPrice = (price) => Number(price.replace(/[^0-9.]/g, "")) || 0;
 const REGISTRATION_ENDPOINT =
   "https://script.google.com/macros/s/AKfycbw5cNw0SPkC8mxGAQLUWYoou3wrYJqTeEadMwzsZVa6JLnE_r-XqUDlq3JyDsjrS2ftoQ/exec";
@@ -26,11 +27,18 @@ const REGISTRATION_PRICING = {
   "Summer Opener": { skater: 100, goalie: 50 },
   "Total Skill Integration": { skater: 250, goalie: 125 },
   "High-Performance Prep": { skater: 200, goalie: 100 },
-  "Body Contact Prep Camp": { skater: 125, goalie: 125 },
-  "Position-Specific Clinic": { skater: 120, goalie: 60 },
+  "Body Contact Prep Camp": { skater: 125, goalie: 50 },
+  "Position-Specific Clinic": { skater: 90, goalie: 50 },
+};
+
+const REGISTRATION_CLOSED_GROUPS = {
+  "Summer Opener": ["2017-2019"],
 };
 
 const getCampSubmissionName = (camp) => REGISTRATION_CAMP_NAMES[camp.title] || camp.title;
+
+const isRegistrationGroupClosed = (camp, ageGroup) =>
+  Boolean(REGISTRATION_CLOSED_GROUPS[camp.title]?.includes(ageGroup));
 
 const getCampPriceForPosition = (camp, playerPosition) => {
   const pricing = REGISTRATION_PRICING[camp.title];
@@ -135,7 +143,7 @@ const setupRegistrationPage = () => {
             <span class="registration-camp-option-main">
               <span class="registration-camp-option-top">
                 <span class="registration-camp-option-title">${camp.title}</span>
-                <span class="registration-camp-option-price">${camp.price}</span>
+                <span class="registration-camp-option-price" data-camp-price="${slug}">${camp.price}</span>
               </span>
               <span class="registration-camp-option-meta">${camp.dates} • ${camp.location}</span>
               <span class="registration-camp-option-time" data-camp-slot-info="${slug}">
@@ -150,6 +158,7 @@ const setupRegistrationPage = () => {
 
   const campInputs = Array.from(registrationCampTarget.querySelectorAll('input[name="selected-camps"]'));
   const campSlotTargets = Array.from(registrationCampTarget.querySelectorAll("[data-camp-slot-info]"));
+  const campPriceTargets = Array.from(registrationCampTarget.querySelectorAll("[data-camp-price]"));
 
   const updateCampSelectionStyles = () => {
     for (const input of campInputs) {
@@ -164,6 +173,18 @@ const setupRegistrationPage = () => {
       .filter((input) => input.checked)
       .map((input) => publicCamps.find((camp) => getRegistrationCampSlug(camp) === input.value))
       .filter(Boolean);
+
+  const updateCampPricePreviews = () => {
+    const playerPosition = playerPositionInput?.value || "";
+
+    for (const target of campPriceTargets) {
+      const camp = publicCamps.find((item) => getRegistrationCampSlug(item) === target.dataset.campPrice);
+
+      if (camp) {
+        target.textContent = formatRegistrationCurrency(getCampPriceForPosition(camp, playerPosition));
+      }
+    }
+  };
 
   const updateCampTimePreviews = () => {
     const birthYear = Number.parseInt(birthYearInput?.value || "", 10);
@@ -187,7 +208,14 @@ const setupRegistrationPage = () => {
 
       const match = getMatchingCampGroup(camp, birthYear);
 
-      if (match) {
+      if (match && isRegistrationGroupClosed(camp, match.ageGroup)) {
+        target.textContent = "No more available spots.";
+        target.classList.add("is-unavailable");
+        if (input) {
+          input.checked = false;
+          input.disabled = true;
+        }
+      } else if (match) {
         target.textContent = `${match.ageGroup}: ${match.schedule}`;
         target.classList.remove("is-unavailable");
         if (input) {
@@ -207,6 +235,8 @@ const setupRegistrationPage = () => {
   };
 
   const updateRegistrationSummary = () => {
+    updateCampPricePreviews();
+
     const selectedCamps = getSelectedCamps();
     const playerPosition = playerPositionInput?.value || "";
     const total = selectedCamps.reduce((sum, camp) => sum + getCampPriceForPosition(camp, playerPosition), 0);
@@ -267,19 +297,29 @@ const setupRegistrationPage = () => {
 
     campError?.setAttribute("hidden", "");
 
+    const playerPositionForPricing = registerForm.elements["player-position"]?.value.trim() || "";
     const campsPayload = selectedCamps.map((camp) => {
       const match = Number.isFinite(birthYear) ? getMatchingCampGroup(camp, birthYear) : null;
+      const campPrice = getCampPriceForPosition(camp, playerPositionForPricing);
 
       return {
         campName: getCampSubmissionName(camp),
         ageGroup: match?.ageGroup || "",
         timeSlot: match?.schedule || "",
+        price: formatRegistrationCurrency(campPrice),
+        priceAmount: campPrice,
       };
     });
 
-    if (Number.isFinite(birthYear) && campsPayload.some((camp) => !camp.ageGroup || !camp.timeSlot)) {
+    if (
+      Number.isFinite(birthYear) &&
+      selectedCamps.some((camp) => {
+        const match = getMatchingCampGroup(camp, birthYear);
+        return !match?.ageGroup || !match?.schedule || isRegistrationGroupClosed(camp, match.ageGroup);
+      })
+    ) {
       campError?.removeAttribute("hidden");
-      campError.textContent = "One or more selected camps do not match this player's birth year.";
+      campError.textContent = "One or more selected camps has no more available spots for this birth year.";
       registrationNotice?.classList.remove("is-visible");
       registrationCampTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
       return;
@@ -300,11 +340,17 @@ const setupRegistrationPage = () => {
       referredBy: registerForm.elements["referred-by"]?.value.trim() || "",
       skillToLevelUp: registerForm.elements["player-goal"]?.value.trim() || "",
       camps: campsPayload,
+      totalCampCost: formatRegistrationCurrency(
+        selectedCamps.reduce((sum, camp) => sum + getCampPriceForPosition(camp, playerPositionForPricing), 0)
+      ),
     };
 
     registrationNotice?.classList.remove("is-visible", "is-error");
+    registrationNotice?.removeAttribute("tabindex");
     if (submitButton) {
       submitButton.disabled = true;
+      submitButton.classList.add("is-loading");
+      submitButton.setAttribute("aria-busy", "true");
       submitButton.textContent = "Submitting...";
     }
     if (registrationSummaryNote) {
@@ -327,28 +373,38 @@ const setupRegistrationPage = () => {
       }
 
       registrationNotice.innerHTML = `
-        <strong>Registration received.</strong>
+        <span class="registration-notice-kicker">Submitted successfully</span>
+        <strong>Registration received</strong>
         <p>
-          Your details were sent to ABG successfully. Check your inbox for the camp confirmation email and payment instructions.
+          Your details were sent to ABG and a spot is being held. A confirmation email with payment instructions is on its way.
         </p>
+        <span class="registration-notice-next">Next step: check your inbox, then send the e-transfer to secure the spot.</span>
       `;
+      registrationNotice?.setAttribute("tabindex", "-1");
       registrationNotice?.classList.add("is-visible");
+      registrationNotice?.focus({ preventScroll: true });
       registerForm.reset();
       updateCampTimePreviews();
       updateRegistrationSummary();
       registrationNotice?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     } catch (error) {
       registrationNotice.innerHTML = `
+        <span class="registration-notice-kicker">Submission not sent</span>
         <strong>Something went wrong.</strong>
         <p>
           ${error.message || "Your registration could not be submitted right now."}
         </p>
+        <span class="registration-notice-next">Please try again or email abgeliteskills@gmail.com.</span>
       `;
+      registrationNotice?.setAttribute("tabindex", "-1");
       registrationNotice?.classList.add("is-visible", "is-error");
+      registrationNotice?.focus({ preventScroll: true });
       registrationNotice?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     } finally {
       if (submitButton) {
         submitButton.disabled = false;
+        submitButton.classList.remove("is-loading");
+        submitButton.removeAttribute("aria-busy");
         submitButton.textContent = "Submit Registration";
       }
       if (registrationSummaryNote) {

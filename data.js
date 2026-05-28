@@ -121,7 +121,7 @@ const camps = [
         "https://www.google.com/maps/search/?api=1&query=KC+Twin+Arenas+13160+140+Avenue+NW+Edmonton",
       ages: ["2013-2015", "2010-2012"],
       schedule: ["12:00 PM - 1:00 PM", "1:15 PM - 2:15 PM"],
-      price: "$120",
+      price: "$90",
       status: "Specialty",
       featured: true,
       ratio: "2 hours total ice time",

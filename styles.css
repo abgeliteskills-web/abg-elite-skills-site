@@ -2038,6 +2038,26 @@ body[data-page="register"] .eyebrow {
   margin-top: 0;
 }
 
+.registration-submit-actions .button.is-loading {
+  position: relative;
+  padding-left: 52px;
+  opacity: 0.86;
+}
+
+.registration-submit-actions .button.is-loading::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: rgba(255, 255, 255, 0.95);
+  border-radius: 50%;
+  animation: abg-spin 0.8s linear infinite;
+}
+
 .registration-submit-actions .registration-summary-note {
   margin: 0;
   max-width: 46ch;
@@ -2046,22 +2066,120 @@ body[data-page="register"] .eyebrow {
 
 .registration-notice {
   display: none;
-  gap: 8px;
+  position: relative;
+  gap: 10px;
   margin-top: 0;
-  padding: 18px 20px;
+  padding: 28px 30px 28px 88px;
+  border-color: rgba(70, 210, 142, 0.36);
+  background:
+    linear-gradient(135deg, rgba(70, 210, 142, 0.18), rgba(122, 201, 255, 0.08)),
+    rgba(10, 26, 31, 0.94);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(70, 210, 142, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.registration-notice::before {
+  content: "✓";
+  position: absolute;
+  left: 28px;
+  top: 31px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: #082015;
+  background: #46d28e;
+  font-family: "Manrope", sans-serif;
+  font-size: 1.45rem;
+  font-weight: 900;
+  box-shadow: 0 12px 30px rgba(70, 210, 142, 0.24);
 }
 
 .registration-notice.is-visible {
   display: grid;
+  position: fixed;
+  z-index: 100;
+  top: 50%;
+  left: 50%;
+  width: min(620px, calc(100vw - 32px));
+  transform: translate(-50%, -50%);
+  animation: notice-pop 0.28s ease-out both;
+  box-shadow:
+    0 0 0 9999px rgba(2, 8, 14, 0.74),
+    0 30px 90px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(70, 210, 142, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .registration-notice.is-error {
   border-color: rgba(151, 22, 22, 0.28);
-  background: rgba(151, 22, 22, 0.08);
+  background:
+    linear-gradient(135deg, rgba(255, 46, 52, 0.16), rgba(151, 22, 22, 0.1)),
+    rgba(28, 13, 18, 0.94);
+}
+
+.registration-notice.is-error::before {
+  content: "!";
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 0 12px 30px rgba(255, 46, 52, 0.24);
+}
+
+.registration-notice strong {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  line-height: 0.95;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.registration-notice-kicker {
+  color: #46d28e;
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .registration-notice p {
   margin: 0;
+  color: var(--muted-strong);
+  font-size: 1.05rem;
+}
+
+.registration-notice-next {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+@keyframes notice-pop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 16px)) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes abg-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .register-footer {
