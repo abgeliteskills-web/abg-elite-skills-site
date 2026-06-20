@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register for Edmonton Hockey Camps | ABG Elite Skills</title>
+    <title>Summer 2026 Hockey Camp Registration | ABG Elite Skills</title>
     <meta
       name="description"
-      content="Register for ABG Elite Skills 2026 Edmonton hockey camps, review camp options, and see the player's assigned group and ice time based on birth year."
+      content="Register for ABG Elite Skills summer 2026 hockey camps at KC Twin Arenas in Edmonton. Select camps, enter player details, and receive confirmation by email."
     />
     <meta
       name="robots"
@@ -15,26 +15,67 @@
     <link rel="canonical" href="https://abgeliteskills.com/register" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="ABG Elite Skills" />
-    <meta property="og:title" content="Register for Edmonton Hockey Camps | ABG Elite Skills" />
+    <meta property="og:title" content="Summer 2026 Hockey Camp Registration | ABG Elite Skills" />
     <meta
       property="og:description"
-      content="Register for ABG Elite Skills 2026 hockey camps in Edmonton and choose the right age group, ice time, and camp option for your player."
+      content="Register for ABG Elite Skills summer 2026 hockey camps at KC Twin Arenas in Edmonton and receive confirmation by email."
     />
     <meta property="og:url" content="https://abgeliteskills.com/register" />
     <meta
       property="og:image"
-      content="https://abgeliteskills.com/assets/About%20Hero.jpg"
+      content="https://abgeliteskills.com/assets/20250711_201636%20copy.jpg"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Register for Edmonton Hockey Camps | ABG Elite Skills" />
+    <meta name="twitter:title" content="Summer 2026 Hockey Camp Registration | ABG Elite Skills" />
     <meta
       name="twitter:description"
-      content="Register for ABG Elite Skills 2026 hockey camps in Edmonton and choose the right camp option for your player."
+      content="Register for ABG Elite Skills summer 2026 hockey camps at KC Twin Arenas in Edmonton and receive confirmation by email."
     />
     <meta
       name="twitter:image"
-      content="https://abgeliteskills.com/assets/About%20Hero.jpg"
+      content="https://abgeliteskills.com/assets/20250711_201636%20copy.jpg"
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://abgeliteskills.com/register#webpage",
+            "url": "https://abgeliteskills.com/register",
+            "name": "Summer 2026 Hockey Camp Registration | ABG Elite Skills",
+            "description": "Register for ABG Elite Skills summer 2026 hockey camps at KC Twin Arenas in Edmonton. Select camps, enter player details, and receive confirmation by email.",
+            "isPartOf": {
+              "@id": "https://abgeliteskills.com/#website"
+            },
+            "about": {
+              "@id": "https://abgeliteskills.com/#organization"
+            },
+            "breadcrumb": {
+              "@id": "https://abgeliteskills.com/register#breadcrumb"
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://abgeliteskills.com/register#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://abgeliteskills.com/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Register",
+                "item": "https://abgeliteskills.com/register"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -42,7 +83,7 @@
       rel="stylesheet"
     />
     <link rel="icon" href="./assets/abg-elite-skills-logo.webp" type="image/webp" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=20260620-mobile-pass-3" />
   </head>
   <body data-page="register">
     <div class="site-bg"></div>
@@ -79,24 +120,16 @@
         <section class="page-hero reveal register-hero">
           <div class="page-hero-copy">
             <p class="eyebrow">Registration</p>
-            <h1>Register for 2026 camps.</h1>
-            <p class="register-hero-lead">
-              Choose the camp that fits your player, submit the details, and ABG will follow up
-              with confirmation and payment instructions.
-            </p>
-            <div class="register-hero-contact">
-              <span>Questions before you register?</span>
-              <a href="mailto:abgeliteskills@gmail.com">abgeliteskills@gmail.com</a>
-              <a href="tel:+15877100406">587-710-0406</a>
-            </div>
+            <h1>Summer 2026 Camp Registration</h1>
+            <p class="register-hero-lead">KC Twin Arenas &middot; Edmonton</p>
           </div>
         </section>
 
         <section class="section reveal register-layout">
           <form class="registration-form" data-register-form>
             <section class="registration-panel">
-              <p class="eyebrow">Player Information</p>
-              <h2>Player Information</h2>
+              <p class="eyebrow">Step 1</p>
+              <h2>Player details</h2>
               <div class="form-grid">
                 <label class="form-field form-field-full">
                   <span>Player Full Name</span>
@@ -112,7 +145,7 @@
                     <option>Goalie</option>
                   </select>
                 </label>
-                <label class="form-field">
+                <label class="form-field form-field-birth-year">
                   <span>Player Birth Year</span>
                   <input
                     id="player-birth-year"
@@ -133,11 +166,8 @@
             </section>
 
             <section class="registration-panel">
-              <p class="eyebrow">Camp Selection</p>
+              <p class="eyebrow">Step 2</p>
               <h2>Choose camps</h2>
-              <p class="registration-section-note">
-                Based on the birth year above, each camp will show the matching ice time.
-              </p>
               <div class="registration-error" data-camp-error hidden>
                 Select at least one camp before continuing.
               </div>
@@ -145,8 +175,8 @@
             </section>
 
             <section class="registration-panel">
-              <p class="eyebrow">Parent / Guardian Information</p>
-              <h2>Parent / Guardian Information</h2>
+              <p class="eyebrow">Step 3</p>
+              <h2>Parent / guardian</h2>
               <div class="form-grid">
                 <label class="form-field">
                   <span>Parent 1 Full Name</span>
@@ -176,8 +206,8 @@
             </section>
 
             <section class="registration-panel">
-              <p class="eyebrow">Optional Details</p>
-              <h2>A Few Quick Details</h2>
+              <p class="eyebrow">Optional</p>
+              <h2>A few quick details</h2>
               <div class="form-grid">
                 <label class="form-field">
                   <span>How did you hear about ABG? (Optional)</span>
@@ -205,15 +235,23 @@
                 </div>
               </div>
               <div class="registration-submit-actions">
+                <div class="registration-next-step">
+                  <strong>What happens next?</strong>
+                  <p>
+                    ABG will email confirmation and e-transfer details. No payment is taken on this
+                    page.
+                  </p>
+                </div>
                 <button class="button" type="submit">Submit Registration</button>
                 <p class="registration-summary-note">
-                  No payment is taken on this form. ABG will follow up with confirmation and payment details.
+                  Please review the selected camps, ice times, and total before submitting.
                 </p>
               </div>
               <div class="registration-notice" data-registration-notice role="status" aria-live="polite">
-                <strong>Registration request reviewed.</strong>
+                <strong>Check your email.</strong>
                 <p>
-                  Your camp choices and player details are ready for the final confirmation step.
+                  Your registration confirmation and e-transfer details will be sent after
+                  submission.
                 </p>
               </div>
             </section>
@@ -230,8 +268,8 @@
       </footer>
     </div>
 
-    <script src="./data.js?v=20260528a"></script>
-    <script src="./script.js?v=20260520b"></script>
-    <script src="./register.js?v=20260528g"></script>
+    <script src="./data.js?v=20260620-availability-1"></script>
+    <script src="./script.js?v=20260620-ga4-1"></script>
+    <script src="./register.js?v=20260620-tracking-1"></script>
   </body>
 </html>

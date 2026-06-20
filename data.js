@@ -37,6 +37,7 @@ const camps = [
       price: "$100",
       status: "Open",
       featured: true,
+      isPast: true,
       ratio: "2 hours total ice time",
       image: "./Camp%20photo%202025.jpg",
       imagePosition: "center 60%",
@@ -48,9 +49,9 @@ const camps = [
       month: "July",
       title: "Total Skill Integration",
       shortDescription:
-        "The flagship 5-day week built around skating, puck handling, passing, shooting, and game transfer.",
+        "A five-day camp covering skating, puck handling, passing, shooting, and game transfer.",
       fullDescription:
-        "Each day isolates a core skill pillar before Friday connects everything in a high-intensity competition environment. This is the camp that best reflects the full ABG standard.",
+        "Each day focuses on a core skill area before players connect it in higher-paced drills and competition. This is the best fit for all-around development.",
       dates: "July 6-10",
       location: "KC Twin Arenas, 13160 140 Avenue NW, Edmonton",
       locationUrl:
@@ -59,6 +60,10 @@ const camps = [
       schedule: ["5:15 PM - 6:15 PM", "6:30 PM - 7:30 PM", "7:45 PM - 8:45 PM"],
       price: "$250",
       status: "Flagship",
+      availability: {
+        label: "Last 3 per group",
+        tone: "urgent",
+      },
       featured: true,
       ratio: "5 hours total ice time",
       image: "./assets/July%20Image%20.avif",
@@ -70,9 +75,9 @@ const camps = [
       month: "August",
       title: "High-Performance Prep",
       shortDescription:
-        "A 4-day bridge into evaluations and tryouts with a stronger focus on pace, timing, and execution.",
+        "A four-day camp to sharpen pace, timing, and execution before evaluations.",
       fullDescription:
-        "This final summer block is designed to sharpen players before the season starts. The emphasis shifts toward game-speed execution so they arrive at tryouts ready to play with confidence.",
+        "This final summer block helps players get back to game speed before the season starts, with a focus on execution, confidence, and compete habits.",
       dates: "August 4-7",
       location: "KC Twin Arenas, 13160 140 Avenue NW, Edmonton",
       locationUrl:
@@ -81,6 +86,10 @@ const camps = [
       schedule: ["5:15 PM - 6:15 PM", "6:30 PM - 7:30 PM", "7:45 PM - 8:45 PM"],
       price: "$200",
       status: "Open",
+      availability: {
+        label: "Last 5 spots",
+        tone: "limited",
+      },
       featured: true,
       ratio: "4 hours total ice time",
       image: "./assets/Aug%20Image.avif",
@@ -91,9 +100,9 @@ const camps = [
       month: "July",
       title: "Body Contact Prep Camp",
       shortDescription:
-        "A two-day clinic built to help players step into contact hockey with confidence, technique, and safer habits.",
+        "A two-day camp for players preparing for contact hockey.",
       fullDescription:
-        "This camp focuses on puck protection, body positioning, angling, and battle-winning habits so players can handle contact situations with more confidence before tryout season.",
+        "Players work on puck protection, body positioning, angling, and battle habits so they can handle contact situations with more confidence.",
       dates: "July 18 & 19",
       location: "KC Twin Arenas, 13160 140 Avenue NW, Edmonton",
       locationUrl:
@@ -102,6 +111,10 @@ const camps = [
       schedule: ["12:00 PM - 1:00 PM"],
       price: "$125",
       status: "Specialty",
+      availability: {
+        label: "Spots available",
+        tone: "open",
+      },
       featured: true,
       ratio: "2 hours total ice time",
       image: "./assets/20250808_181730%20copy.jpg?v=3",
@@ -112,9 +125,9 @@ const camps = [
       month: "July",
       title: "Position-Specific Clinic",
       shortDescription:
-        "A split-ice specialty clinic for forwards and defensemen who want more detailed, position-specific instruction.",
+        "A two-day clinic for forwards and defensemen who want position-specific reps.",
       fullDescription:
-        "Forwards and defensemen train in dedicated groups with current NCAA and pro players, focusing on the exact habits, reads, and skills that translate to their position.",
+        "Forwards and defensemen train in dedicated groups with current NCAA and pro players, focusing on habits, reads, and skills that match their position.",
       dates: "July 25 & 26",
       location: "KC Twin Arenas, 13160 140 Avenue NW, Edmonton",
       locationUrl:
@@ -123,6 +136,10 @@ const camps = [
       schedule: ["12:00 PM - 1:00 PM", "1:15 PM - 2:15 PM"],
       price: "$90",
       status: "Specialty",
+      availability: {
+        label: "Spots available",
+        tone: "open",
+      },
       featured: true,
       ratio: "2 hours total ice time",
       image: "./assets/Position%20Specific%20Image.avif",
@@ -133,9 +150,9 @@ const camps = [
       month: "Year-Round",
       title: "Private Sessions",
       shortDescription:
-        "Private, small-group, and team coaching options for players or groups who want more personalized development.",
+        "Private, small-group, and team coaching booked directly with ABG.",
       fullDescription:
-        "Private sessions can be built around one player, a small group, or a full team. ABG can come out to support team practices with skill stations, skating details, puck touches, position-specific coaching, and confidence-building reps. Families and teams can reach out directly to set up the right fit.",
+        "Private sessions can be built around one player, a small group, or a full team. Families and teams can reach out directly to set up the right fit.",
       dates: "Book by request",
       location: "Edmonton ice slots or team practices arranged directly with ABG",
       locationUrl:

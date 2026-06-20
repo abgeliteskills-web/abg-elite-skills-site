@@ -9,8 +9,56 @@ const coachTargets = document.querySelectorAll("[data-coach-grid]");
 const testimonialTargets = document.querySelectorAll("[data-testimonial-slider]");
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
-const publicCamps = siteData.camps.filter((camp) => camp.status !== "Private");
-const campLineup = siteData.camps.filter((camp) => camp.featured || camp.status === "Private");
+const ABG_GA_MEASUREMENT_ID = "G-ESNEFQVEWK";
+
+window.dataLayer = window.dataLayer || [];
+
+const loadGoogleAnalytics = () => {
+  if (!ABG_GA_MEASUREMENT_ID || window.gtag) {
+    return;
+  }
+
+  const analyticsScript = document.createElement("script");
+  analyticsScript.async = true;
+  analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(ABG_GA_MEASUREMENT_ID)}`;
+  document.head.append(analyticsScript);
+
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments);
+  };
+
+  window.gtag("js", new Date());
+  window.gtag("config", ABG_GA_MEASUREMENT_ID, {
+    transport_type: "beacon",
+  });
+};
+
+const trackSiteEvent = (eventName, eventParams = {}) => {
+  if (!eventName) {
+    return;
+  }
+
+  const cleanedParams = Object.fromEntries(
+    Object.entries(eventParams).filter(([, value]) => value !== undefined && value !== null && value !== "")
+  );
+  const analyticsParams = {
+    transport_type: "beacon",
+    ...cleanedParams,
+  };
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, analyticsParams);
+    return;
+  }
+
+  window.dataLayer.push({
+    event: eventName,
+    ...analyticsParams,
+  });
+};
+
+window.abgTrackEvent = trackSiteEvent;
+loadGoogleAnalytics();
 
 const slugify = (value) =>
   value
@@ -18,16 +66,56 @@ const slugify = (value) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+const campDisplayOrder = [
+  "total-skill-integration",
+  "position-specific-clinic",
+  "body-contact-prep-camp",
+  "high-performance-prep",
+  "private-sessions",
+];
+
+const sortCampsForDisplay = (camps) =>
+  [...camps].sort((firstCamp, secondCamp) => {
+    const firstIndex = campDisplayOrder.indexOf(slugify(firstCamp.title));
+    const secondIndex = campDisplayOrder.indexOf(slugify(secondCamp.title));
+    const firstRank = firstIndex === -1 ? Number.MAX_SAFE_INTEGER : firstIndex;
+    const secondRank = secondIndex === -1 ? Number.MAX_SAFE_INTEGER : secondIndex;
+
+    return firstRank - secondRank;
+  });
+
+const activeCamps = sortCampsForDisplay(siteData.camps.filter((camp) => !camp.isPast));
+const publicCamps = activeCamps.filter((camp) => camp.status !== "Private");
+const campLineup = activeCamps.filter((camp) => camp.featured || camp.status === "Private");
+
 const getCampRegistrationUrl = (camp) => `./register.html?camp=${encodeURIComponent(slugify(camp.title))}`;
 
-const getCampCtaLabel = (camp) =>
-  camp.status === "Private" ? "Ask About Private Or Team Coaching" : "Register";
+const getCampCtaLabel = (camp) => {
+  if (camp.status === "Private") {
+    return "Ask About Private Or Team Coaching";
+  }
+
+  if (camp.title === "Position-Specific Clinic") {
+    return "Register Position-Specific";
+  }
+
+  if (camp.title === "Body Contact Prep Camp") {
+    return "Register Body Contact";
+  }
+
+  return `Register for ${camp.dates}`;
+};
 
 const getCampCtaUrl = (camp) =>
   camp.status === "Private" ? camp.registrationUrl : getCampRegistrationUrl(camp);
 
 const getCampScheduleLabel = (camp) =>
   camp.status === "Private" ? "Options & Availability" : "Age Groups & Ice Times";
+
+const renderAvailabilityBadge = (camp) =>
+  camp.availability
+    ? `<span class="availability-badge availability-badge-${camp.availability.tone || "open"}">${camp.availability.label}</span>`
+    : "";
 
 const renderCampCard = (camp) => {
   const campSlug = slugify(camp.title);
@@ -53,12 +141,14 @@ const renderCampCard = (camp) => {
     <article class="camp-card" id="${campSlug}">
       <div class="camp-card-media">
         <img src="${camp.image}" alt="${camp.title} camp photo"${imageStyles ? ` style="${imageStyles}"` : ""} />
+        <span class="camp-status">${camp.status}</span>
       </div>
       <div class="camp-card-body">
         <div class="camp-card-top">
           <div>
             <p class="program-month camp-card-date-line">
               <span class="camp-card-dates">${camp.dates}</span>
+              ${renderAvailabilityBadge(camp)}
             </p>
             <h3>${camp.title}</h3>
           </div>
@@ -71,15 +161,21 @@ const renderCampCard = (camp) => {
         <p class="camp-location">
           <a href="${camp.locationUrl}" target="_blank" rel="noreferrer">${camp.location}</a>
         </p>
-        <a class="button" href="${getCampCtaUrl(camp)}">${getCampCtaLabel(camp)}</a>
-        <details class="camp-more">
-          <summary>More Camp Details</summary>
-          <p class="camp-description">${camp.fullDescription}</p>
-        </details>
+        <a
+          class="button"
+          href="${getCampCtaUrl(camp)}"
+          data-track-event="camp_card_register_click"
+          data-track-camp="${campSlug}"
+          data-track-label="${camp.title}"
+        >${getCampCtaLabel(camp)}</a>
         <div class="camp-schedule-block">
           <p class="camp-schedule-label">${getCampScheduleLabel(camp)}</p>
           <ul class="age-list">${ageItems}</ul>
         </div>
+        <details class="camp-more">
+          <summary>More Camp Details</summary>
+          <p class="camp-description">${camp.fullDescription}</p>
+        </details>
       </div>
     </article>
   `;
@@ -290,10 +386,118 @@ for (const target of testimonialTargets) {
   restartAutoAdvance();
 }
 
+document.addEventListener("click", (event) => {
+  const trackedElement = event.target.closest("[data-track-event]");
+
+  if (!trackedElement) {
+    return;
+  }
+
+  trackSiteEvent(trackedElement.dataset.trackEvent, {
+    link_text: trackedElement.textContent.trim().replace(/\s+/g, " "),
+    link_url: trackedElement.href || trackedElement.getAttribute("href"),
+    page_path: window.location.pathname,
+    camp_slug: trackedElement.dataset.trackCamp,
+    event_label: trackedElement.dataset.trackLabel,
+    placement: trackedElement.dataset.trackPlacement,
+  });
+});
+
 navToggle?.addEventListener("click", () => {
   const isOpen = siteNav?.classList.toggle("is-open");
   navToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
 });
+
+const setupMobileShellScrollFallback = () => {
+  if (!["camps", "register"].includes(document.body.dataset.page)) {
+    return;
+  }
+
+  const isMobileViewport = () => window.matchMedia("(max-width: 860px)").matches;
+  const getScroller = () => {
+    const pageShell = document.querySelector(".page-shell");
+
+    if (isMobileViewport() && pageShell) {
+      return pageShell;
+    }
+
+    return document.scrollingElement || document.documentElement;
+  };
+  let touchStartY = 0;
+
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      if (!isMobileViewport()) {
+        return;
+      }
+
+      const scroller = getScroller();
+
+      if (scroller.scrollHeight <= scroller.clientHeight) {
+        return;
+      }
+
+      event.preventDefault();
+      scroller.scrollTop += event.deltaY;
+    },
+    { passive: false }
+  );
+
+  window.addEventListener(
+    "touchstart",
+    (event) => {
+      if (!isMobileViewport()) {
+        return;
+      }
+
+      touchStartY = event.touches[0]?.clientY ?? 0;
+    },
+    { passive: true }
+  );
+
+  window.addEventListener(
+    "touchmove",
+    (event) => {
+      if (!isMobileViewport()) {
+        return;
+      }
+
+      const currentY = event.touches[0]?.clientY ?? touchStartY;
+      const deltaY = touchStartY - currentY;
+
+      if (Math.abs(deltaY) < 2) {
+        return;
+      }
+
+      event.preventDefault();
+      getScroller().scrollTop += deltaY;
+      touchStartY = currentY;
+    },
+    { passive: false }
+  );
+};
+
+const setupMobileConversionBar = () => {
+  const heroCopy = document.querySelector(".hero-copy");
+  const mobileConversionBar = document.querySelector(".mobile-conversion-bar");
+
+  if (!heroCopy || !mobileConversionBar || document.body.dataset.page !== "home") {
+    return;
+  }
+
+  const updateMobileConversionBar = () => {
+    const shouldShow = heroCopy.getBoundingClientRect().bottom < 90;
+    document.body.classList.toggle("is-mobile-cta-visible", shouldShow);
+  };
+
+  updateMobileConversionBar();
+  window.addEventListener("scroll", updateMobileConversionBar, { passive: true });
+  window.addEventListener("resize", updateMobileConversionBar);
+};
+
+setupMobileShellScrollFallback();
+setupMobileConversionBar();
 
 const revealItems = document.querySelectorAll(".reveal");
 const revealAllItems = () => {

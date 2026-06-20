@@ -9,6 +9,21 @@ const registrationSlugify = (value) =>
     .replace(/^-+|-+$/g, "");
 
 const getRegistrationCampSlug = (camp) => registrationSlugify(camp.title);
+const REGISTRATION_CAMP_DISPLAY_ORDER = [
+  "total-skill-integration",
+  "position-specific-clinic",
+  "body-contact-prep-camp",
+  "high-performance-prep",
+];
+const sortRegistrationCampsForDisplay = (camps) =>
+  [...camps].sort((firstCamp, secondCamp) => {
+    const firstIndex = REGISTRATION_CAMP_DISPLAY_ORDER.indexOf(getRegistrationCampSlug(firstCamp));
+    const secondIndex = REGISTRATION_CAMP_DISPLAY_ORDER.indexOf(getRegistrationCampSlug(secondCamp));
+    const firstRank = firstIndex === -1 ? Number.MAX_SAFE_INTEGER : firstIndex;
+    const secondRank = secondIndex === -1 ? Number.MAX_SAFE_INTEGER : secondIndex;
+
+    return firstRank - secondRank;
+  });
 const formatRegistrationCurrency = (value) =>
   `$${Number.isInteger(value) ? value.toFixed(0) : value.toFixed(2)}`;
 const parseRegistrationCampPrice = (price) => Number(price.replace(/[^0-9.]/g, "")) || 0;
@@ -35,10 +50,19 @@ const REGISTRATION_CLOSED_GROUPS = {
   "Summer Opener": ["2017-2019"],
 };
 
+const REGISTRATION_BIRTH_YEAR_OPTIONAL_CAMPS = new Set(["Body Contact Prep Camp"]);
+
 const getCampSubmissionName = (camp) => REGISTRATION_CAMP_NAMES[camp.title] || camp.title;
+
+const renderRegistrationAvailability = (camp) =>
+  camp.availability
+    ? `<span class="registration-availability availability-badge availability-badge-${camp.availability.tone || "open"}">${camp.availability.label}</span>`
+    : "";
 
 const isRegistrationGroupClosed = (camp, ageGroup) =>
   Boolean(REGISTRATION_CLOSED_GROUPS[camp.title]?.includes(ageGroup));
+
+const isBirthYearOptionalCamp = (camp) => REGISTRATION_BIRTH_YEAR_OPTIONAL_CAMPS.has(camp.title);
 
 const getCampPriceForPosition = (camp, playerPosition) => {
   const pricing = REGISTRATION_PRICING[camp.title];
@@ -108,6 +132,29 @@ const getMatchingCampGroup = (camp, birthYear) => {
   return null;
 };
 
+const getRegistrationCampAssignment = (camp, birthYear) => {
+  const match = getMatchingCampGroup(camp, birthYear);
+
+  if (match) {
+    return {
+      ...match,
+      displayText: `${match.ageGroup}: ${match.schedule}`,
+    };
+  }
+
+  if (Number.isFinite(birthYear) && isBirthYearOptionalCamp(camp)) {
+    const schedule = camp.schedule[0] || "Contact ABG";
+
+    return {
+      ageGroup: "Open",
+      schedule,
+      displayText: schedule,
+    };
+  }
+
+  return null;
+};
+
 const setupRegistrationPage = () => {
   if (document.body.dataset.page !== "register") {
     return;
@@ -123,7 +170,9 @@ const setupRegistrationPage = () => {
   const playerPositionInput = document.querySelector('[name="player-position"]');
   const submitButton = registerForm?.querySelector('button[type="submit"]');
   const registrationSummaryNote = registerForm?.querySelector(".registration-summary-note");
-  const publicCamps = registrationSiteData.camps.filter((camp) => camp.status !== "Private");
+  const publicCamps = sortRegistrationCampsForDisplay(
+    registrationSiteData.camps.filter((camp) => camp.status !== "Private" && !camp.isPast)
+  );
   const selectedSlug = new URLSearchParams(window.location.search).get("camp");
 
   if (!registrationCampTarget || !selectedCampSummaryTarget || !totalSummaryTarget) {
@@ -145,9 +194,10 @@ const setupRegistrationPage = () => {
                 <span class="registration-camp-option-title">${camp.title}</span>
                 <span class="registration-camp-option-price" data-camp-price="${slug}">${camp.price}</span>
               </span>
+              ${renderRegistrationAvailability(camp)}
               <span class="registration-camp-option-meta">${camp.dates} • ${camp.location}</span>
               <span class="registration-camp-option-time" data-camp-slot-info="${slug}">
-                Enter the player birth year above to see the matching ice time.
+                Birth year needed for ice time.
               </span>
             </span>
           </span>
@@ -198,7 +248,7 @@ const setupRegistrationPage = () => {
       }
 
       if (!Number.isFinite(birthYear)) {
-        target.textContent = "Enter the player birth year above to see the matching ice time.";
+        target.textContent = "Birth year needed for ice time.";
         target.classList.remove("is-unavailable");
         if (input) {
           input.disabled = false;
@@ -206,7 +256,7 @@ const setupRegistrationPage = () => {
         continue;
       }
 
-      const match = getMatchingCampGroup(camp, birthYear);
+      const match = getRegistrationCampAssignment(camp, birthYear);
 
       if (match && isRegistrationGroupClosed(camp, match.ageGroup)) {
         target.textContent = "No more available spots.";
@@ -216,7 +266,7 @@ const setupRegistrationPage = () => {
           input.disabled = true;
         }
       } else if (match) {
-        target.textContent = `${match.ageGroup}: ${match.schedule}`;
+        target.textContent = match.displayText;
         target.classList.remove("is-unavailable");
         if (input) {
           input.disabled = false;
@@ -246,7 +296,7 @@ const setupRegistrationPage = () => {
       ? selectedCamps
           .map(
             (camp) => {
-              const match = Number.isFinite(birthYear) ? getMatchingCampGroup(camp, birthYear) : null;
+              const match = Number.isFinite(birthYear) ? getRegistrationCampAssignment(camp, birthYear) : null;
               const scheduleText = match ? ` • ${match.schedule}` : "";
               const displayPrice = formatRegistrationCurrency(getCampPriceForPosition(camp, playerPosition));
 
@@ -299,7 +349,7 @@ const setupRegistrationPage = () => {
 
     const playerPositionForPricing = registerForm.elements["player-position"]?.value.trim() || "";
     const campsPayload = selectedCamps.map((camp) => {
-      const match = Number.isFinite(birthYear) ? getMatchingCampGroup(camp, birthYear) : null;
+      const match = Number.isFinite(birthYear) ? getRegistrationCampAssignment(camp, birthYear) : null;
       const campPrice = getCampPriceForPosition(camp, playerPositionForPricing);
 
       return {
@@ -314,8 +364,8 @@ const setupRegistrationPage = () => {
     if (
       Number.isFinite(birthYear) &&
       selectedCamps.some((camp) => {
-        const match = getMatchingCampGroup(camp, birthYear);
-        return !match?.ageGroup || !match?.schedule || isRegistrationGroupClosed(camp, match.ageGroup);
+        const assignment = getRegistrationCampAssignment(camp, birthYear);
+        return !assignment?.ageGroup || !assignment?.schedule || isRegistrationGroupClosed(camp, assignment.ageGroup);
       })
     ) {
       campError?.removeAttribute("hidden");
@@ -357,6 +407,8 @@ const setupRegistrationPage = () => {
       registrationSummaryNote.textContent = "Submitting your registration...";
     }
 
+    let submissionSucceeded = false;
+
     try {
       const response = await fetch(REGISTRATION_ENDPOINT, {
         method: "POST",
@@ -372,13 +424,28 @@ const setupRegistrationPage = () => {
         throw new Error(result.error || "Registration could not be submitted.");
       }
 
+      submissionSucceeded = true;
+      window.abgTrackEvent?.("register_submit_success", {
+        camp_count: selectedCamps.length,
+        camp_slugs: selectedCamps.map((camp) => getRegistrationCampSlug(camp)).join(","),
+        camp_names: selectedCamps.map((camp) => getCampSubmissionName(camp)).join(","),
+        value: selectedCamps.reduce((sum, camp) => sum + getCampPriceForPosition(camp, playerPositionForPricing), 0),
+        currency: "CAD",
+        page_path: window.location.pathname,
+      });
       registrationNotice.innerHTML = `
-        <span class="registration-notice-kicker">Submitted successfully</span>
-        <strong>Registration received</strong>
+        <span class="registration-notice-kicker">Registration submitted</span>
+        <strong>Check your email</strong>
         <p>
-          Your details were sent to ABG and a spot is being held. A confirmation email with payment instructions is on its way.
+          Your registration was received. Confirmation and e-transfer details will be sent to
+          <b>${payload.parent1Email}</b>.
         </p>
-        <span class="registration-notice-next">Next step: check your inbox, then send the e-transfer to secure the spot.</span>
+        <div class="registration-notice-actions">
+          <span class="registration-notice-next">Next step: check your inbox and junk folder.</span>
+          <a href="mailto:abgeliteskills@gmail.com">Email ABG</a>
+          <a href="./camps.html">Back to Camps</a>
+          <a href="./index.html">Home</a>
+        </div>
       `;
       registrationNotice?.setAttribute("tabindex", "-1");
       registrationNotice?.classList.add("is-visible");
@@ -402,14 +469,15 @@ const setupRegistrationPage = () => {
       registrationNotice?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     } finally {
       if (submitButton) {
-        submitButton.disabled = false;
+        submitButton.disabled = submissionSucceeded;
         submitButton.classList.remove("is-loading");
         submitButton.removeAttribute("aria-busy");
-        submitButton.textContent = "Submit Registration";
+        submitButton.textContent = submissionSucceeded ? "Registration Sent" : "Submit Registration";
       }
       if (registrationSummaryNote) {
-        registrationSummaryNote.textContent =
-          "No payment is taken on this form. ABG will follow up with confirmation and payment details.";
+        registrationSummaryNote.textContent = submissionSucceeded
+          ? "Registration submitted. Check your email for confirmation and e-transfer details."
+          : "Please review the selected camps, ice times, and total before submitting.";
       }
     }
   });

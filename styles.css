@@ -24,6 +24,8 @@
 }
 
 html {
+  min-height: 100%;
+  overflow-y: auto;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   text-rendering: geometricPrecision;
@@ -32,10 +34,13 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   font-family: "Manrope", sans-serif;
   color: var(--text);
   background: linear-gradient(180deg, #071018 0%, #09131d 42%, #0b1621 100%);
   -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
 }
 
 img {
@@ -361,6 +366,106 @@ h3,
   text-align: center;
 }
 
+.july-hero-panel {
+  align-content: stretch;
+  gap: 14px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.july-hero-camp {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.74fr) minmax(0, 1fr);
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(11, 22, 34, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.july-hero-camp-primary {
+  border-color: rgba(255, 46, 52, 0.24);
+  background:
+    linear-gradient(180deg, rgba(255, 46, 52, 0.13), rgba(255, 255, 255, 0.02)),
+    rgba(11, 22, 34, 0.93);
+}
+
+.july-hero-camp-media {
+  min-height: 100%;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.july-hero-camp-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 190px;
+  object-fit: cover;
+}
+
+.july-hero-camp-primary .july-hero-camp-media img {
+  object-position: center 18%;
+}
+
+.july-hero-camp-secondary .july-hero-camp-media img {
+  object-position: center 70%;
+}
+
+.july-hero-camp-contact .july-hero-camp-media img {
+  object-position: center 48%;
+}
+
+.july-hero-camp-body {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+.july-hero-camp-body h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.6vw, 2.1rem);
+}
+
+.july-hero-camp-body p {
+  margin: 0;
+  color: var(--muted-strong);
+  font-size: 0.96rem;
+  line-height: 1.5;
+}
+
+.july-hero-camp-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.july-hero-camp-facts span {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: var(--ice);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.july-hero-camp .button {
+  width: 100%;
+  margin-top: 2px;
+  text-align: center;
+}
+
 .eyebrow {
   margin: 0;
   color: var(--accent);
@@ -492,7 +597,8 @@ span {
   margin: 8px 0 0;
 }
 
-.hero-dates-strip span {
+.hero-dates-strip span,
+.hero-dates-strip a {
   padding: 5px 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -504,6 +610,17 @@ span {
   letter-spacing: 0.07em;
   text-transform: uppercase;
   white-space: nowrap;
+  text-decoration: none;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.hero-dates-strip a:hover {
+  border-color: rgba(122, 201, 255, 0.36);
+  background: rgba(122, 201, 255, 0.12);
+  transform: translateY(-1px);
 }
 
 .hero-testimonial {
@@ -593,6 +710,147 @@ span {
   max-width: 24ch;
 }
 
+.camp-chooser-section {
+  padding: 28px 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-xl);
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.07), rgba(255, 255, 255, 0.018)),
+    rgba(7, 15, 25, 0.86);
+  box-shadow: var(--shadow);
+}
+
+.camp-chooser-heading {
+  margin-bottom: 18px;
+}
+
+.camp-chooser-heading p:last-child {
+  max-width: 34ch;
+}
+
+.camp-chooser-list {
+  display: grid;
+  gap: 10px;
+}
+
+.camp-chooser-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.15fr) minmax(220px, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.camp-chooser-row-primary {
+  border-color: rgba(255, 46, 52, 0.2);
+  background:
+    linear-gradient(90deg, rgba(255, 46, 52, 0.1), rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.035);
+}
+
+.camp-chooser-main {
+  min-width: 0;
+}
+
+.camp-chooser-status {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.camp-chooser-main h3 {
+  margin-bottom: 4px;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+}
+
+.camp-chooser-main p {
+  margin: 0;
+  color: var(--muted-strong);
+  line-height: 1.45;
+}
+
+.camp-chooser-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.camp-chooser-facts span {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 9px;
+  border-radius: 999px;
+  color: var(--ice);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.availability-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 5px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  color: var(--text);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.availability-badge-urgent {
+  border-color: rgba(255, 46, 52, 0.45);
+  color: #ffd9dc;
+  background: rgba(255, 46, 52, 0.16);
+}
+
+.availability-badge-limited {
+  border-color: rgba(255, 214, 102, 0.42);
+  color: #ffe9a6;
+  background: rgba(255, 214, 102, 0.13);
+}
+
+.availability-badge-open {
+  border-color: rgba(122, 201, 255, 0.32);
+  color: #d6f1ff;
+  background: rgba(122, 201, 255, 0.11);
+}
+
+.camp-chooser-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.camp-chooser-actions .button {
+  min-width: 112px;
+  padding: 12px 15px;
+  white-space: nowrap;
+}
+
+.mobile-conversion-bar {
+  display: none;
+}
+
 .home-featured-heading p:last-child {
   max-width: 32ch;
   padding: 18px 18px 18px 20px;
@@ -648,7 +906,7 @@ span {
 
 .home-featured-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
 }
 
@@ -1122,7 +1380,7 @@ span {
   color: var(--muted-strong);
   font-size: 1.02rem;
   line-height: 1.6;
-  min-height: 5.15rem;
+  min-height: 4.25rem;
 }
 
 .camp-meta-row {
@@ -1153,7 +1411,7 @@ span {
   margin: -4px 0 0;
   color: var(--muted);
   line-height: 1.6;
-  min-height: 3.4rem;
+  min-height: 3rem;
 }
 
 .camp-location a {
@@ -1166,6 +1424,37 @@ span {
 .camp-location a:hover {
   color: var(--muted-strong);
   text-decoration-color: rgba(122, 201, 255, 0.75);
+}
+
+.camp-jump-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -4px 0 18px;
+}
+
+.camp-jump-list a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: var(--text);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 0.94rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.camp-jump-list a:hover {
+  border-color: rgba(122, 201, 255, 0.28);
+  background: rgba(122, 201, 255, 0.08);
 }
 
 .camp-description {
@@ -1676,13 +1965,13 @@ blockquote {
 .register-layout {
   align-items: start;
   grid-template-columns: minmax(0, 1fr);
-  max-width: 880px;
+  max-width: 840px;
   margin: 0 auto;
 }
 
 .registration-form {
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 .registration-panel,
@@ -1695,30 +1984,54 @@ blockquote {
 }
 
 .registration-panel {
-  padding: 22px 24px;
+  position: relative;
+  display: grid;
+  gap: 14px;
+  overflow: hidden;
+  padding: 24px 28px;
+  border-radius: 22px;
+}
+
+.registration-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(180deg, rgba(255, 46, 52, 0.72), rgba(122, 201, 255, 0.28));
+  opacity: 0.62;
+}
+
+.registration-panel > * {
+  position: relative;
+  z-index: 1;
 }
 
 .registration-panel h2 {
-  margin: 0 0 8px;
+  margin: -4px 0 0;
 }
 
 .registration-camp-grid {
   display: grid;
+  grid-template-columns: 1fr;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 0;
 }
 
 body[data-page="register"] .page-hero {
   grid-template-columns: minmax(0, 1fr);
   gap: 16px;
-  max-width: 880px;
-  margin: 0 auto;
+  max-width: 840px;
+  margin: 0 auto 12px;
 }
 
 body[data-page="register"] .page-hero-copy {
-  max-width: 880px;
-  padding: 24px 28px;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  max-width: 840px;
+  min-height: 0;
+  padding: 20px 28px;
+  gap: 7px;
   background:
     linear-gradient(180deg, rgba(122, 201, 255, 0.04), transparent 46%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent 58%),
@@ -1732,9 +2045,15 @@ body[data-page="register"] .registration-panel h2 {
 }
 
 body[data-page="register"] .page-hero-copy h1 {
-  margin-bottom: 2px;
-  font-size: clamp(2.5rem, 4.6vw, 3.8rem);
-  line-height: 1;
+  max-width: 15ch;
+  margin-bottom: 0;
+  font-size: clamp(2.15rem, 4vw, 3.25rem);
+  line-height: 0.92;
+}
+
+body[data-page="register"] .page-hero-copy .eyebrow {
+  grid-column: 1 / -1;
+  margin-bottom: -2px;
 }
 
 body[data-page="register"] .page-hero-copy p {
@@ -1744,9 +2063,16 @@ body[data-page="register"] .page-hero-copy p {
 }
 
 .register-hero-lead {
+  justify-self: start;
+  padding-bottom: 0;
   margin: 0;
-  font-size: 1.02rem;
-  line-height: 1.6;
+  color: var(--muted-strong);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
 .register-hero-contact {
@@ -1756,7 +2082,7 @@ body[data-page="register"] .page-hero-copy p {
   align-items: center;
   width: fit-content;
   margin-top: 4px;
-  padding-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--muted);
   font-size: 0.95rem;
@@ -1774,6 +2100,15 @@ body[data-page="register"] .page-hero-copy p {
 body[data-page="register"] .registration-panel h2 {
   font-size: clamp(1.55rem, 2.4vw, 2rem);
   line-height: 1.08;
+}
+
+body[data-page="register"] .form-field-birth-year {
+  padding: 11px;
+  border: 1px solid rgba(122, 201, 255, 0.28);
+  border-radius: var(--radius-md);
+  background:
+    linear-gradient(180deg, rgba(122, 201, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(122, 201, 255, 0.035);
 }
 
 body[data-page="register"] .eyebrow {
@@ -1811,9 +2146,11 @@ body[data-page="register"] .eyebrow {
 .registration-camp-option-card {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 12px;
+  gap: 13px;
   align-items: center;
-  padding: 13px 14px;
+  min-height: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
   transition:
     border-color 180ms ease,
     transform 180ms ease,
@@ -1827,7 +2164,12 @@ body[data-page="register"] .eyebrow {
 
 .registration-camp-option.is-selected .registration-camp-option-card {
   border-color: rgba(255, 46, 52, 0.45);
-  background: linear-gradient(180deg, rgba(255, 46, 52, 0.12), rgba(12, 23, 36, 0.92));
+  background:
+    linear-gradient(180deg, rgba(255, 46, 52, 0.14), rgba(122, 201, 255, 0.04)),
+    rgba(12, 23, 36, 0.94);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 46, 52, 0.08) inset;
 }
 
 .registration-camp-option.is-disabled {
@@ -1835,9 +2177,11 @@ body[data-page="register"] .eyebrow {
 }
 
 .registration-camp-option.is-disabled .registration-camp-option-card {
-  opacity: 0.55;
+  opacity: 0.68;
   border-color: rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01)),
+    rgba(255, 255, 255, 0.02);
   transform: none;
 }
 
@@ -1870,10 +2214,10 @@ body[data-page="register"] .eyebrow {
 }
 
 .registration-camp-option-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  align-items: baseline;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
 }
 
 .registration-camp-option-title,
@@ -1884,12 +2228,17 @@ body[data-page="register"] .eyebrow {
 }
 
 .registration-camp-option-title {
-  font-size: 1rem;
+  font-size: 1.12rem;
+  line-height: 1.05;
 }
 
 .registration-camp-option-price {
+  padding: 4px 8px;
+  border-radius: 999px;
   color: var(--silver);
-  font-size: 0.92rem;
+  font-size: 0.94rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.055);
 }
 
 .registration-camp-option-meta,
@@ -1906,12 +2255,17 @@ body[data-page="register"] .eyebrow {
 .registration-camp-option-time,
 .registration-section-note {
   color: var(--muted-strong);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   line-height: 1.45;
 }
 
 .registration-camp-option-time.is-unavailable {
   color: #ffb7bb;
+}
+
+.registration-camp-option-time.is-unavailable::before {
+  content: "Unavailable: ";
+  font-weight: 800;
 }
 
 .registration-section-note {
@@ -1926,6 +2280,7 @@ body[data-page="register"] .eyebrow {
 
 .form-field {
   display: grid;
+  align-content: start;
   gap: 8px;
 }
 
@@ -1949,12 +2304,19 @@ body[data-page="register"] .eyebrow {
 .form-field select,
 .form-field textarea {
   width: 100%;
-  padding: 13px 14px;
+  min-height: 52px;
+  padding: 14px 15px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-md);
+  border-radius: 14px;
   color: var(--text);
   font: inherit;
-  background: rgba(255, 255, 255, 0.03);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+    rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .form-field input::placeholder,
@@ -1969,8 +2331,10 @@ body[data-page="register"] .eyebrow {
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
-  outline: 2px solid rgba(122, 201, 255, 0.35);
-  outline-offset: 2px;
+  border-color: rgba(122, 201, 255, 0.46);
+  outline: none;
+  background: rgba(122, 201, 255, 0.055);
+  box-shadow: 0 0 0 3px rgba(122, 201, 255, 0.12);
 }
 
 .registration-summary-list {
@@ -1984,7 +2348,7 @@ body[data-page="register"] .eyebrow {
 .registration-summary-list li {
   display: grid;
   gap: 3px;
-  padding-bottom: 10px;
+  padding: 10px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -2006,7 +2370,7 @@ body[data-page="register"] .eyebrow {
   justify-content: space-between;
   align-items: baseline;
   margin-top: 10px;
-  padding-top: 18px;
+  padding: 16px 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -2018,23 +2382,49 @@ body[data-page="register"] .eyebrow {
 
 .registration-submit-panel {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
   gap: 24px;
   align-items: start;
 }
 
 .registration-submit-copy {
   display: grid;
-  gap: 10px;
+  gap: 8px;
+  min-width: 0;
 }
 
 .registration-submit-actions {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 12px;
 }
 
+.registration-next-step {
+  max-width: none;
+  padding: 0 0 12px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  background: transparent;
+}
+
+.registration-next-step strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+.registration-next-step p {
+  margin: 0;
+  color: var(--muted-strong);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
 .registration-submit-actions .button {
+  width: 100%;
   margin-top: 0;
 }
 
@@ -2149,10 +2539,26 @@ body[data-page="register"] .eyebrow {
   margin: 0;
   color: var(--muted-strong);
   font-size: 1.05rem;
+  line-height: 1.5;
 }
 
-.registration-notice-next {
+.registration-notice b {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.registration-notice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.registration-notice-next,
+.registration-notice-actions a {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: fit-content;
   max-width: 100%;
   padding: 10px 13px;
@@ -2162,6 +2568,19 @@ body[data-page="register"] .eyebrow {
   background: rgba(255, 255, 255, 0.07);
   font-size: 0.95rem;
   font-weight: 800;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.registration-notice-actions a {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.registration-notice-actions a:first-of-type {
+  color: #082015;
+  border-color: transparent;
+  background: #46d28e;
 }
 
 @keyframes notice-pop {
@@ -2183,13 +2602,15 @@ body[data-page="register"] .eyebrow {
 }
 
 .register-footer {
-  display: grid;
-  gap: 10px;
-  max-width: 880px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 18px;
+  max-width: 840px;
   margin: 24px auto 0;
   padding: 8px 4px 0;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 .register-footer p {
@@ -2198,7 +2619,7 @@ body[data-page="register"] .eyebrow {
 
 .register-footer-links {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
@@ -2469,6 +2890,19 @@ body[data-page="about"] .page-hero-visual img {
     grid-template-columns: 1fr;
   }
 
+  .camp-chooser-row {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .camp-chooser-actions {
+    justify-content: stretch;
+  }
+
+  .camp-chooser-actions .button {
+    flex: 1 1 0;
+  }
+
   .hero-home {
     justify-items: center;
     gap: 20px;
@@ -2567,6 +3001,10 @@ body[data-page="about"] .page-hero-visual img {
     content: "";
   }
 
+  .hero-home-july .hero-proof-list {
+    display: none;
+  }
+
   .hero-video-panel {
     justify-items: center;
   }
@@ -2574,6 +3012,28 @@ body[data-page="about"] .page-hero-visual img {
   .hero-video-caption {
     width: min(100%, 500px);
     text-align: center;
+  }
+
+  .july-hero-panel {
+    width: 100%;
+  }
+
+  .july-hero-camp {
+    grid-template-columns: 1fr;
+  }
+
+  .july-hero-camp-media img {
+    min-height: 210px;
+    aspect-ratio: 16 / 10;
+  }
+
+  .july-hero-camp-body {
+    padding: 22px;
+  }
+
+  .july-hero-camp-body h2,
+  .july-hero-camp-body p {
+    text-align: left;
   }
 
   .hero-dates-strip {
@@ -2651,10 +3111,15 @@ body[data-page="about"] .page-hero-visual img {
   }
 
   .form-grid,
+  .registration-camp-grid,
   .registration-submit-panel {
     grid-template-columns: 1fr;
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .registration-next-step {
+    max-width: none;
   }
 
   .registration-camp-option-top,
@@ -2702,8 +3167,67 @@ body[data-page="about"] .page-hero-visual img {
 }
 
 @media (max-width: 860px) {
+  body[data-page="home"] {
+    padding-bottom: 68px;
+  }
+
+  body[data-page="home"] main {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body[data-page="home"] .hero-home {
+    display: contents;
+  }
+
+  body[data-page="home"] .hero-copy {
+    order: 1;
+  }
+
+  body[data-page="home"] .camp-chooser-section {
+    order: 2;
+  }
+
+  body[data-page="home"] .trust-bar {
+    order: 3;
+  }
+
+  body[data-page="home"] .hero-video-panel {
+    order: 4;
+    margin-bottom: 44px;
+  }
+
+  body[data-page="home"] .coaches-home-section {
+    order: 5;
+  }
+
+  body[data-page="home"] main > section:not(.hero-home):not(.camp-chooser-section):not(.trust-bar):not(.coaches-home-section) {
+    order: 6;
+  }
+
   .site-header {
     grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .brand-logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .brand-text strong {
+    font-size: 1.02rem;
+  }
+
+  .brand-text small {
+    font-size: 0.78rem;
+  }
+
+  .nav-toggle {
+    width: 42px;
+    height: 42px;
   }
 
   .nav-toggle {
@@ -2790,6 +3314,70 @@ body[data-page="about"] .page-hero-visual img {
   .home-featured-actions .button {
     width: 100%;
     min-width: 0;
+  }
+
+  .mobile-conversion-bar {
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: minmax(84px, 0.8fr) 1fr 1fr;
+    gap: 6px;
+    align-items: center;
+    padding: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    background: rgba(7, 14, 22, 0.9);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(calc(100% + 18px));
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+  }
+
+  body.is-mobile-cta-visible .mobile-conversion-bar {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobile-conversion-bar span,
+  .mobile-conversion-bar a {
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    text-transform: uppercase;
+  }
+
+  .mobile-conversion-bar span {
+    color: var(--muted-strong);
+  }
+
+  .mobile-conversion-bar a {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: var(--text);
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.055);
+  }
+
+  .mobile-conversion-bar .mobile-conversion-primary {
+    color: #08111a;
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--accent), #ff7377);
   }
 
   footer.site-footer {
@@ -2977,11 +3565,11 @@ body[data-page="register"] .form-field textarea:focus {
   flex-shrink: 0;
 }
 
-/* Submit panel — red accent to signal the conversion moment */
 .registration-submit-panel {
-  border-color: rgba(255, 46, 52, 0.22);
+  border-color: rgba(122, 201, 255, 0.14);
   background:
-    linear-gradient(180deg, rgba(255, 46, 52, 0.08), transparent 40%),
+    radial-gradient(circle at top right, rgba(122, 201, 255, 0.07), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 42%),
     var(--panel);
 }
 
@@ -2989,6 +3577,7 @@ body[data-page="register"] .form-field textarea:focus {
 .registration-summary-total strong {
   font-size: 2.2rem;
   color: var(--text);
+}
 }
 
 /* ============================================================
@@ -3023,16 +3612,127 @@ body[data-page="about"] .layout-two .content-panel:not(.panel-dark) {
   margin-top: 8px;
 }
 
-/* Jordan Biro image — show face, not feet */
-body[data-page="camps"] .page-hero-visual img {
-  object-position: center 14%;
+body[data-page="camps"] .page-hero {
+  grid-template-columns: minmax(0, 0.96fr) minmax(320px, 0.74fr);
 }
 
-/* Hero copy — ice blue accent instead of red (informational, not urgency) */
+body[data-page="camps"] .hero-dates-strip {
+  margin-top: 4px;
+}
+
+body[data-page="camps"] .page-hero-copy h1 {
+  max-width: 11ch;
+}
+
 body[data-page="camps"] .page-hero-copy {
   background:
     linear-gradient(180deg, rgba(122, 201, 255, 0.07), transparent 34%),
     var(--panel);
+}
+
+body[data-page="camps"] .page-hero-visual {
+  min-height: 100%;
+}
+
+body[data-page="camps"] .page-hero-visual img {
+  object-position: center 14%;
+}
+
+@media (max-width: 860px) {
+  body[data-page="camps"] .page-hero {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  body[data-page="camps"] .page-hero-copy {
+    min-height: 0;
+    gap: 10px;
+    padding: 18px;
+    background:
+      linear-gradient(180deg, rgba(7, 15, 25, 0.92), rgba(7, 15, 25, 0.9)),
+      linear-gradient(180deg, rgba(122, 201, 255, 0.07), transparent 34%),
+      var(--panel);
+  }
+
+  body[data-page="camps"] .page-hero-visual {
+    display: none;
+  }
+
+  body[data-page="camps"] .page-hero-copy h1 {
+    max-width: 100%;
+    margin-bottom: 0;
+    font-size: clamp(2.08rem, 10vw, 2.7rem);
+    line-height: 0.9;
+  }
+
+  body[data-page="camps"] .page-hero-copy > p:not(.eyebrow) {
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  body[data-page="camps"] .hero-dates-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    margin-inline: 0;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  body[data-page="camps"] .hero-dates-strip span,
+  body[data-page="camps"] .hero-dates-strip a {
+    min-width: 0;
+    padding: 6px 8px;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+
+  body[data-page="camps"] .hero-dates-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  body[data-page="camps"] .camps-hero-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 0;
+  }
+
+  body[data-page="camps"] .camps-hero-actions .button {
+    min-height: 44px;
+    padding: 11px 10px;
+    font-size: 0.74rem;
+  }
+
+  body[data-page="camps"] .camp-grid {
+    gap: 18px;
+  }
+
+  body[data-page="camps"] .camp-lead,
+  body[data-page="camps"] .camp-location,
+  body[data-page="camps"] .camp-card-top h3 {
+    min-height: 0;
+  }
+
+  body[data-page="camps"] .camp-schedule-block {
+    min-height: 0;
+    margin-top: 0;
+  }
+
+  body[data-page="camps"] .camp-jump-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: -8px;
+    gap: 7px;
+  }
+
+  body[data-page="camps"] .camp-jump-list a {
+    min-height: 42px;
+    padding: 8px 7px;
+    text-align: center;
+    font-size: 0.72rem;
+  }
 }
 
 /* Specialty camp cards (4th, 5th) — ice border to distinguish from main 3 */
@@ -3042,6 +3742,17 @@ body[data-page="camps"] .page-hero-copy {
   background:
     linear-gradient(180deg, rgba(122, 201, 255, 0.05), rgba(255, 255, 255, 0.01)),
     rgba(11, 22, 34, 0.82);
+}
+
+.camp-grid .camp-card:nth-child(5) {
+  opacity: 0.9;
+}
+
+.camp-grid .camp-card:nth-child(5) .button {
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  box-shadow: none;
 }
 
 /* ============================================================
@@ -3261,24 +3972,75 @@ h3 { font-weight: 600; }
 }
 
 .register-footer {
-  padding: 20px 22px;
-  border: 1px solid rgba(122, 201, 255, 0.12);
-  border-radius: 24px;
-  background:
-    linear-gradient(180deg, rgba(122, 201, 255, 0.06), transparent 45%),
-    rgba(11, 22, 34, 0.72);
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.2);
+  max-width: 840px;
+  padding: 6px 2px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 @media (min-width: 1081px) {
+  body[data-page="home"] .site-header {
+    margin-bottom: 20px;
+  }
+
+  body[data-page="home"] .hero-home {
+    gap: 18px 24px;
+    margin-bottom: 18px;
+  }
+
+  body[data-page="home"] .hero-home-kicker {
+    margin-bottom: -8px;
+    font-size: clamp(1.15rem, 1.8vw, 1.55rem);
+    line-height: 1.05;
+  }
+
+  body[data-page="home"] .hero-copy,
+  body[data-page="home"] .hero-video-panel {
+    padding: 26px 30px;
+  }
+
+  body[data-page="home"] .hero-copy {
+    gap: 12px;
+  }
+
+  body[data-page="home"] .hero-home h1 {
+    font-size: clamp(2.55rem, 3.85vw, 3.85rem);
+  }
+
+  body[data-page="home"] .hero-text {
+    font-size: 1rem;
+    line-height: 1.52;
+  }
+
+  body[data-page="home"] .hero-proof-list {
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  body[data-page="home"] .hero-proof-list li {
+    padding: 7px 10px;
+    font-size: 0.82rem;
+    line-height: 1.25;
+  }
+
+  body[data-page="home"] .hero-video-panel {
+    gap: 10px;
+  }
+
   .hero-video-frame {
-    max-height: 580px;
+    max-width: 420px;
+    max-height: 460px;
+    padding: 10px;
+    border-radius: 32px;
   }
 
   .hero-video {
     aspect-ratio: unset;
-    height: 532px;
+    height: min(47vh, 420px);
     object-fit: cover;
+    border-radius: 22px;
   }
 
   .hero-testimonial {
@@ -3393,8 +4155,117 @@ h3 { font-weight: 600; }
     padding: 22px;
   }
 
+  body[data-page="home"] .hero-copy {
+    gap: 13px;
+    padding: 24px 22px;
+  }
+
+  body[data-page="home"] .hero-home h1 {
+    font-size: clamp(2.35rem, 12vw, 3.25rem);
+  }
+
+  body[data-page="home"] .hero-text {
+    max-width: 29ch;
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  body[data-page="home"] .hero-dates-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 268px);
+    margin-inline: auto;
+  }
+
+  body[data-page="home"] .hero-dates-strip span,
+  body[data-page="home"] .hero-dates-strip a {
+    text-align: center;
+  }
+
+  body[data-page="home"] .hero-actions {
+    gap: 8px;
+  }
+
+  body[data-page="home"] .hero-actions .button {
+    padding: 13px 18px;
+  }
+
+  body[data-page="home"] .hero-actions .button-secondary {
+    padding: 7px 0;
+  }
+
+  body[data-page="home"] .camp-chooser-section {
+    padding: 20px;
+  }
+
+  body[data-page="home"] .camp-chooser-heading {
+    margin-bottom: 12px;
+  }
+
+  body[data-page="home"] .camp-chooser-heading h2 {
+    font-size: clamp(1.8rem, 9vw, 2.45rem);
+  }
+
+  body[data-page="home"] .camp-chooser-heading p:last-child {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  body[data-page="home"] .camp-chooser-row {
+    gap: 12px;
+    padding: 14px;
+  }
+
+  body[data-page="home"] .camp-chooser-main h3 {
+    font-size: clamp(1.34rem, 7vw, 1.75rem);
+  }
+
+  body[data-page="home"] .camp-chooser-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  body[data-page="home"] .camp-chooser-actions .button:not(.button-secondary) {
+    order: 1;
+    width: 100%;
+  }
+
+  body[data-page="home"] .camp-chooser-actions .button-secondary {
+    order: 2;
+    padding: 6px 0;
+    border: 0;
+    color: var(--muted);
+    background: transparent;
+    box-shadow: none;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
   .coach-pathway-body {
     padding: 16px;
+  }
+
+  .camp-chooser-section {
+    padding: 22px;
+  }
+
+  .camp-chooser-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .camp-chooser-actions .button {
+    min-width: 0;
+    padding-inline: 10px;
+  }
+
+  .mobile-conversion-bar {
+    grid-template-columns: minmax(76px, 0.78fr) 1fr 1fr;
+  }
+
+  .mobile-conversion-bar span {
+    text-align: center;
   }
 
   .site-header {
@@ -3691,5 +4562,315 @@ h3 { font-weight: 600; }
 
   .camp-card-media {
     height: 210px;
+  }
+}
+
+@media (max-width: 860px) {
+  body[data-page="camps"] .site-header {
+    margin-bottom: 14px;
+  }
+
+  body[data-page="camps"] .page-hero {
+    margin-bottom: 10px;
+  }
+
+  body[data-page="camps"] .page-hero-copy {
+    gap: 9px;
+    padding: 16px !important;
+  }
+
+  body[data-page="camps"] .page-hero-copy .eyebrow {
+    font-size: 0.73rem;
+    line-height: 1.2;
+  }
+
+  body[data-page="camps"] .page-hero-copy h1 {
+    font-size: clamp(2rem, 9vw, 2.45rem);
+    line-height: 0.88;
+  }
+
+  body[data-page="camps"] .hero-dates-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  body[data-page="camps"] .hero-dates-strip span,
+  body[data-page="camps"] .hero-dates-strip a {
+    padding: 6px 4px;
+    font-size: 0.68rem;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+  }
+
+  body[data-page="camps"] .camps-hero-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: 7px;
+  }
+
+  body[data-page="camps"] .camps-hero-actions .button {
+    min-height: 42px;
+    padding: 10px 8px;
+    font-size: 0.7rem;
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  body[data-page="camps"] .section:first-of-type {
+    margin-bottom: 34px;
+  }
+
+  body[data-page="camps"] .section-heading {
+    padding-bottom: 11px;
+  }
+
+  body[data-page="camps"] .section-heading h2 {
+    font-size: clamp(1.75rem, 8vw, 2.2rem);
+  }
+
+  body[data-page="camps"] .section-heading .eyebrow {
+    margin-bottom: 5px;
+    font-size: 0.73rem;
+  }
+}
+
+/* Camps hero reset — image-led hero, compact schedule handoff */
+body[data-page="camps"] .page-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(0, 0.4fr);
+  min-height: clamp(360px, 38vw, 460px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: var(--radius-xl);
+  background: #071019;
+  box-shadow: var(--shadow);
+}
+
+body[data-page="camps"] .page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(7, 14, 22, 0.94) 0%, rgba(7, 14, 22, 0.78) 42%, rgba(7, 14, 22, 0.18) 72%),
+    linear-gradient(180deg, rgba(7, 14, 22, 0.1) 0%, rgba(7, 14, 22, 0.5) 100%);
+}
+
+body[data-page="camps"] .page-hero-copy {
+  z-index: 1;
+  align-content: center;
+  min-height: 0;
+  max-width: 620px;
+  padding: clamp(34px, 5vw, 58px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-page="camps"] .page-hero-copy h1 {
+  max-width: 8ch;
+  margin-bottom: 2px;
+  font-size: clamp(3.55rem, 7vw, 6.2rem);
+  line-height: 0.84;
+}
+
+body[data-page="camps"] .page-hero-visual {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  min-height: 100%;
+}
+
+body[data-page="camps"] .page-hero-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 61%;
+}
+
+body[data-page="camps"] .hero-dates-strip {
+  width: min(100%, 430px);
+  margin-top: 6px;
+}
+
+body[data-page="camps"] .camps-hero-actions {
+  margin-top: 10px;
+}
+
+body[data-page="camps"] .camps-hero-actions .button-secondary {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 860px) {
+  body[data-page="register"] {
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
+  }
+
+  body[data-page="register"] .page-shell {
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  body[data-page="register"] .page-hero {
+    margin-bottom: 10px;
+  }
+
+  body[data-page="register"] .page-hero-copy {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 7px;
+    padding: 18px 20px;
+  }
+
+  body[data-page="register"] .page-hero-copy h1 {
+    max-width: 11ch;
+    font-size: clamp(2.1rem, 10vw, 2.75rem);
+  }
+
+  body[data-page="register"] .register-hero-lead {
+    justify-self: start;
+    padding-bottom: 0;
+    font-size: 0.96rem;
+  }
+
+  body[data-page="camps"] {
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior-y: auto;
+    touch-action: pan-y;
+  }
+
+  body[data-page="camps"] .page-shell {
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  body[data-page="camps"] .site-header {
+    margin-bottom: 12px;
+  }
+
+  body[data-page="camps"] .page-hero {
+    display: block;
+    min-height: 286px;
+    margin-bottom: 12px;
+  }
+
+  body[data-page="camps"] .page-hero::after {
+    background:
+      linear-gradient(180deg, rgba(7, 14, 22, 0.72) 0%, rgba(7, 14, 22, 0.94) 74%),
+      linear-gradient(90deg, rgba(7, 14, 22, 0.55), rgba(7, 14, 22, 0.18));
+  }
+
+  body[data-page="camps"] .page-hero-copy {
+    display: grid;
+    align-content: end;
+    gap: 9px;
+    min-height: 286px;
+    max-width: none;
+    padding: 18px !important;
+  }
+
+  body[data-page="camps"] .page-hero-copy .eyebrow {
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+
+  body[data-page="camps"] .page-hero-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.45rem, 12vw, 3.28rem);
+    line-height: 0.84;
+  }
+
+  body[data-page="camps"] .page-hero-visual {
+    display: block;
+  }
+
+  body[data-page="camps"] .page-hero-visual img {
+    object-position: center 96%;
+  }
+
+  body[data-page="camps"] .hero-dates-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    gap: 5px;
+    margin-top: 0;
+  }
+
+  body[data-page="camps"] .hero-dates-strip span,
+  body[data-page="camps"] .hero-dates-strip a {
+    padding: 6px 4px;
+    font-size: 0.68rem;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+
+  body[data-page="camps"] .camps-hero-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-top: 0;
+  }
+
+  body[data-page="camps"] .camps-hero-actions .button {
+    min-height: 42px;
+    padding: 10px 8px;
+    font-size: 0.7rem;
+    line-height: 1.1;
+    text-decoration: none;
+  }
+}
+
+/* Final mobile QA pass: keep small conversion controls thumb-friendly. */
+@media (max-width: 640px) {
+  body[data-page="home"] .hero-actions .button-secondary,
+  body[data-page="home"] .camp-chooser-actions .button-secondary,
+  body[data-page="home"] .final-cta .button-secondary,
+  body[data-page="camps"] .final-cta .button-secondary {
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body[data-page="camps"] .hero-dates-strip span,
+  body[data-page="camps"] .hero-dates-strip a {
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  body[data-page="register"] .header-text-link {
+    justify-self: start;
+    width: fit-content;
+    min-height: 40px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    align-items: center;
+    color: var(--muted-strong);
+    background: rgba(255, 255, 255, 0.045);
+    text-decoration: none;
+  }
+
+  .testimonial-dot {
+    min-width: 40px;
+    min-height: 40px;
   }
 }
