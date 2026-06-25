@@ -444,38 +444,6 @@ const setupMobileShellScrollFallback = () => {
     { passive: false }
   );
 
-  window.addEventListener(
-    "touchstart",
-    (event) => {
-      if (!isMobileViewport()) {
-        return;
-      }
-
-      touchStartY = event.touches[0]?.clientY ?? 0;
-    },
-    { passive: true }
-  );
-
-  window.addEventListener(
-    "touchmove",
-    (event) => {
-      if (!isMobileViewport()) {
-        return;
-      }
-
-      const currentY = event.touches[0]?.clientY ?? touchStartY;
-      const deltaY = touchStartY - currentY;
-
-      if (Math.abs(deltaY) < 2) {
-        return;
-      }
-
-      event.preventDefault();
-      getScroller().scrollTop += deltaY;
-      touchStartY = currentY;
-    },
-    { passive: false }
-  );
 };
 
 const setupMobileConversionBar = () => {
