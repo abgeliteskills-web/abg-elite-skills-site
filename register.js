@@ -433,6 +433,11 @@ const setupRegistrationPage = () => {
         currency: "CAD",
         page_path: window.location.pathname,
       });
+      window.fbq?.("track", "Lead", {
+        currency: "CAD",
+        value: selectedCamps.reduce((sum, camp) => sum + getCampPriceForPosition(camp, playerPositionForPricing), 0),
+        content_name: selectedCamps.map((camp) => getCampSubmissionName(camp)).join(","),
+      });
       registrationNotice.innerHTML = `
         <span class="registration-notice-kicker">Registration submitted</span>
         <strong>Check your email</strong>
