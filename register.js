@@ -27,8 +27,32 @@ const sortRegistrationCampsForDisplay = (camps) =>
 const formatRegistrationCurrency = (value) =>
   `$${Number.isInteger(value) ? value.toFixed(0) : value.toFixed(2)}`;
 const parseRegistrationCampPrice = (price) => Number(price.replace(/[^0-9.]/g, "")) || 0;
-const REGISTRATION_ENDPOINT =
-  "https://script.google.com/macros/s/AKfycbw5cNw0SPkC8mxGAQLUWYoou3wrYJqTeEadMwzsZVa6JLnE_r-XqUDlq3JyDsjrS2ftoQ/exec";
+const REGISTRATION_ENDPOINT = "/api/register";
+const REGISTRATION_COUNTS_ENDPOINT = "/api/registration-counts";
+
+// Camps guarded by the live capacity check in functions/api/_capacity-config.js.
+// Keep this in sync with that file's caps so the UI and the server agree.
+const REGISTRATION_LIVE_CAPACITY = {
+  "Total Skill Integration": {
+    "2011-2013": { skaterCap: 23, goalieCap: 3 },
+    "2014-2016": { skaterCap: 23, goalieCap: 3 },
+    "2017-2019": { skaterCap: 18, goalieCap: 3 },
+  },
+};
+
+let liveRegistrationCounts = {};
+
+const isLiveGroupFull = (camp, ageGroup, isGoalie) => {
+  const capConfig = ageGroup ? REGISTRATION_LIVE_CAPACITY[camp.title]?.[ageGroup] : null;
+  const counts = ageGroup ? liveRegistrationCounts[camp.title]?.[ageGroup] : null;
+  if (!capConfig || !counts) {
+    return false;
+  }
+
+  const cap = isGoalie ? capConfig.goalieCap : capConfig.skaterCap;
+  const current = isGoalie ? counts.goalie : counts.skater;
+  return current >= cap;
+};
 
 const REGISTRATION_CAMP_NAMES = {
   "Summer Opener": "Summer Opener",
@@ -238,6 +262,7 @@ const setupRegistrationPage = () => {
 
   const updateCampTimePreviews = () => {
     const birthYear = Number.parseInt(birthYearInput?.value || "", 10);
+    const isGoalie = String(playerPositionInput?.value || "").toLowerCase().includes("goalie");
 
     for (const [index, target] of campSlotTargets.entries()) {
       const camp = publicCamps.find((item) => getRegistrationCampSlug(item) === target.dataset.campSlotInfo);
@@ -258,7 +283,10 @@ const setupRegistrationPage = () => {
 
       const match = getRegistrationCampAssignment(camp, birthYear);
 
-      if (match && isRegistrationGroupClosed(camp, match.ageGroup)) {
+      if (
+        match &&
+        (isRegistrationGroupClosed(camp, match.ageGroup) || isLiveGroupFull(camp, match.ageGroup, isGoalie))
+      ) {
         target.textContent = "No more available spots.";
         target.classList.add("is-unavailable");
         if (input) {
@@ -324,7 +352,10 @@ const setupRegistrationPage = () => {
     updateCampTimePreviews();
     updateRegistrationSummary();
   });
-  playerPositionInput?.addEventListener("change", updateRegistrationSummary);
+  playerPositionInput?.addEventListener("change", () => {
+    updateCampTimePreviews();
+    updateRegistrationSummary();
+  });
 
   registerForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -361,11 +392,18 @@ const setupRegistrationPage = () => {
       };
     });
 
+    const isGoalieSubmission = playerPositionForPricing.toLowerCase().includes("goalie");
+
     if (
       Number.isFinite(birthYear) &&
       selectedCamps.some((camp) => {
         const assignment = getRegistrationCampAssignment(camp, birthYear);
-        return !assignment?.ageGroup || !assignment?.schedule || isRegistrationGroupClosed(camp, assignment.ageGroup);
+        return (
+          !assignment?.ageGroup ||
+          !assignment?.schedule ||
+          isRegistrationGroupClosed(camp, assignment.ageGroup) ||
+          isLiveGroupFull(camp, assignment.ageGroup, isGoalieSubmission)
+        );
       })
     ) {
       campError?.removeAttribute("hidden");
@@ -489,6 +527,20 @@ const setupRegistrationPage = () => {
 
   updateCampTimePreviews();
   updateRegistrationSummary();
+
+  fetch(REGISTRATION_COUNTS_ENDPOINT)
+    .then((response) => (response.ok ? response.json() : null))
+    .then((counts) => {
+      if (counts) {
+        liveRegistrationCounts = counts;
+        updateCampTimePreviews();
+        updateRegistrationSummary();
+      }
+    })
+    .catch(() => {
+      // Fail open: if live counts can't be fetched, the server-side check on
+      // submit is still authoritative, so the UI just won't pre-disable full groups.
+    });
 };
 
 setupRegistrationPage();
