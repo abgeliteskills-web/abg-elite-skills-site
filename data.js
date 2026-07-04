@@ -61,8 +61,8 @@ const camps = [
       price: "$250",
       status: "Flagship",
       availability: {
-        label: "Last 3 per group",
-        tone: "urgent",
+        label: "Almost Full",
+        tone: "limited",
       },
       featured: true,
       ratio: "5 hours total ice time",
@@ -112,8 +112,8 @@ const camps = [
       price: "$125",
       status: "Specialty",
       availability: {
-        label: "Spots available",
-        tone: "open",
+        label: "Almost Full",
+        tone: "limited",
       },
       featured: true,
       ratio: "2 hours total ice time",
