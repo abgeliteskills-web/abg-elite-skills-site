@@ -10,8 +10,8 @@ const registrationSlugify = (value) =>
 
 const getRegistrationCampSlug = (camp) => registrationSlugify(camp.title);
 const REGISTRATION_CAMP_DISPLAY_ORDER = [
-  "total-skill-integration",
   "position-specific-clinic",
+  "total-skill-integration",
   "body-contact-prep-camp",
   "high-performance-prep",
 ];
@@ -53,6 +53,8 @@ const isLiveGroupFull = (camp, ageGroup, isGoalie) => {
   const current = isGoalie ? counts.goalie : counts.skater;
   return current >= cap;
 };
+
+const isLiveCampClosed = (camp) => Boolean(liveRegistrationCounts[camp.title]?.closed);
 
 const REGISTRATION_CAMP_NAMES = {
   "Summer Opener": "Summer Opener",
@@ -117,7 +119,10 @@ const getMatchingCampGroup = (camp, birthYear) => {
   }
 
   for (const [index, ageGroup] of camp.ages.entries()) {
-    const rangeMatch = ageGroup.match(/^(\d{4})-(\d{4})$/);
+    // A hidden wider range can be matched against without changing the
+    // publicly displayed age-group label (see data.js ageMatchOverrides).
+    const matchAgainst = camp.ageMatchOverrides?.[index] || ageGroup;
+    const rangeMatch = matchAgainst.match(/^(\d{4})-(\d{4})$/);
     if (rangeMatch) {
       const startYear = Number(rangeMatch[1]);
       const endYear = Number(rangeMatch[2]);
@@ -206,11 +211,12 @@ const setupRegistrationPage = () => {
   registrationCampTarget.innerHTML = publicCamps
     .map((camp) => {
       const slug = getRegistrationCampSlug(camp);
-      const isSelected = slug === selectedSlug;
+      const soldOut = camp.status === "Sold Out";
+      const isSelected = !soldOut && slug === selectedSlug;
 
       return `
-        <label class="registration-camp-option${isSelected ? " is-selected" : ""}">
-          <input type="checkbox" name="selected-camps" value="${slug}" ${isSelected ? "checked" : ""} />
+        <label class="registration-camp-option${isSelected ? " is-selected" : ""}${soldOut ? " is-disabled" : ""}">
+          <input type="checkbox" name="selected-camps" value="${slug}" ${isSelected ? "checked" : ""} ${soldOut ? "disabled" : ""} />
           <span class="registration-camp-option-card">
             <span class="registration-camp-option-selector" aria-hidden="true"></span>
             <span class="registration-camp-option-main">
@@ -220,8 +226,12 @@ const setupRegistrationPage = () => {
               </span>
               ${renderRegistrationAvailability(camp)}
               <span class="registration-camp-option-meta">${camp.dates} • ${camp.location}</span>
-              <span class="registration-camp-option-time" data-camp-slot-info="${slug}">
-                Birth year needed for ice time.
+              <span class="registration-camp-option-time${soldOut ? " is-unavailable" : ""}" data-camp-slot-info="${slug}">
+                ${
+                  soldOut
+                    ? 'Sold out for summer 2026 — thank you Edmonton! <a href="./register.html?camp=position-specific-clinic">Check out the Position-Specific Clinic</a>, still open.'
+                    : "Birth year needed for ice time."
+                }
               </span>
             </span>
           </span>
@@ -269,6 +279,17 @@ const setupRegistrationPage = () => {
       const input = campInputs[index];
 
       if (!camp) {
+        continue;
+      }
+
+      if (camp.status === "Sold Out" || isLiveCampClosed(camp)) {
+        target.innerHTML =
+          'Sold out for summer 2026 — thank you Edmonton! <a href="./register.html?camp=position-specific-clinic">Check out the Position-Specific Clinic</a>, still open.';
+        target.classList.add("is-unavailable");
+        if (input) {
+          input.checked = false;
+          input.disabled = true;
+        }
         continue;
       }
 
@@ -393,6 +414,14 @@ const setupRegistrationPage = () => {
     });
 
     const isGoalieSubmission = playerPositionForPricing.toLowerCase().includes("goalie");
+
+    if (selectedCamps.some((camp) => camp.status === "Sold Out" || isLiveCampClosed(camp))) {
+      campError?.removeAttribute("hidden");
+      campError.textContent = "One or more selected camps is sold out for summer 2026.";
+      registrationNotice?.classList.remove("is-visible");
+      registrationCampTarget.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      return;
+    }
 
     if (
       Number.isFinite(birthYear) &&

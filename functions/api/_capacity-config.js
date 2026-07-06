@@ -2,6 +2,7 @@
 // Add more camps here later by adding another entry with the same shape.
 export const CAMP_CAPACITY = {
   "Total Skill Integration": {
+    closed: true, // registration closed for summer 2026, sold out
     ageGroups: {
       "2011-2013": { skaterCap: 23, goalieCap: 3 },
       "2014-2016": { skaterCap: 23, goalieCap: 3 },

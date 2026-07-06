@@ -59,10 +59,10 @@ const camps = [
       ages: ["2017-2019", "2014-2016", "2011-2013"],
       schedule: ["5:15 PM - 6:15 PM", "6:30 PM - 7:30 PM", "7:45 PM - 8:45 PM"],
       price: "$250",
-      status: "Flagship",
+      status: "Sold Out",
       availability: {
-        label: "Almost Full",
-        tone: "limited",
+        label: "Sold Out",
+        tone: "urgent",
       },
       featured: true,
       ratio: "5 hours total ice time",
@@ -125,14 +125,17 @@ const camps = [
       month: "July",
       title: "Position-Specific Clinic",
       shortDescription:
-        "A two-day clinic for forwards and defensemen who want position-specific reps.",
+        "Position-specific reps with 4 current NCAA/pro coaches — forwards with Brett & Jordan, defensemen with Logan & Breck.",
       fullDescription:
         "Forwards and defensemen train in dedicated groups with current NCAA and pro players, focusing on habits, reads, and skills that match their position.",
       dates: "July 25 & 26",
       location: "KC Twin Arenas, 13160 140 Avenue NW, Edmonton",
       locationUrl:
         "https://www.google.com/maps/search/?api=1&query=KC+Twin+Arenas+13160+140+Avenue+NW+Edmonton",
-      ages: ["2013-2015", "2010-2012"],
+      ages: ["2014-2016", "2011-2013"],
+      // Older group also quietly accepts 2010-born players without advertising
+      // that in the public age-group label.
+      ageMatchOverrides: [null, "2010-2013"],
       schedule: ["12:00 PM - 1:00 PM", "1:15 PM - 2:15 PM"],
       price: "$90",
       status: "Specialty",

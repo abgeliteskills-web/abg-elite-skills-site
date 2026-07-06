@@ -27,7 +27,16 @@ export async function onRequestPost(context) {
   // so a multi-camp submission never partially succeeds.
   const reservations = [];
   for (const camp of camps) {
-    const config = CAMP_CAPACITY[camp.campName]?.ageGroups[camp.ageGroup];
+    const campConfig = CAMP_CAPACITY[camp.campName];
+
+    if (campConfig?.closed) {
+      return jsonResponse({
+        ok: false,
+        error: `${camp.campName} is sold out for summer 2026 — thank you for the incredible response! Check out the Position-Specific Clinic (July 25-26, spots open), or email abgeliteskills@gmail.com to be added to next year's early access list.`,
+      });
+    }
+
+    const config = campConfig?.ageGroups[camp.ageGroup];
     if (!config) {
       continue; // not a guarded camp/age group, no cap enforced
     }
