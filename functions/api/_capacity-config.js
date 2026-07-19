@@ -9,6 +9,17 @@ export const CAMP_CAPACITY = {
       "2017-2019": { skaterCap: 18, goalieCap: 3 },
     },
   },
+  "Body Contact Prep Camp": {
+    closed: true, // registration closed for summer 2026, sold out
+    ageGroups: {},
+  },
+  "Position-Specific Clinic": {
+    // Skater spots remain open; goalie spots are full.
+    ageGroups: {
+      "2014-2016": { skaterCap: 999, goalieCap: 0 },
+      "2011-2013": { skaterCap: 999, goalieCap: 0 },
+    },
+  },
 };
 
 export const countKey = (campName, ageGroup, kind) =>

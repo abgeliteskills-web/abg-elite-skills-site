@@ -751,6 +751,17 @@ span {
     rgba(255, 255, 255, 0.035);
 }
 
+.camp-chooser-closed-note {
+  margin: 14px 2px 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.camp-chooser-closed-note a {
+  color: inherit;
+  text-decoration: underline;
+}
+
 .camp-chooser-main {
   min-width: 0;
 }

@@ -67,10 +67,10 @@ const slugify = (value) =>
     .replace(/^-+|-+$/g, "");
 
 const campDisplayOrder = [
+  "high-performance-prep",
   "position-specific-clinic",
   "total-skill-integration",
   "body-contact-prep-camp",
-  "high-performance-prep",
   "private-sessions",
 ];
 

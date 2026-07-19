@@ -10,10 +10,10 @@ const registrationSlugify = (value) =>
 
 const getRegistrationCampSlug = (camp) => registrationSlugify(camp.title);
 const REGISTRATION_CAMP_DISPLAY_ORDER = [
+  "high-performance-prep",
   "position-specific-clinic",
   "total-skill-integration",
   "body-contact-prep-camp",
-  "high-performance-prep",
 ];
 const sortRegistrationCampsForDisplay = (camps) =>
   [...camps].sort((firstCamp, secondCamp) => {
@@ -37,6 +37,10 @@ const REGISTRATION_LIVE_CAPACITY = {
     "2011-2013": { skaterCap: 23, goalieCap: 3 },
     "2014-2016": { skaterCap: 23, goalieCap: 3 },
     "2017-2019": { skaterCap: 18, goalieCap: 3 },
+  },
+  "Position-Specific Clinic": {
+    "2014-2016": { skaterCap: 999, goalieCap: 0 },
+    "2011-2013": { skaterCap: 999, goalieCap: 0 },
   },
 };
 
@@ -200,7 +204,9 @@ const setupRegistrationPage = () => {
   const submitButton = registerForm?.querySelector('button[type="submit"]');
   const registrationSummaryNote = registerForm?.querySelector(".registration-summary-note");
   const publicCamps = sortRegistrationCampsForDisplay(
-    registrationSiteData.camps.filter((camp) => camp.status !== "Private" && !camp.isPast)
+    registrationSiteData.camps.filter(
+      (camp) => camp.status !== "Private" && camp.status !== "Sold Out" && !camp.isPast
+    )
   );
   const selectedSlug = new URLSearchParams(window.location.search).get("camp");
 
@@ -308,7 +314,9 @@ const setupRegistrationPage = () => {
         match &&
         (isRegistrationGroupClosed(camp, match.ageGroup) || isLiveGroupFull(camp, match.ageGroup, isGoalie))
       ) {
-        target.textContent = "No more available spots.";
+        target.textContent = isGoalie
+          ? "Goalie spots are full for this camp."
+          : "No more available spots.";
         target.classList.add("is-unavailable");
         if (input) {
           input.checked = false;
