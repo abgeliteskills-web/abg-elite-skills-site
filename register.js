@@ -11,9 +11,9 @@ const registrationSlugify = (value) =>
 const getRegistrationCampSlug = (camp) => registrationSlugify(camp.title);
 const REGISTRATION_CAMP_DISPLAY_ORDER = [
   "high-performance-prep",
-  "position-specific-clinic",
   "total-skill-integration",
   "body-contact-prep-camp",
+  "position-specific-clinic",
 ];
 const sortRegistrationCampsForDisplay = (camps) =>
   [...camps].sort((firstCamp, secondCamp) => {
@@ -38,23 +38,31 @@ const REGISTRATION_LIVE_CAPACITY = {
     "2014-2016": { skaterCap: 23, goalieCap: 3 },
     "2017-2019": { skaterCap: 18, goalieCap: 3 },
   },
-  "Position-Specific Clinic": {
-    "2014-2016": { skaterCap: 999, goalieCap: 0 },
-    "2011-2013": { skaterCap: 999, goalieCap: 0 },
-  },
 };
 
 let liveRegistrationCounts = {};
 
-const isLiveGroupFull = (camp, ageGroup, isGoalie) => {
+const getRegistrationKind = (capConfig, playerPosition) => {
+  const position = String(playerPosition || "").toLowerCase();
+  if (position.includes("goalie")) {
+    return "goalie";
+  }
+  if ("forwardCap" in capConfig || "defenseCap" in capConfig) {
+    return position.includes("defence") || position.includes("defense") ? "defense" : "forward";
+  }
+  return "skater";
+};
+
+const isLiveGroupFull = (camp, ageGroup, playerPosition) => {
   const capConfig = ageGroup ? REGISTRATION_LIVE_CAPACITY[camp.title]?.[ageGroup] : null;
   const counts = ageGroup ? liveRegistrationCounts[camp.title]?.[ageGroup] : null;
   if (!capConfig || !counts) {
     return false;
   }
 
-  const cap = isGoalie ? capConfig.goalieCap : capConfig.skaterCap;
-  const current = isGoalie ? counts.goalie : counts.skater;
+  const kind = getRegistrationKind(capConfig, playerPosition);
+  const cap = capConfig[`${kind}Cap`];
+  const current = counts[kind] || 0;
   return current >= cap;
 };
 
@@ -278,7 +286,7 @@ const setupRegistrationPage = () => {
 
   const updateCampTimePreviews = () => {
     const birthYear = Number.parseInt(birthYearInput?.value || "", 10);
-    const isGoalie = String(playerPositionInput?.value || "").toLowerCase().includes("goalie");
+    const playerPosition = playerPositionInput?.value || "";
 
     for (const [index, target] of campSlotTargets.entries()) {
       const camp = publicCamps.find((item) => getRegistrationCampSlug(item) === target.dataset.campSlotInfo);
@@ -312,10 +320,13 @@ const setupRegistrationPage = () => {
 
       if (
         match &&
-        (isRegistrationGroupClosed(camp, match.ageGroup) || isLiveGroupFull(camp, match.ageGroup, isGoalie))
+        (isRegistrationGroupClosed(camp, match.ageGroup) || isLiveGroupFull(camp, match.ageGroup, playerPosition))
       ) {
-        target.textContent = isGoalie
-          ? "Goalie spots are full for this camp."
+        const capConfig = REGISTRATION_LIVE_CAPACITY[camp.title]?.[match.ageGroup];
+        const kindLabels = { goalie: "Goalie", forward: "Forward", defense: "Defenseman" };
+        const kindLabel = capConfig ? kindLabels[getRegistrationKind(capConfig, playerPosition)] : null;
+        target.textContent = kindLabel
+          ? `${kindLabel} spots are full for this camp.`
           : "No more available spots.";
         target.classList.add("is-unavailable");
         if (input) {
@@ -421,8 +432,6 @@ const setupRegistrationPage = () => {
       };
     });
 
-    const isGoalieSubmission = playerPositionForPricing.toLowerCase().includes("goalie");
-
     if (selectedCamps.some((camp) => camp.status === "Sold Out" || isLiveCampClosed(camp))) {
       campError?.removeAttribute("hidden");
       campError.textContent = "One or more selected camps is sold out for summer 2026.";
@@ -439,7 +448,7 @@ const setupRegistrationPage = () => {
           !assignment?.ageGroup ||
           !assignment?.schedule ||
           isRegistrationGroupClosed(camp, assignment.ageGroup) ||
-          isLiveGroupFull(camp, assignment.ageGroup, isGoalieSubmission)
+          isLiveGroupFull(camp, assignment.ageGroup, playerPositionForPricing)
         );
       })
     ) {

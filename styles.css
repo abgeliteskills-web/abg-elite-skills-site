@@ -2028,25 +2028,63 @@ blockquote {
   margin-top: 0;
 }
 
+/* Register hero reset — image-led hero, matches the camps page treatment */
 body[data-page="register"] .page-hero {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
-  max-width: 840px;
-  margin: 0 auto 12px;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(0, 0.4fr);
+  min-height: clamp(320px, 34vw, 420px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: var(--radius-xl);
+  background: #071019;
+  box-shadow: var(--shadow);
+  max-width: none;
+  margin: 0 0 16px;
+  gap: 0;
+}
+
+body[data-page="register"] .page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(7, 14, 22, 0.94) 0%, rgba(7, 14, 22, 0.78) 42%, rgba(7, 14, 22, 0.18) 72%),
+    linear-gradient(180deg, rgba(7, 14, 22, 0.1) 0%, rgba(7, 14, 22, 0.5) 100%);
 }
 
 body[data-page="register"] .page-hero-copy {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: start;
-  max-width: 840px;
+  z-index: 1;
+  align-content: center;
   min-height: 0;
-  padding: 20px 28px;
-  gap: 7px;
-  background:
-    linear-gradient(180deg, rgba(122, 201, 255, 0.04), transparent 46%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent 58%),
-    var(--panel);
+  max-width: 560px;
+  padding: clamp(30px, 5vw, 52px);
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-page="register"] .page-hero-visual {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  min-height: 100%;
+}
+
+body[data-page="register"] .page-hero-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 78%;
+}
+
+body[data-page="register"] .camp-schedule-block {
+  min-height: 0;
+  margin-top: 4px;
 }
 
 body[data-page="register"] .page-hero-copy h1,
@@ -2056,21 +2094,94 @@ body[data-page="register"] .registration-panel h2 {
 }
 
 body[data-page="register"] .page-hero-copy h1 {
-  max-width: 15ch;
-  margin-bottom: 0;
-  font-size: clamp(2.15rem, 4vw, 3.25rem);
-  line-height: 0.92;
-}
-
-body[data-page="register"] .page-hero-copy .eyebrow {
-  grid-column: 1 / -1;
-  margin-bottom: -2px;
+  max-width: 17ch;
+  margin-bottom: 2px;
+  font-size: clamp(2.9rem, 5.2vw, 4rem);
+  line-height: 0.96;
 }
 
 body[data-page="register"] .page-hero-copy p {
-  max-width: 52ch;
+  max-width: 48ch;
   color: var(--muted-strong);
   font-size: 1rem;
+}
+
+.register-info-panel {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.register-info-content {
+  display: grid;
+  gap: 14px;
+}
+
+.spots-meter-list {
+  display: grid;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.spots-meter-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 7px;
+}
+
+.spots-meter-group {
+  color: var(--text);
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.spots-meter-count {
+  color: var(--muted-strong);
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.spots-meter-goalie {
+  color: var(--muted);
+}
+
+.spots-meter-track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.spots-meter-fill {
+  position: relative;
+  height: 100%;
+  width: var(--fill, 60%);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(255, 214, 102, 0.85), rgba(255, 46, 52, 0.9));
+  box-shadow: 0 0 12px rgba(255, 46, 52, 0.35);
+  animation: spots-meter-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes spots-meter-pulse {
+  0%,
+  100% {
+    opacity: 0.86;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spots-meter-fill {
+    animation: none;
+  }
 }
 
 .register-hero-lead {
@@ -2084,6 +2195,12 @@ body[data-page="register"] .page-hero-copy p {
   letter-spacing: 0.08em;
   line-height: 1.25;
   text-transform: uppercase;
+}
+
+.register-hero-secondary {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
 }
 
 .register-hero-contact {
@@ -4735,25 +4852,48 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
   }
 
   body[data-page="register"] .page-hero {
-    margin-bottom: 10px;
+    display: block;
+    min-height: 280px;
+    margin-bottom: 12px;
+  }
+
+  body[data-page="register"] .page-hero::after {
+    background:
+      linear-gradient(180deg, rgba(7, 14, 22, 0.7) 0%, rgba(7, 14, 22, 0.94) 74%),
+      linear-gradient(90deg, rgba(7, 14, 22, 0.5), rgba(7, 14, 22, 0.15));
   }
 
   body[data-page="register"] .page-hero-copy {
-    grid-template-columns: 1fr;
-    align-items: start;
-    gap: 7px;
-    padding: 18px 20px;
+    display: grid;
+    align-content: end;
+    gap: 8px;
+    min-height: 280px;
+    max-width: none;
+    padding: 18px !important;
+  }
+
+  body[data-page="register"] .page-hero-copy .eyebrow {
+    font-size: 0.72rem;
+    line-height: 1.2;
   }
 
   body[data-page="register"] .page-hero-copy h1 {
-    max-width: 11ch;
-    font-size: clamp(2.1rem, 10vw, 2.75rem);
+    max-width: 100%;
+    font-size: clamp(2.3rem, 11vw, 3rem);
+    line-height: 0.86;
   }
 
-  body[data-page="register"] .register-hero-lead {
-    justify-self: start;
-    padding-bottom: 0;
-    font-size: 0.96rem;
+  body[data-page="register"] .page-hero-copy p {
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  body[data-page="register"] .page-hero-visual {
+    display: block;
+  }
+
+  body[data-page="register"] .page-hero-visual img {
+    object-position: center 90%;
   }
 
   body[data-page="camps"] {

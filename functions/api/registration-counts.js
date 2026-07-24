@@ -7,14 +7,17 @@ export async function onRequestGet(context) {
   for (const [campName, campConfig] of Object.entries(CAMP_CAPACITY)) {
     result[campName] = { closed: Boolean(campConfig.closed) };
     for (const [ageGroup, groupConfig] of Object.entries(campConfig.ageGroups)) {
-      const skater = Number(await env.REGISTRATION_KV.get(countKey(campName, ageGroup, "skater"))) || 0;
-      const goalie = Number(await env.REGISTRATION_KV.get(countKey(campName, ageGroup, "goalie"))) || 0;
-      result[campName][ageGroup] = {
-        skater,
-        goalie,
-        skaterCap: groupConfig.skaterCap,
-        goalieCap: groupConfig.goalieCap,
-      };
+      const kinds =
+        "forwardCap" in groupConfig || "defenseCap" in groupConfig
+          ? ["forward", "defense", "goalie"]
+          : ["skater", "goalie"];
+
+      const groupResult = {};
+      for (const kind of kinds) {
+        groupResult[kind] = Number(await env.REGISTRATION_KV.get(countKey(campName, ageGroup, kind))) || 0;
+        groupResult[`${kind}Cap`] = groupConfig[`${kind}Cap`];
+      }
+      result[campName][ageGroup] = groupResult;
     }
   }
 

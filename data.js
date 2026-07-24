@@ -87,8 +87,8 @@ const camps = [
       price: "$200",
       status: "Open",
       availability: {
-        label: "Last 5 spots",
-        tone: "limited",
+        label: "Limited Spots Remaining",
+        tone: "urgent",
       },
       featured: true,
       ratio: "4 hours total ice time",
@@ -127,7 +127,7 @@ const camps = [
       shortDescription:
         "Position-specific reps with 4 current NCAA/pro coaches — forwards with Brett & Jordan, defensemen with Logan & Breck.",
       fullDescription:
-        "Forwards and defensemen train in dedicated groups with current NCAA and pro players, focusing on habits, reads, and skills that match their position. Goalie spots for this clinic are currently full — skater spots remain open.",
+        "Forwards and defensemen train in dedicated groups with current NCAA and pro players, focusing on habits, reads, and skills that match their position.",
       dates: "July 25 & 26",
       location: "KC Twin Arenas, 13160 140 Avenue NW, Edmonton",
       locationUrl:
@@ -138,10 +138,10 @@ const camps = [
       ageMatchOverrides: [null, "2010-2013"],
       schedule: ["12:00 PM - 1:00 PM", "1:15 PM - 2:15 PM"],
       price: "$90",
-      status: "Specialty",
+      status: "Sold Out",
       availability: {
-        label: "Skater Spots Open — Goalies Full",
-        tone: "limited",
+        label: "Sold Out",
+        tone: "urgent",
       },
       featured: true,
       ratio: "2 hours total ice time",

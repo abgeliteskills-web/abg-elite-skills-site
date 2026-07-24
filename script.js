@@ -68,10 +68,10 @@ const slugify = (value) =>
 
 const campDisplayOrder = [
   "high-performance-prep",
-  "position-specific-clinic",
+  "private-sessions",
   "total-skill-integration",
   "body-contact-prep-camp",
-  "private-sessions",
+  "position-specific-clinic",
 ];
 
 const sortCampsForDisplay = (camps) =>

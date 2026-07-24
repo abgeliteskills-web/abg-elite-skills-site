@@ -19,9 +19,10 @@ export async function onRequestPost(context) {
     return jsonResponse({ ok: false, error: "Invalid registration request." }, 400);
   }
 
-  const isGoalie = String(payload.playerPosition || "").toLowerCase().includes("goalie");
+  const position = String(payload.playerPosition || "").toLowerCase();
+  const isGoalie = position.includes("goalie");
+  const isDefenseman = position.includes("defence") || position.includes("defense");
   const camps = Array.isArray(payload.camps) ? payload.camps : [];
-  const kind = isGoalie ? "goalie" : "skater";
 
   // Check every guarded camp in this submission before reserving anything,
   // so a multi-camp submission never partially succeeds.
@@ -32,7 +33,7 @@ export async function onRequestPost(context) {
     if (campConfig?.closed) {
       return jsonResponse({
         ok: false,
-        error: `${camp.campName} is sold out for summer 2026 — thank you for the incredible response! Check out the Position-Specific Clinic (July 25-26, spots open), or email abgeliteskills@gmail.com to be added to next year's early access list.`,
+        error: `${camp.campName} is sold out for summer 2026 — thank you for the incredible response! Email abgeliteskills@gmail.com to be added to next year's early access list.`,
       });
     }
 
@@ -41,7 +42,19 @@ export async function onRequestPost(context) {
       continue; // not a guarded camp/age group, no cap enforced
     }
 
-    const cap = isGoalie ? config.goalieCap : config.skaterCap;
+    let kind;
+    let cap;
+    if (isGoalie) {
+      kind = "goalie";
+      cap = config.goalieCap;
+    } else if ("forwardCap" in config || "defenseCap" in config) {
+      kind = isDefenseman ? "defense" : "forward";
+      cap = isDefenseman ? config.defenseCap : config.forwardCap;
+    } else {
+      kind = "skater";
+      cap = config.skaterCap;
+    }
+
     const key = countKey(camp.campName, camp.ageGroup, kind);
     const current = Number(await env.REGISTRATION_KV.get(key)) || 0;
 
