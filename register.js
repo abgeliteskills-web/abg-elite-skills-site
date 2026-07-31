@@ -38,6 +38,9 @@ const REGISTRATION_LIVE_CAPACITY = {
     "2014-2016": { skaterCap: 23, goalieCap: 3 },
     "2017-2019": { skaterCap: 18, goalieCap: 3 },
   },
+  "High-Performance Prep": {
+    "2011-2013": { skaterCap: 0, goalieCap: 0 },
+  },
 };
 
 let liveRegistrationCounts = {};

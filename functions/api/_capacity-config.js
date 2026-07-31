@@ -17,6 +17,13 @@ export const CAMP_CAPACITY = {
     closed: true, // registration closed for summer 2026, sold out
     ageGroups: {},
   },
+  "High-Performance Prep": {
+    // Oldest group (2011-2013) is closed; the two younger groups are open
+    // with no cap.
+    ageGroups: {
+      "2011-2013": { skaterCap: 0, goalieCap: 0 },
+    },
+  },
 };
 
 export const countKey = (campName, ageGroup, kind) =>

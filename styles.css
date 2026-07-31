@@ -2184,6 +2184,20 @@ body[data-page="register"] .page-hero-copy p {
   }
 }
 
+.spots-meter-closed .spots-meter-fill {
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: none;
+  animation: none;
+}
+
+.spots-meter-closed .spots-meter-count {
+  color: var(--muted);
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .register-hero-lead {
   justify-self: start;
   padding-bottom: 0;
