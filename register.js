@@ -225,6 +225,23 @@ const setupRegistrationPage = () => {
     return;
   }
 
+  if (!publicCamps.length) {
+    document.querySelector("[data-registration-closed]")?.removeAttribute("hidden");
+    document.querySelector("[data-registration-form-section]")?.setAttribute("hidden", "");
+
+    // Between seasons the hero shouldn't promise a form that isn't there.
+    const heroTitle = document.querySelector(".register-hero h1");
+    const heroText = document.querySelector(".register-hero .page-hero-copy > p:not(.eyebrow)");
+    if (heroTitle) {
+      heroTitle.textContent = "2027 Registration Opens Soon";
+    }
+    if (heroText) {
+      heroText.textContent =
+        "Summer 2026 camps are complete. Dates and registration for 2027 go to the email list first.";
+    }
+    return;
+  }
+
   registrationCampTarget.innerHTML = publicCamps
     .map((camp) => {
       const slug = getRegistrationCampSlug(camp);
@@ -246,7 +263,7 @@ const setupRegistrationPage = () => {
               <span class="registration-camp-option-time${soldOut ? " is-unavailable" : ""}" data-camp-slot-info="${slug}">
                 ${
                   soldOut
-                    ? 'Sold out for summer 2026 — thank you Edmonton! <a href="./register.html?camp=position-specific-clinic">Check out the Position-Specific Clinic</a>, still open.'
+                    ? 'Sold out for summer 2026. Thank you Edmonton! <a href="./register.html?camp=position-specific-clinic">Check out the Position-Specific Clinic</a>, still open.'
                     : "Birth year needed for ice time."
                 }
               </span>
@@ -301,7 +318,7 @@ const setupRegistrationPage = () => {
 
       if (camp.status === "Sold Out" || isLiveCampClosed(camp)) {
         target.innerHTML =
-          'Sold out for summer 2026 — thank you Edmonton! <a href="./register.html?camp=position-specific-clinic">Check out the Position-Specific Clinic</a>, still open.';
+          'Sold out for summer 2026. Thank you Edmonton! <a href="./register.html?camp=position-specific-clinic">Check out the Position-Specific Clinic</a>, still open.';
         target.classList.add("is-unavailable");
         if (input) {
           input.checked = false;

@@ -76,3 +76,17 @@ Dark athletic editorial: a hockey program that feels like it belongs in a locker
 - Hero copy panel: subtle ice gradient wash (trust/story context)
 - `.panel-dark h2` ("The ABG Mission"): `color: var(--ice)` — premium contrast against red-gradient panel
 - Right layout-two panel ("Why It Matters"): ice gradient wash + ice border-color
+
+## Design Layer (September 2026)
+`styles.css` is wrapped in `@layer legacy`, and `design.css` loads after it unlayered, so any rule in
+`design.css` wins without specificity fights. New work goes in `design.css`.
+
+- **Canvas**: deep ink background with a soft ice glow and fine film grain (the old graph-paper grid is gone).
+- **Signature motif**: red faceoff-circle line art (`.rink-circle`), used behind the homepage video and on the D1 Blueprint cover.
+- **Buttons**: 12px radius, red gradient with white text, arrow on primary links; secondary is a glass ghost button.
+- **Photography**: camp photos are graded (slightly desaturated, navy scrim) so bright rink shots sit inside the dark palette. Web-sized copies live in `assets/web/`.
+- **Homepage**: full-bleed hero (vertical camp video as the backdrop on phones, framed reel on desktop), stat row, scrolling "where our coaches have played" strip, photo path cards, player-card coach grid, D1 Blueprint cover mockup, two-column FAQ, full-bleed closing photo band.
+- **Footer**: unboxed, hairline top border.
+- **Interior pages** (Camps, Coaches, Development, About, Register): full-bleed photo hero with the copy on the left and the photo fading in from the right (photo on top on phones), editorial feature cards with a short red top rule, stat-style trust bar, price blocks on the Development offers, and the same closing photo band as the homepage.
+- **Header**: floats (fixed) on every page; `[id]` elements carry `scroll-margin-top` so in-page links clear it.
+- **Mobile (<=640px)**: 20px side margins, slimmer floating header, full-width buttons in heroes, offer panels and the closing band, sideways swipe rows that snap to the page margin, player-card coach profiles (name over a faded headshot), Blueprint pitch before the form, unboxed footer with a two-column link list, icon-only testimonial arrows, and 42px+ tap targets throughout. Hover lifts are disabled on touch devices.

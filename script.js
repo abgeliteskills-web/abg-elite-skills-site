@@ -13,8 +13,10 @@ const ABG_GA_MEASUREMENT_ID = "G-ESNEFQVEWK";
 
 window.dataLayer = window.dataLayer || [];
 
+const IS_PRODUCTION_HOST = /(^|\.)abgeliteskills\.com$/.test(window.location.hostname);
+
 const loadGoogleAnalytics = () => {
-  if (!ABG_GA_MEASUREMENT_ID || window.gtag) {
+  if (!IS_PRODUCTION_HOST || !ABG_GA_MEASUREMENT_ID || window.gtag) {
     return;
   }
 
@@ -67,8 +69,8 @@ const slugify = (value) =>
     .replace(/^-+|-+$/g, "");
 
 const campDisplayOrder = [
+  "summer-opener",
   "high-performance-prep",
-  "private-sessions",
   "total-skill-integration",
   "body-contact-prep-camp",
   "position-specific-clinic",
@@ -85,37 +87,8 @@ const sortCampsForDisplay = (camps) =>
   });
 
 const activeCamps = sortCampsForDisplay(siteData.camps.filter((camp) => !camp.isPast));
-const publicCamps = activeCamps.filter((camp) => camp.status !== "Private");
-const campLineup = activeCamps.filter((camp) => camp.featured || camp.status === "Private");
-
-const getCampRegistrationUrl = (camp) => `./register.html?camp=${encodeURIComponent(slugify(camp.title))}`;
-
-const getCampCtaLabel = (camp) => {
-  if (camp.status === "Private") {
-    return "Ask About Private Or Team Coaching";
-  }
-
-  if (camp.title === "Position-Specific Clinic") {
-    return "Register Position-Specific";
-  }
-
-  if (camp.title === "Body Contact Prep Camp") {
-    return "Register Body Contact";
-  }
-
-  return `Register for ${camp.dates}`;
-};
-
-const getCampCtaUrl = (camp) =>
-  camp.status === "Private" ? camp.registrationUrl : getCampRegistrationUrl(camp);
-
-const getCampScheduleLabel = (camp) =>
-  camp.status === "Private" ? "Options & Availability" : "Age Groups & Ice Times";
-
-const renderAvailabilityBadge = (camp) =>
-  camp.availability
-    ? `<span class="availability-badge availability-badge-${camp.availability.tone || "open"}">${camp.availability.label}</span>`
-    : "";
+const publicCamps = activeCamps;
+const campLineup = activeCamps.filter((camp) => camp.featured);
 
 const renderCampCard = (camp) => {
   const campSlug = slugify(camp.title);
@@ -126,52 +99,19 @@ const renderCampCard = (camp) => {
     .filter(Boolean)
     .join(" ");
 
-  const ageItems = camp.ages
-    .map(
-      (ageGroup, index) => `
-        <li>
-          <span class="camp-slot-group">${ageGroup}</span>
-          <span class="camp-slot-time">${camp.schedule[index]}</span>
-        </li>
-      `
-    )
-    .join("");
+  const media = camp.video
+    ? `<video src="${camp.video}" poster="${camp.image}" muted loop playsinline preload="none" class="lazy-video" aria-label="${camp.title} recap video"></video>`
+    : `<img src="${camp.image}" alt="${camp.title} camp photo" loading="lazy" decoding="async"${imageStyles ? ` style="${imageStyles}"` : ""} />`;
 
   return `
     <article class="camp-card" id="${campSlug}">
       <div class="camp-card-media">
-        <img src="${camp.image}" alt="${camp.title} camp photo"${imageStyles ? ` style="${imageStyles}"` : ""} />
+        ${media}
         <span class="camp-status">${camp.status}</span>
       </div>
       <div class="camp-card-body">
-        <div class="camp-card-top">
-          <div>
-            <p class="program-month camp-card-date-line">
-              <span class="camp-card-dates">${camp.dates}</span>
-              ${renderAvailabilityBadge(camp)}
-            </p>
-            <h3>${camp.title}</h3>
-          </div>
-          <p class="camp-price-pill">${camp.price}</p>
-        </div>
+        <h3>${camp.title}</h3>
         <p class="camp-lead">${camp.shortDescription}</p>
-        <div class="camp-meta-row">
-          <span>${camp.ratio}</span>
-        </div>
-        <p class="camp-location">
-          <a href="${camp.locationUrl}" target="_blank" rel="noreferrer">${camp.location}</a>
-        </p>
-        <a
-          class="button"
-          href="${getCampCtaUrl(camp)}"
-          data-track-event="camp_card_register_click"
-          data-track-camp="${campSlug}"
-          data-track-label="${camp.title}"
-        >${getCampCtaLabel(camp)}</a>
-        <div class="camp-schedule-block">
-          <p class="camp-schedule-label">${getCampScheduleLabel(camp)}</p>
-          <ul class="age-list">${ageItems}</ul>
-        </div>
         <details class="camp-more">
           <summary>More Camp Details</summary>
           <p class="camp-description">${camp.fullDescription}</p>
@@ -181,12 +121,16 @@ const renderCampCard = (camp) => {
   `;
 };
 
+// "Current team · where they played college" when set in data.js, otherwise "Team (Level)".
+const getCoachTeamLine = (coach) =>
+  coach.teamLine || (coach.currentLevel ? `${coach.currentTeam} (${coach.currentLevel})` : coach.currentTeam);
+
 const renderCoachCard = (coach, mode = "preview") => {
   const highlights = coach.highlights.map((item) => `<li>${item}</li>`).join("");
   const previewOrigin = coach.role.replace(" Minor Hockey", "<br />Minor Hockey");
   const previewTeamLine = `
     <span class="coach-position">${coach.position}</span>
-    <span class="coach-teamline">${coach.currentTeam} (${coach.currentLevel})</span>
+    <span class="coach-teamline">${getCoachTeamLine(coach)}</span>
   `;
 
   if (mode === "full") {
@@ -195,7 +139,7 @@ const renderCoachCard = (coach, mode = "preview") => {
         (stop) => `
           <article class="coach-pathway-card">
             <div class="coach-pathway-media">
-              <img src="${stop.image}" alt="${stop.imageAlt}" />
+              <img src="${stop.image}" alt="${stop.imageAlt}" loading="lazy" decoding="async" />
             </div>
             <div class="coach-pathway-body">
               <p class="program-month">Pathway</p>
@@ -210,17 +154,22 @@ const renderCoachCard = (coach, mode = "preview") => {
       .join("");
 
     return `
-      <article class="coach-profile">
+      <article class="coach-profile" id="${slugify(coach.name)}">
         <div class="coach-profile-top">
           <img
             src="${coach.headshot}"
             alt="${coach.name} headshot"
+            loading="lazy"
+            decoding="async"
             style="--coach-profile-position: ${coach.mobilePreviewPosition || coach.previewPosition || "center top"};"
           />
           <div class="coach-profile-intro">
-            <p class="program-month">${coach.role}</p>
+            <p class="program-month coach-origin-line">
+              ${coach.minorHockeyLogo ? `<img class="coach-minor-logo" src="${coach.minorHockeyLogo}" alt="" loading="lazy" decoding="async" />` : ""}
+              <span>${coach.role}</span>
+            </p>
             <h3>${coach.name}</h3>
-            <p class="coach-role">${coach.position} • ${coach.currentTeam} (${coach.currentLevel})</p>
+            <p class="coach-role">${coach.position} • ${getCoachTeamLine(coach)}</p>
             <p class="coach-location">${coach.location}</p>
             <p class="coach-summary">${coach.summary}</p>
             <ul class="coach-highlights">${highlights}</ul>
@@ -228,7 +177,14 @@ const renderCoachCard = (coach, mode = "preview") => {
         </div>
         <div class="coach-profile-copy">
           <p>${coach.bio}</p>
-          <p>${coach.detailedBio || ""}</p>
+          ${
+            coach.detailedBio
+              ? `<details class="camp-more coach-more">
+                  <summary>Read Full Bio</summary>
+                  <p class="camp-description">${coach.detailedBio}</p>
+                </details>`
+              : ""
+          }
         </div>
         <div class="coach-pathway-grid">
           ${pathway}
@@ -243,6 +199,8 @@ const renderCoachCard = (coach, mode = "preview") => {
         <img
           src="${coach.headshot}"
           alt="${coach.name} headshot"
+          loading="lazy"
+          decoding="async"
           style="--coach-preview-position: ${coach.previewPosition || "center top"}; --coach-preview-mobile-position: ${coach.mobilePreviewPosition || coach.previewPosition || "center top"};"
         />
       </div>
@@ -262,13 +220,13 @@ const renderTestimonialSlider = (testimonials) => {
       (testimonial, index) => `
         <article class="testimonial-slide" data-testimonial-slide="${index}">
           <div class="testimonial-slide-image">
-            <img src="${testimonial.image}" alt="${testimonial.name} testimonial background" />
+            <img src="${testimonial.image}" alt="${testimonial.name} testimonial background"${index === 0 ? "" : ' loading="lazy"'} decoding="async" />
           </div>
           <div class="testimonial-slide-panel">
             <blockquote>${testimonial.quote}</blockquote>
             <div class="testimonial-attribution">
               <p class="quote-credit">${testimonial.name}</p>
-              <p class="testimonial-meta">${testimonial.roleLabel} • ${testimonial.team}</p>
+              <p class="testimonial-meta">${[testimonial.roleLabel, testimonial.team].filter(Boolean).join(" • ")}</p>
             </div>
           </div>
         </article>
@@ -309,6 +267,40 @@ for (const target of campTargets) {
   target.innerHTML = camps.map(renderCampCard).join("");
 }
 
+const setupLazyVideos = () => {
+  const lazyVideos = document.querySelectorAll("video.lazy-video");
+
+  if (!lazyVideos.length) {
+    return;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    for (const video of lazyVideos) {
+      video.play().catch(() => {});
+    }
+    return;
+  }
+
+  const videoObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.play().catch(() => {});
+        } else {
+          entry.target.pause();
+        }
+      }
+    },
+    { threshold: 0.25 }
+  );
+
+  for (const video of lazyVideos) {
+    videoObserver.observe(video);
+  }
+};
+
+setupLazyVideos();
+
 for (const target of coachTargets) {
   const mode = target.dataset.coachGrid;
   const coaches = mode === "featured" ? siteData.coaches.filter((coach) => coach.featured) : siteData.coaches;
@@ -331,6 +323,14 @@ for (const target of testimonialTargets) {
 
   const setActiveSlide = (index) => {
     activeIndex = (index + slides.length) % slides.length;
+
+    // Later slides load lazily; warm up the current and next photo so a slide never appears blank.
+    [activeIndex, (activeIndex + 1) % slides.length].forEach((slideIndex) => {
+      const image = slides[slideIndex]?.querySelector("img");
+      if (image?.loading === "lazy") {
+        image.loading = "eager";
+      }
+    });
 
     if (track) {
       track.style.transform = `translateX(-${activeIndex * 100}%)`;
@@ -447,7 +447,7 @@ const setupMobileShellScrollFallback = () => {
 };
 
 const setupMobileConversionBar = () => {
-  const heroCopy = document.querySelector(".hero-copy");
+  const heroCopy = document.querySelector(".home-hero-copy, .hero-copy");
   const mobileConversionBar = document.querySelector(".mobile-conversion-bar");
 
   if (!heroCopy || !mobileConversionBar || document.body.dataset.page !== "home") {
@@ -523,4 +523,13 @@ if ("IntersectionObserver" in window) {
   }, 700);
 } else {
   revealAllItems();
+}
+
+// The homepage hero video is ambient: hold on the poster frame for reduced motion or Data Saver.
+const heroVideo = document.querySelector(".home-hero-video");
+const prefersLessData = Boolean(navigator.connection?.saveData);
+if (heroVideo && (prefersLessData || window.matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+  heroVideo.removeAttribute("autoplay");
+  heroVideo.preload = "none";
+  heroVideo.pause();
 }

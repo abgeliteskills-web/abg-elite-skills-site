@@ -1,0 +1,2741 @@
+/* ============================================================
+   ABG Elite Skills: design layer
+   styles.css is wrapped in @layer legacy, so every rule in this
+   file wins over it without specificity fights. Keep layout
+   properties (display, padding, width) out of the shared
+   component rules below unless this file owns that component.
+   ============================================================ */
+
+:root {
+  --ink: #05090f;
+  --navy: #08111b;
+  --surface: rgba(255, 255, 255, 0.035);
+  --surface-strong: #0d1824;
+  --hairline: rgba(255, 255, 255, 0.08);
+  --hairline-strong: rgba(255, 255, 255, 0.16);
+  --red: #ff2e34;
+  --red-deep: #d9161d;
+  --ice: #7ac9ff;
+  --ice-soft: #bfe6ff;
+  --shell: min(1180px, calc(100% - 28px));
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --display: "Barlow Condensed", sans-serif;
+}
+
+@media (min-width: 1081px) and (max-width: 1240px) {
+  :root {
+    --shell: min(1180px, calc(100% - 36px));
+  }
+}
+
+/* ---------- Canvas ---------- */
+
+body {
+  background: var(--ink);
+}
+
+.site-bg {
+  background:
+    radial-gradient(90% 60% at 50% -10%, rgba(122, 201, 255, 0.1), transparent 60%),
+    radial-gradient(50% 40% at 100% 40%, rgba(255, 46, 52, 0.06), transparent 70%),
+    linear-gradient(180deg, var(--navy) 0%, var(--ink) 60%);
+  mask-image: none;
+}
+
+.site-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* The header floats, so in-page jumps (#stay-in-touch, #faq, camp chips) need to clear it. */
+[id] {
+  scroll-margin-top: 110px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+/* Present for screen readers and search engines, hidden visually. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Keyboard focus: a visible ice-blue ring on links, buttons, and form controls. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--ice);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: #fff;
+  background: rgba(255, 46, 52, 0.55);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+  border-color: var(--hairline);
+  background: rgba(6, 11, 18, 0.72);
+  box-shadow: 0 18px 50px -20px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+.nav-link {
+  position: relative;
+  background: transparent;
+  transition: color 180ms ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: transparent;
+}
+
+@media (min-width: 861px) {
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 260ms var(--ease);
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Type ---------- */
+
+h1,
+h2 {
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  color: #ff575c;
+  letter-spacing: 0.2em;
+}
+
+.section-heading p,
+.split-heading > p {
+  text-wrap: pretty;
+}
+
+/* ---------- Buttons ---------- */
+
+.button {
+  gap: 10px;
+  border-radius: 12px;
+  color: #fff;
+  letter-spacing: 0.08em;
+  background: linear-gradient(180deg, #ff444a 0%, var(--red-deep) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 14px 30px -12px rgba(255, 46, 52, 0.75);
+  transition:
+    transform 220ms var(--ease),
+    box-shadow 220ms var(--ease),
+    background-color 220ms ease,
+    border-color 220ms ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 20px 40px -14px rgba(255, 46, 52, 0.9);
+}
+
+a.button:not(.button-secondary)::after {
+  content: "";
+  flex: none;
+  width: 15px;
+  height: 10px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 10'%3E%3Cpath d='M9.5 0 15 5l-5.5 5-1.1-1.1L12 5.8H0V4.2h12L8.4 1.1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 10'%3E%3Cpath d='M9.5 0 15 5l-5.5 5-1.1-1.1L12 5.8H0V4.2h12L8.4 1.1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform 220ms var(--ease);
+}
+
+a.button:not(.button-secondary):hover::after {
+  transform: translateX(3px);
+}
+
+.button-secondary {
+  color: #fff;
+  border: 1px solid var(--hairline-strong);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  text-decoration: none;
+}
+
+.button-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.site-header > .button::after {
+  display: none;
+}
+
+/* Legacy mobile rules turned hero secondary buttons into bare text links;
+   give them a real, thumb-sized ghost button instead. */
+@media (max-width: 1080px) {
+  .hero-actions .button-secondary {
+    min-height: 48px;
+    padding: 12px 20px;
+    border: 1px solid var(--hairline-strong);
+    color: #fff;
+    font-size: 0.95rem;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.04);
+  }
+}
+
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.arrow-link::after {
+  content: "";
+  width: 30px;
+  height: 1px;
+  background: var(--red);
+  transition: width 260ms var(--ease);
+}
+
+.arrow-link:hover::after {
+  width: 44px;
+}
+
+/* ---------- Rink art (shared) ---------- */
+
+.rink-circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  color: rgba(255, 46, 52, 0.22);
+}
+
+.rink-circle .rink-dot {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* ============================================================
+   HOMEPAGE
+   ============================================================ */
+
+/* The header floats over each page's full-bleed hero instead of pushing it down. */
+.site-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: var(--shell);
+  margin: 0 auto;
+}
+
+.home-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  min-height: min(100svh, 1000px);
+  margin: -18px calc(50% - 50vw) 0;
+  padding-top: 132px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hairline);
+  background:
+    radial-gradient(45% 60% at 76% 42%, rgba(122, 201, 255, 0.16), transparent 70%),
+    radial-gradient(40% 50% at 8% 100%, rgba(255, 46, 52, 0.12), transparent 70%),
+    linear-gradient(180deg, #060b12 0%, #08121c 100%);
+}
+
+.home-hero-inner {
+  display: grid;
+  flex: 1;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+  width: var(--shell);
+  margin: 0 auto;
+  padding: 24px 0 56px;
+}
+
+.home-hero-copy {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: start;
+  gap: 22px;
+}
+
+.home-hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: var(--ice-soft);
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.home-hero-kicker::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: var(--red);
+}
+
+.home-hero h1 {
+  margin: 0;
+  font-size: clamp(3.2rem, 5.6vw, 5.8rem);
+  font-weight: 700;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.home-hero-accent {
+  display: block;
+  line-height: inherit;
+  color: transparent;
+  background: linear-gradient(180deg, #e8f6ff 10%, var(--ice) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.home-hero-text {
+  max-width: 34rem;
+  margin: 0;
+  color: #c8d4e2;
+  font-size: clamp(1.02rem, 1.3vw, 1.18rem);
+  line-height: 1.65;
+}
+
+.home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.home-hero-actions .button {
+  min-height: 54px;
+  padding: 15px 26px;
+  font-size: 1.05rem;
+}
+
+.home-hero-visual {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.home-hero-rink {
+  position: absolute;
+  z-index: -1;
+  width: 170%;
+  max-width: 820px;
+  aspect-ratio: 1;
+  color: rgba(255, 46, 52, 0.2);
+}
+
+.home-hero-media {
+  position: relative;
+  height: min(66vh, 660px);
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 30px;
+  background: #050b12;
+  box-shadow:
+    0 0 0 10px rgba(255, 255, 255, 0.025),
+    0 50px 110px -30px rgba(0, 0, 0, 0.85);
+}
+
+.home-hero-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-chip {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 11px 16px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 14px;
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(8, 15, 24, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.8);
+}
+
+.hero-chip-rating {
+  top: 12%;
+  left: -6%;
+}
+
+.hero-chip-stars {
+  color: #ffc53d;
+  letter-spacing: 0.1em;
+}
+
+.hero-chip-caption {
+  right: -4%;
+  bottom: 10%;
+  font-size: 0.88rem;
+}
+
+.hero-chip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 4px rgba(255, 46, 52, 0.25);
+  animation: abg-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes abg-pulse {
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 46, 52, 0);
+  }
+}
+
+.home-hero-stats {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: var(--shell);
+  margin: 0 auto;
+  border-top: 1px solid var(--hairline);
+}
+
+.home-hero-stat {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 26px 24px 30px;
+  border-left: 1px solid var(--hairline);
+}
+
+.home-hero-stat:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.home-hero-stat dt {
+  font-family: var(--display);
+  font-size: clamp(2.2rem, 3.4vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.home-hero-stat dt span {
+  margin-left: 2px;
+  color: #ffc53d;
+  font-size: 0.6em;
+  vertical-align: 0.5em;
+}
+
+.home-hero-stat dd {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+/* ---------- Credential marquee ---------- */
+
+.credential-strip {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 100vw;
+  margin: 0 calc(50% - 50vw) clamp(72px, 9vw, 120px);
+  padding: 22px 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hairline);
+  background: rgba(3, 7, 12, 0.6);
+}
+
+.credential-strip-label {
+  flex: none;
+  margin: 0;
+  padding-left: max(14px, calc((100vw - 1180px) / 2));
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.credential-viewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.credential-track {
+  display: flex;
+  width: max-content;
+  animation: abg-marquee 48s linear infinite;
+}
+
+.credential-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.credential-list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 40px;
+  padding-right: 40px;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.credential-list li::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+@keyframes abg-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Section rhythm ---------- */
+
+main > .section {
+  margin-bottom: clamp(80px, 9vw, 128px);
+}
+
+.split-heading {
+  align-items: end;
+  margin-bottom: 36px;
+}
+
+.split-heading h2,
+.faq-heading h2,
+.blueprint-head h2 {
+  font-size: clamp(2.4rem, 4.6vw, 4.2rem);
+  line-height: 0.94;
+}
+
+.split-heading-aside {
+  display: grid;
+  justify-items: start;
+  gap: 18px;
+}
+
+.split-heading-aside p {
+  margin: 0;
+}
+
+/* ---------- Path cards ---------- */
+
+.path-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.path-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 22px;
+  color: inherit;
+  text-decoration: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+  transition:
+    transform 320ms var(--ease),
+    border-color 320ms ease;
+}
+
+.path-card:hover {
+  border-color: rgba(122, 201, 255, 0.35);
+  transform: translateY(-4px);
+}
+
+.path-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.path-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(6, 11, 18, 0.1) 30%, rgba(8, 15, 24, 0.95) 100%),
+    linear-gradient(180deg, rgba(20, 40, 70, 0.25), rgba(20, 40, 70, 0.25));
+}
+
+.path-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 58%;
+  filter: saturate(0.85) contrast(1.06) brightness(0.92);
+  transition: transform 700ms var(--ease);
+}
+
+.path-card:nth-child(3) .path-card-media img {
+  object-position: 30% 40%;
+}
+
+.path-card:hover .path-card-media img {
+  transform: scale(1.05);
+}
+
+.path-card-body {
+  position: relative;
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: 10px;
+  margin-top: -56px;
+  padding: 0 26px 26px;
+}
+
+.path-card-index {
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.path-card h3 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.path-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+.path-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  color: #fff;
+  font-family: var(--display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.path-card-link::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--red);
+  transition: width 260ms var(--ease);
+}
+
+.path-card:hover .path-card-link::after {
+  width: 40px;
+}
+
+/* ---------- Coach player cards (homepage preview) ---------- */
+
+.coaches-home-section {
+  display: block;
+}
+
+.coaches-home-section .coach-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+}
+
+.coaches-home-section .coach-card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+  border-radius: 22px;
+  background: #0b1520;
+  box-shadow: none;
+  transition:
+    transform 320ms var(--ease),
+    border-color 320ms ease;
+}
+
+.coaches-home-section .coach-card:hover {
+  border-color: rgba(122, 201, 255, 0.35);
+  transform: translateY(-4px);
+}
+
+.coaches-home-section .coach-card-media {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  border-radius: 0;
+  aspect-ratio: auto;
+}
+
+.coaches-home-section .coach-card-media img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: auto;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: var(--coach-preview-position, center top);
+  filter: saturate(0.9) contrast(1.04);
+  transition: transform 700ms var(--ease);
+}
+
+.coaches-home-section .coach-card:hover .coach-card-media img {
+  transform: scale(1.04);
+}
+
+.coaches-home-section .coach-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: auto;
+  background: linear-gradient(180deg, rgba(6, 11, 18, 0) 34%, rgba(6, 11, 18, 0.62) 56%, rgba(6, 11, 18, 0.94) 76%, #060b12 100%);
+}
+
+.coaches-home-section .coach-card-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  gap: 4px;
+  padding: 22px;
+  background: none;
+}
+
+.coaches-home-section .coach-origin,
+.coaches-home-section .coach-summary {
+  display: none;
+}
+
+.coaches-home-section .coach-name {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.1vw, 1.95rem);
+  line-height: 1;
+}
+
+.coaches-home-section .coach-role {
+  display: grid;
+  gap: 3px;
+  margin: 4px 0 0;
+}
+
+.coaches-home-section .coach-position {
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.coaches-home-section .coach-teamline {
+  color: #c8d4e2;
+  font-size: 0.86rem;
+  line-height: 1.4;
+}
+
+/* ---------- Testimonials ---------- */
+
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 14px;
+  padding: 12px 18px 12px 14px;
+  border: 1px solid var(--hairline);
+  border-radius: 16px;
+  color: inherit;
+  text-decoration: none;
+  background: var(--surface);
+  transition: border-color 220ms ease;
+}
+
+.rating-badge:hover {
+  border-color: var(--hairline-strong);
+}
+
+.rating-score {
+  font-family: var(--display);
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.rating-meta {
+  display: grid;
+  gap: 2px;
+}
+
+.rating-stars {
+  color: #ffc53d;
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+}
+
+.rating-label {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+body[data-page="home"] .testimonial-slide-panel {
+  border-color: var(--hairline-strong);
+  background: rgba(6, 11, 18, 0.74);
+}
+
+body[data-page="home"] .testimonial-slide-panel blockquote {
+  position: relative;
+}
+
+body[data-page="home"] .testimonial-slide-panel blockquote::before {
+  content: "\201C";
+  display: block;
+  height: 0.5em;
+  margin-bottom: 6px;
+  color: var(--red);
+  font-family: Georgia, serif;
+  font-size: 3.4rem;
+  line-height: 1;
+}
+
+body[data-page="home"] .testimonial-slide-image img {
+  filter: saturate(0.9) brightness(0.9);
+}
+
+/* ---------- D1 Blueprint ---------- */
+
+/* ---------- FAQ ---------- */
+
+.faq-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: clamp(28px, 5vw, 80px);
+}
+
+.faq-heading {
+  position: sticky;
+  top: 130px;
+  display: grid;
+  gap: 14px;
+  margin: 0;
+}
+
+.faq-heading h2 {
+  margin: 0;
+}
+
+.faq-heading p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+}
+
+.faq-heading a {
+  color: #fff;
+  text-decoration-color: var(--red);
+  text-underline-offset: 4px;
+}
+
+.faq-section .faq-list {
+  max-width: none;
+  gap: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.faq-section .faq-item {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.faq-section .faq-item summary {
+  padding: 24px 44px 24px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.faq-section .faq-item[open] summary {
+  color: #fff;
+}
+
+.faq-section .faq-item .camp-description {
+  margin: 0;
+  padding: 0 44px 26px 0;
+  color: #c8d4e2;
+  line-height: 1.7;
+}
+
+/* ---------- Closing photo band ---------- */
+
+.cta-band {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  min-height: clamp(460px, 62vh, 640px);
+  margin: 0 calc(50% - 50vw);
+  overflow: hidden;
+  border-top: 1px solid var(--hairline);
+}
+
+.cta-band-image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+  filter: saturate(0.85) contrast(1.05);
+}
+
+.cta-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 70% at 50% 50%, rgba(6, 11, 18, 0.5), rgba(6, 11, 18, 0.72)),
+    linear-gradient(180deg, rgba(6, 11, 18, 0.45), rgba(6, 11, 18, 0.2) 50%, rgba(5, 9, 15, 0.88));
+}
+
+.cta-band-inner {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  width: min(760px, calc(100% - 40px));
+  padding: 64px 0;
+  text-align: center;
+}
+
+.cta-band-inner .eyebrow {
+  margin: 0;
+}
+
+.cta-band-inner .eyebrow::before {
+  display: none;
+}
+
+.cta-band-inner h2 {
+  margin: 0;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.cta-band-inner p:not(.eyebrow) {
+  max-width: 34rem;
+  margin: 0;
+  color: #d5deea;
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+.cta-band-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.cta-band-actions .button {
+  min-height: 54px;
+  padding: 15px 26px;
+  font-size: 1.05rem;
+}
+
+/* ============================================================
+   FOOTER (all pages)
+   ============================================================ */
+
+footer.site-footer {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+/* The closing photo band already draws the edge above the footer. */
+main:has(> .cta-band:last-child) + footer.site-footer {
+  border-top: 0;
+}
+
+footer.site-footer {
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+@media (min-width: 861px) {
+  footer.site-footer {
+    padding: 56px 0 12px;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE: homepage
+   ============================================================ */
+
+@media (max-width: 1080px) {
+  .coaches-home-section .coach-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-hero-stat {
+    padding-inline: 18px;
+  }
+}
+
+@media (max-width: 960px) {
+  .faq-section {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-heading {
+    position: static;
+  }
+}
+
+/* Phones and small tablets: the vertical camp video becomes the hero backdrop. */
+@media (max-width: 860px) {
+  .home-hero {
+    min-height: 0;
+    padding-top: 0;
+    border-bottom: 0;
+    background: #060b12;
+  }
+
+  .home-hero-inner {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0;
+  }
+
+  .home-hero-visual {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  .home-hero-rink,
+  .hero-chip {
+    display: none;
+  }
+
+  .home-hero-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .home-hero-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(6, 11, 18, 0.6) 0%, rgba(6, 11, 18, 0) 20%, rgba(6, 11, 18, 0.3) 40%, rgba(6, 11, 18, 0.86) 64%, #060b12 100%);
+  }
+
+  .home-hero-video {
+    object-position: center 62%;
+  }
+
+  .home-hero-copy {
+    min-height: min(90svh, 820px);
+    align-content: end;
+    gap: 16px;
+    width: var(--shell);
+    margin: 0 auto;
+    padding: 140px 6px 30px;
+  }
+
+  .home-hero h1 {
+    font-size: clamp(2.6rem, 11vw, 4.4rem);
+  }
+
+  .home-hero-text {
+    color: #dbe4ee;
+  }
+
+  .home-hero-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--hairline);
+  }
+
+  .home-hero-stat,
+  .home-hero-stat:first-child {
+    padding: 18px 16px 20px;
+    border-left: 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .home-hero-stat:nth-child(odd) {
+    padding-left: 6px;
+  }
+
+  .home-hero-stat:nth-child(even) {
+    border-left: 1px solid var(--hairline);
+  }
+
+  .home-hero-stat dt {
+    font-size: 2.1rem;
+  }
+
+  .home-hero-stat dd {
+    font-size: 0.84rem;
+  }
+
+  .credential-strip {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 20px 0;
+  }
+
+  .credential-strip-label {
+    padding-left: 20px;
+    font-size: 0.78rem;
+  }
+
+  .credential-list li {
+    gap: 28px;
+    padding-right: 28px;
+    font-size: 1.1rem;
+  }
+
+  .path-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .path-card {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .path-card-media {
+    flex: 0 0 38%;
+    aspect-ratio: auto;
+    min-height: 168px;
+  }
+
+  .path-card-media::after {
+    background: linear-gradient(90deg, rgba(8, 15, 24, 0) 40%, rgba(8, 15, 24, 0.9) 100%);
+  }
+
+  .path-card-body {
+    align-content: center;
+    gap: 6px;
+    margin-top: 0;
+    padding: 18px 18px 18px 16px;
+  }
+
+  .path-card h3 {
+    font-size: 1.45rem;
+  }
+
+  .path-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .path-card-link {
+    margin-top: 4px;
+    font-size: 0.86rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .path-card-link::after {
+    display: none;
+  }
+
+  .rating-badge {
+    justify-self: start;
+  }
+}
+
+@media (max-width: 640px) {
+  main > .section {
+    margin-bottom: 64px;
+  }
+
+  .split-heading {
+    margin-bottom: 22px;
+  }
+
+  .split-heading h2,
+  .faq-heading h2,
+  .blueprint-head h2 {
+    font-size: clamp(2.1rem, 9.5vw, 2.8rem);
+  }
+
+  .home-hero-actions {
+    display: grid;
+    width: 100%;
+  }
+
+  .home-hero-actions .button {
+    width: 100%;
+    min-height: 52px;
+  }
+
+  .coaches-home-section .coach-preview-grid {
+    gap: 10px;
+  }
+
+  .coaches-home-section .coach-card {
+    border-radius: 16px;
+  }
+
+  .coaches-home-section .coach-card-body {
+    padding: 14px;
+  }
+
+  .coaches-home-section .coach-name {
+    font-size: 1.28rem;
+  }
+
+  .coaches-home-section .coach-position {
+    font-size: 0.72rem;
+  }
+
+  .coaches-home-section .coach-teamline {
+    font-size: 0.74rem;
+  }
+
+  .faq-section .faq-item summary {
+    padding: 20px 40px 20px 0;
+    font-size: 1rem;
+  }
+
+  .faq-section .faq-item .camp-description {
+    padding-right: 8px;
+  }
+
+  .cta-band {
+    min-height: 480px;
+  }
+
+  .cta-band-actions {
+    display: grid;
+    width: 100%;
+  }
+
+  .cta-band-actions .button {
+    width: 100%;
+    min-height: 52px;
+  }
+}
+
+/* Camps hero: stack the two actions so neither label has to wrap. */
+@media (max-width: 640px) {
+  body[data-page="camps"] .camps-hero-actions {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  body[data-page="camps"] .camps-hero-actions .button {
+    min-height: 50px;
+    padding: 13px 18px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Testimonial dots: keep a comfortable tap area without pushing the controls off-screen. */
+@media (max-width: 640px) {
+  .testimonial-dots {
+    gap: 0;
+  }
+
+  .testimonial-dot,
+  .testimonial-dot.is-active {
+    position: relative;
+    width: 20px;
+    min-width: 0;
+    height: 44px;
+    min-height: 0;
+    background: transparent;
+  }
+
+  .testimonial-dot::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.4);
+    transform: translate(-50%, -50%);
+    transition: width 220ms var(--ease), background-color 220ms ease;
+  }
+
+  .testimonial-dot.is-active {
+    width: 34px;
+  }
+
+  .testimonial-dot.is-active::before {
+    width: 24px;
+    background: #ff666b;
+  }
+}
+
+/* Phones: icon-only arrow buttons so the controls always fit the card. */
+@media (max-width: 640px) {
+  .testimonial-controls {
+    left: 12px;
+    right: 12px;
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .testimonial-arrow {
+    position: relative;
+    flex: none;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 0;
+    letter-spacing: 0;
+  }
+
+  .testimonial-arrow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 16px;
+    height: 11px;
+    background: #fff;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 10'%3E%3Cpath d='M9.5 0 15 5l-5.5 5-1.1-1.1L12 5.8H0V4.2h12L8.4 1.1z'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 10'%3E%3Cpath d='M9.5 0 15 5l-5.5 5-1.1-1.1L12 5.8H0V4.2h12L8.4 1.1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+
+  .testimonial-arrow[data-testimonial-arrow="prev"]::before {
+    transform: rotate(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credential-track,
+  .hero-chip-dot {
+    animation: none;
+  }
+
+  .blueprint-page,
+  .path-card,
+  .path-card-media img,
+  .coaches-home-section .coach-card,
+  .coaches-home-section .coach-card-media img {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   INTERIOR PAGES
+   Camps, Coaches, Development, About, Register share one
+   full-bleed photo hero, the same card language as the homepage,
+   and the closing photo band.
+   ============================================================ */
+
+/* ---------- Page hero ---------- */
+
+body[data-page] .page-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  width: 100vw;
+  max-width: none;
+  min-height: clamp(580px, 80vh, 780px);
+  margin: -18px calc(50% - 50vw) clamp(72px, 8vw, 112px);
+  padding: 140px max(14px, calc((100vw - 1180px) / 2)) 72px;
+  overflow: hidden;
+  gap: 0;
+  border: 0;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 0;
+  background:
+    radial-gradient(40% 60% at 0% 100%, rgba(255, 46, 52, 0.12), transparent 70%),
+    linear-gradient(180deg, #060b12 0%, #08121c 100%);
+  box-shadow: none;
+  transform: none;
+}
+
+body[data-page] .page-hero::before,
+body[data-page] .page-hero::after {
+  content: none;
+}
+
+body[data-page] .page-hero-visual {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: -1;
+  display: block;
+  order: 0;
+  width: 58%;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  margin: 0;
+  aspect-ratio: auto;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: #060b12;
+  box-shadow: none;
+}
+
+body[data-page] .page-hero-visual img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: var(--hero-x, center) var(--hero-y, 55%);
+  filter: saturate(0.85) contrast(1.06) brightness(0.9);
+  transform: none;
+}
+
+body[data-page] .page-hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  height: auto;
+  background:
+    linear-gradient(90deg, #07101a 0%, rgba(7, 16, 26, 0.86) 16%, rgba(7, 16, 26, 0.3) 48%, rgba(7, 16, 26, 0.08) 100%),
+    linear-gradient(0deg, #07111b 0%, rgba(7, 17, 27, 0) 32%),
+    linear-gradient(180deg, rgba(6, 11, 18, 0.75) 0%, rgba(6, 11, 18, 0) 26%);
+}
+
+body[data-page] .page-hero-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 20px;
+  width: 100%;
+  max-width: 640px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body[data-page] .page-hero-copy .eyebrow {
+  margin: 0;
+  color: var(--ice-soft);
+  font-size: 0.95rem;
+  letter-spacing: 0.24em;
+}
+
+body[data-page] .page-hero-copy .eyebrow::before {
+  width: 28px;
+  background: var(--red);
+}
+
+body[data-page] .page-hero-copy h1 {
+  max-width: 14ch;
+  margin: 0;
+  font-size: clamp(3.1rem, 5.8vw, 5.8rem);
+  font-weight: 700;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+body[data-page] .page-hero-copy > p:not(.eyebrow) {
+  max-width: 34rem;
+  margin: 0;
+  color: #c8d4e2;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+  line-height: 1.65;
+}
+
+body[data-page] .page-hero-copy .hero-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+body[data-page] .page-hero-copy .hero-actions .button {
+  min-height: 54px;
+  padding: 15px 24px;
+  font-size: 1.02rem;
+}
+
+/* Per-page photo framing */
+body[data-page="camps"] .page-hero-visual,
+body[data-page="register"] .page-hero-visual {
+  --hero-y: 64%;
+}
+
+body[data-page="development"] .page-hero-visual {
+  --hero-y: 58%;
+}
+
+body[data-page="about"] .page-hero-visual {
+  --hero-y: 62%;
+}
+
+body[data-page="coaches"] .page-hero-visual {
+  --hero-x: 34%;
+  --hero-y: 20%;
+  inset: 72px 0 0 auto;
+  height: auto;
+}
+
+/* Camps lineup: every card the same height, with a short last row centred.
+   Rows share one height until a family opens "More camp details". */
+@media (min-width: 641px) {
+  body[data-page="camps"] .camp-grid-full {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 18px;
+  }
+
+  body[data-page="camps"] .camp-grid-full:has(.camp-more[open]) {
+    grid-auto-rows: auto;
+    align-items: start;
+  }
+
+  body[data-page="camps"] .camp-grid-full .camp-card {
+    grid-column: span 2;
+    min-width: 0;
+    height: auto;
+  }
+
+  body[data-page="camps"] .camp-grid-full .camp-card:nth-child(3n + 1):nth-last-child(2) {
+    grid-column: 2 / span 2;
+  }
+
+  body[data-page="camps"] .camp-grid-full .camp-card:nth-child(3n + 1):last-child {
+    grid-column: 3 / span 2;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 860px) {
+  body[data-page="camps"] .camp-grid-full {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  body[data-page="camps"] .camp-grid-full .camp-card:nth-child(3n + 1):nth-last-child(2),
+  body[data-page="camps"] .camp-grid-full .camp-card:nth-child(3n + 1):last-child {
+    grid-column: span 2;
+  }
+
+  body[data-page="camps"] .camp-grid-full .camp-card:nth-child(2n + 1):last-child {
+    grid-column: 2 / span 2;
+  }
+}
+
+/* Hero jump chips (camps, coaches) */
+body[data-page] .page-hero .hero-dates-strip {
+  gap: 8px;
+  margin: 2px 0 0;
+}
+
+body[data-page] .page-hero .hero-dates-strip a,
+body[data-page] .page-hero .hero-dates-strip span {
+  padding: 9px 14px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 999px;
+  color: #e6edf5;
+  font-family: var(--display);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  text-transform: uppercase;
+  background: rgba(6, 11, 18, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+body[data-page] .page-hero .hero-dates-strip a:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Pages without a hero still need room under the floating header. */
+body[data-page="not-found"] main {
+  padding-top: 120px;
+}
+
+/* ---------- Panels and cards ---------- */
+
+.content-panel {
+  border-color: var(--hairline);
+  border-radius: 26px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012)),
+    #0a141f;
+  box-shadow: none;
+}
+
+.panel-dark {
+  background:
+    radial-gradient(80% 70% at 0% 0%, rgba(255, 46, 52, 0.13), transparent 60%),
+    linear-gradient(180deg, #0d1824, #09121c);
+}
+
+.content-panel h2 {
+  line-height: 0.95;
+}
+
+.feature-card {
+  position: relative;
+  border-color: var(--hairline);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.012));
+  box-shadow: none;
+  transition: border-color 260ms ease, transform 320ms var(--ease);
+}
+
+.feature-card:hover {
+  border-color: rgba(122, 201, 255, 0.3);
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 26px;
+  width: 36px;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--red);
+}
+
+.feature-card > span:first-child {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  background: none;
+  box-shadow: none;
+}
+
+.feature-card h3 {
+  font-size: clamp(1.45rem, 2vw, 1.8rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.feature-card p {
+  color: var(--muted);
+}
+
+/* Trust bar: editorial stat columns instead of boxes */
+.trust-bar div {
+  position: relative;
+  padding: 26px 0 0;
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.trust-bar div::before {
+  content: "";
+  position: absolute;
+  inset: -1px auto auto 0;
+  width: 36px;
+  height: 2px;
+  background: var(--red);
+}
+
+.trust-bar strong {
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.trust-bar span {
+  color: var(--muted);
+}
+
+/* ---------- Camps ---------- */
+
+.camp-card {
+  border-color: var(--hairline);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)), #09131d;
+  box-shadow: none;
+  transition: border-color 260ms ease;
+}
+
+.camp-card:hover {
+  border-color: rgba(122, 201, 255, 0.3);
+}
+
+.camp-card-media img,
+.camp-card-media video {
+  filter: saturate(0.88) contrast(1.05);
+}
+
+.camp-card h3 {
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.camp-status {
+  border: 1px solid var(--hairline-strong);
+  color: #fff;
+  letter-spacing: 0.14em;
+  background: rgba(6, 11, 18, 0.66);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.camp-card-body .camp-more {
+  margin-top: auto;
+}
+
+.camp-more,
+.coach-more {
+  border-color: var(--hairline);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+/* ---------- Coaches ---------- */
+
+.coach-profile {
+  border-color: var(--hairline);
+  border-radius: 28px;
+  background:
+    radial-gradient(60% 50% at 100% 0%, rgba(122, 201, 255, 0.08), transparent 60%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+    #09131d;
+  box-shadow: none;
+}
+
+.coach-profile-top > img {
+  border: 1px solid var(--hairline);
+  border-radius: 20px;
+}
+
+.coach-profile-intro h3 {
+  font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+  line-height: 0.92;
+}
+
+.coach-profile-intro .program-month {
+  color: var(--ice-soft);
+  font-family: var(--display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.coach-profile-intro .coach-role {
+  color: #fff;
+  font-weight: 600;
+}
+
+.coach-pathway-card {
+  border-color: var(--hairline);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.025);
+  box-shadow: none;
+}
+
+.coach-pathway-media img {
+  filter: saturate(0.9) contrast(1.04);
+}
+
+/* ---------- Development offers ---------- */
+
+.offer-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-panel .coach-intro-action {
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.offer-price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 4px 0 6px;
+  padding: 14px 0;
+  border-block: 1px solid var(--hairline);
+}
+
+.offer-price strong {
+  font-family: var(--display);
+  font-size: clamp(3rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 0.9;
+}
+
+.offer-price span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- Interior responsive ---------- */
+
+@media (max-width: 1080px) {
+  body[data-page] .page-hero-visual {
+    width: 58%;
+  }
+
+  body[data-page] .page-hero-copy {
+    max-width: 540px;
+  }
+
+  body[data-page] .page-hero .hero-dates-strip {
+    justify-content: flex-start;
+  }
+}
+
+/* Small laptops and landscape tablets keep two-up layouts instead of stacking. */
+@media (min-width: 861px) and (max-width: 1080px) {
+  .layout-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 641px) {
+  .trust-bar-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+@media (max-width: 860px) {
+  body[data-page] .page-hero {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-bottom: 64px;
+    padding: 0 0 40px;
+    border-bottom: 1px solid var(--hairline);
+    background: #07111b;
+  }
+
+  body[data-page] .page-hero-visual {
+    position: relative;
+    inset: auto;
+    z-index: 0;
+    order: -1;
+    width: 100%;
+    height: clamp(390px, 108vw, 580px);
+  }
+
+  body[data-page] .page-hero-visual::after {
+    background:
+      linear-gradient(180deg, rgba(6, 11, 18, 0.7) 0%, rgba(6, 11, 18, 0) 28%, rgba(7, 17, 27, 0) 52%, rgba(7, 17, 27, 0.86) 84%, #07111b 100%);
+  }
+
+  body[data-page] .page-hero-copy {
+    gap: 16px;
+    width: var(--shell);
+    max-width: none;
+    margin: -110px auto 0;
+    padding: 0 6px;
+  }
+
+  body[data-page] .page-hero-copy h1 {
+    max-width: none;
+    font-size: clamp(2.5rem, 10.5vw, 4.2rem);
+  }
+
+  /* Logan's head sits at the very top of this photo, so start it below the floating header. */
+  body[data-page="coaches"] .page-hero-visual {
+    --hero-x: 30%;
+    --hero-y: 0%;
+    box-sizing: border-box;
+    inset: auto;
+    height: clamp(390px, 108vw, 580px);
+    padding-top: 76px;
+  }
+
+  body[data-page="camps"] .page-hero-visual,
+  body[data-page="register"] .page-hero-visual {
+    --hero-y: 70%;
+  }
+}
+
+@media (max-width: 640px) {
+  body[data-page] .page-hero-copy .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    gap: 10px;
+  }
+
+  body[data-page] .page-hero-copy .hero-actions .button {
+    width: 100%;
+    min-height: 52px;
+    padding: 13px 18px;
+    font-size: 0.98rem;
+  }
+
+  body[data-page] .page-hero-copy .eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+  }
+
+  .offer-price strong {
+    font-size: 3rem;
+  }
+
+  .offer-panel .coach-intro-action {
+    display: grid;
+    justify-content: stretch;
+  }
+
+  /* Trust bar: plain stacked stats, not a boxed card. */
+  .trust-bar {
+    gap: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .trust-bar div {
+    padding-top: 20px;
+  }
+
+  .trust-bar div::before {
+    display: block;
+  }
+
+  .offer-panel .coach-intro-action .button {
+    width: 100%;
+    min-height: 52px;
+  }
+}
+
+/* ============================================================
+   MOBILE PASS
+   Most visitors are on phones. Everything below only applies at
+   phone and small-tablet widths.
+   ============================================================ */
+
+/* Touch devices: no sticky hover lifts after a tap, and a quick press response instead. */
+@media (hover: none) {
+  .path-card:hover,
+  .feature-card:hover,
+  .coaches-home-section .coach-card:hover,
+  .button:hover {
+    transform: none;
+  }
+
+  .path-card:hover .path-card-media img,
+  .coaches-home-section .coach-card:hover .coach-card-media img {
+    transform: none;
+  }
+}
+
+a,
+button,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button:active,
+.path-card:active,
+.mobile-conversion-bar a:active,
+.hero-dates-strip a:active {
+  transform: scale(0.98);
+  transition-duration: 80ms;
+}
+
+@media (max-width: 860px) {
+  /* Slimmer floating header: more of every hero photo stays visible. */
+  .site-header {
+    top: 10px;
+    gap: 10px;
+    padding: 7px 7px 7px 9px;
+    border-radius: 18px;
+  }
+
+  .brand-logo {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand-text strong {
+    font-size: 1.02rem;
+    letter-spacing: 0.08em;
+  }
+
+  .nav-toggle {
+    width: 42px;
+    height: 42px;
+    border-color: var(--hairline);
+    border-radius: 12px;
+  }
+
+  .site-nav.is-open {
+    padding-bottom: 4px;
+  }
+
+  .site-nav .nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 46px;
+    font-size: 1.12rem;
+  }
+
+  body[data-page="coaches"] .page-hero-visual {
+    padding-top: 68px;
+  }
+
+  /* Sticky action bar (homepage): two equal thumb-sized buttons. */
+  .mobile-conversion-bar {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 8px;
+    border-color: var(--hairline-strong);
+    border-radius: 18px;
+    background: rgba(6, 11, 18, 0.84);
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8);
+  }
+
+  .mobile-conversion-bar span {
+    display: none;
+  }
+
+  .mobile-conversion-bar a {
+    min-height: 48px;
+    border-color: var(--hairline-strong);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .mobile-conversion-bar .mobile-conversion-primary {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(180deg, #ff444a 0%, var(--red-deep) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  }
+
+  /* Footer: one clean column separated by hairlines instead of stacked boxes. */
+  footer.site-footer {
+    padding: 44px 0 24px;
+  }
+
+  footer.site-footer .footer-brand-block {
+    padding-bottom: 8px;
+    border: 0;
+  }
+
+  footer.site-footer .footer-grid {
+    gap: 0;
+    margin-top: 12px;
+  }
+
+  footer.site-footer .footer-column,
+  footer.site-footer .footer-column-cta {
+    gap: 12px;
+    padding: 24px 0;
+    border: 0;
+    border-top: 1px solid var(--hairline);
+    border-radius: 0;
+    background: none;
+  }
+
+  footer.site-footer .footer-grid > .footer-column:first-child .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+  }
+
+  footer.site-footer .footer-links {
+    gap: 0;
+  }
+
+  footer.site-footer .footer-links a,
+  footer.site-footer .footer-links .footer-note {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    font-size: 1rem;
+  }
+
+  footer.site-footer .footer-actions {
+    grid-template-columns: 1fr;
+  }
+
+  footer.site-footer .footer-actions .button {
+    min-height: 50px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 640px) {
+  /* 20px side margins everywhere; full-bleed sections still run edge to edge. */
+  :root {
+    --shell: calc(100% - 40px);
+  }
+
+  .page-shell {
+    width: calc(100% - 40px);
+  }
+
+  .home-hero-copy,
+  body[data-page] .page-hero-copy {
+    padding-inline: 0;
+  }
+
+  .home-hero-stat:nth-child(odd) {
+    padding-left: 0;
+  }
+
+  .credential-strip-label {
+    padding-left: 20px;
+  }
+
+  /* Closing photo band: full-width stacked buttons. */
+  .cta-band-actions {
+    justify-items: stretch;
+    justify-content: stretch;
+  }
+
+  .cta-band-inner {
+    width: calc(100% - 40px);
+    padding: 72px 0;
+  }
+
+  .cta-band-inner h2 {
+    font-size: clamp(2.6rem, 12vw, 3.6rem);
+  }
+
+  /* Camps hero chips scroll sideways edge to edge; fade the right edge so it reads as swipeable. */
+  body[data-page="camps"] .page-hero .hero-dates-strip {
+    width: calc(100% + 40px);
+    margin: 2px -20px 0;
+    padding: 2px 20px 4px;
+    scroll-padding-inline: 20px;
+    -webkit-mask-image: linear-gradient(90deg, #000 84%, transparent);
+    mask-image: linear-gradient(90deg, #000 84%, transparent);
+  }
+
+  /* Comfortable tap targets for the small inline controls. */
+  body[data-page] .page-hero .hero-dates-strip a {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .arrow-link {
+    min-height: 44px;
+  }
+
+  .register-footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 18px;
+  }
+
+  .register-footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* Swipe rows: snap cards to the page margin, every card the same height. */
+  body[data-page="camps"] .camp-grid {
+    align-items: stretch;
+    scroll-padding-inline: 20px;
+  }
+
+  body[data-page="camps"] .camp-grid .camp-card {
+    height: auto;
+  }
+
+  /* Coach profiles: player-card headshot with the name set over it. */
+  body[data-page="coaches"] .coach-profile {
+    gap: 20px;
+    padding: 10px 10px 22px;
+    border-radius: 24px;
+  }
+
+  body[data-page="coaches"] .coach-profile-top {
+    position: relative;
+    gap: 0;
+  }
+
+  body[data-page="coaches"] .coach-profile-top > img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    border: 0;
+    border-radius: 18px;
+    object-fit: cover;
+    object-position: center 20%;
+  }
+
+  /* Fade the photo itself into the panel so there is no visible edge under the name. */
+  body[data-page="coaches"] .coach-profile-top > img {
+    -webkit-mask-image: linear-gradient(180deg, #000 48%, rgba(0, 0, 0, 0.55) 72%, transparent 97%);
+    mask-image: linear-gradient(180deg, #000 48%, rgba(0, 0, 0, 0.55) 72%, transparent 97%);
+  }
+
+  body[data-page="coaches"] .coach-profile-intro {
+    position: relative;
+    z-index: 1;
+    gap: 10px;
+    margin-top: -96px;
+    padding: 0 8px;
+  }
+
+  body[data-page="coaches"] .coach-profile-intro h3 {
+    font-size: clamp(2.5rem, 12vw, 3.2rem);
+  }
+
+  body[data-page="coaches"] .coach-profile-copy {
+    padding-inline: 8px;
+  }
+
+  body[data-page="coaches"] .coach-pathway-grid {
+    margin-inline: -10px;
+    padding-inline: 18px;
+    scroll-padding-inline: 18px;
+  }
+}
+
+/* ============================================================
+   D1 BLUEPRINT (homepage lead magnet)
+   Full-bleed band: the real cover fanned over two inside pages on
+   one side, the pitch, stages, author and signup form on the other.
+   ============================================================ */
+
+.blueprint-band {
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  margin: 0 calc(50% - 50vw) clamp(80px, 9vw, 128px);
+  padding: clamp(72px, 9vw, 120px) 0;
+  overflow: hidden;
+  border-block: 1px solid var(--hairline);
+  background:
+    radial-gradient(45% 60% at 22% 45%, rgba(122, 201, 255, 0.14), transparent 70%),
+    radial-gradient(40% 55% at 95% 100%, rgba(255, 46, 52, 0.14), transparent 70%),
+    linear-gradient(180deg, #08121c 0%, #060b12 100%);
+}
+
+.blueprint-band-rink {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 24%;
+  width: min(900px, 90vw);
+  aspect-ratio: 1;
+  color: rgba(255, 46, 52, 0.14);
+  transform: translate(-50%, -50%);
+}
+
+.blueprint-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  grid-template-areas:
+    "showcase head"
+    "showcase stages"
+    "showcase author"
+    "showcase form";
+  column-gap: clamp(40px, 6vw, 96px);
+  width: var(--shell);
+  margin: 0 auto;
+}
+
+.blueprint-head {
+  grid-area: head;
+  display: grid;
+  gap: 16px;
+}
+
+.blueprint-head .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+.blueprint-head .eyebrow::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background: var(--red);
+}
+
+.blueprint-head h2 {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.blueprint-intro {
+  max-width: 36rem;
+  margin: 0;
+  color: #c8d4e2;
+  font-size: 1.08rem;
+  line-height: 1.65;
+}
+
+/* Fanned pages */
+.blueprint-showcase {
+  grid-area: showcase;
+  position: sticky;
+  top: 120px;
+  align-self: start;
+  display: grid;
+  justify-items: center;
+  gap: 36px;
+  padding-top: 12px;
+}
+
+.blueprint-stack {
+  position: relative;
+  width: min(78%, 380px);
+  aspect-ratio: 900 / 1187;
+}
+
+.blueprint-stack::before {
+  content: "";
+  position: absolute;
+  inset: 8% -18% -6%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(122, 201, 255, 0.22), transparent);
+  filter: blur(10px);
+}
+
+.blueprint-page {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 4px 10px 10px 4px;
+  box-shadow:
+    0 40px 70px -28px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  transition: transform 700ms var(--ease);
+}
+
+.blueprint-page-back {
+  transform: translate(-20%, 5%) rotate(-10deg);
+  filter: brightness(0.82);
+}
+
+.blueprint-page-middle {
+  transform: translate(-10%, 2%) rotate(-5deg);
+  filter: brightness(0.9);
+}
+
+.blueprint-page-cover {
+  transform: translate(6%, 0) rotate(3deg);
+}
+
+.blueprint-band:hover .blueprint-page-back {
+  transform: translate(-28%, 6%) rotate(-13deg);
+}
+
+.blueprint-band:hover .blueprint-page-middle {
+  transform: translate(-14%, 3%) rotate(-7deg);
+}
+
+.blueprint-band:hover .blueprint-page-cover {
+  transform: translate(8%, -2%) rotate(4deg);
+}
+
+.blueprint-quote {
+  position: relative;
+  max-width: 340px;
+  margin: 0;
+  padding: 18px 20px 16px 22px;
+  border: 1px solid var(--hairline-strong);
+  border-left: 3px solid var(--red);
+  border-radius: 4px 14px 14px 4px;
+  background: rgba(8, 15, 24, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.blueprint-quote blockquote {
+  margin: 0 0 8px;
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.blueprint-quote figcaption {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* Stages */
+.blueprint-stages {
+  grid-area: stages;
+  display: grid;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hairline);
+}
+
+.blueprint-stages li {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.blueprint-stage-number {
+  color: var(--red);
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.blueprint-stage-text {
+  display: grid;
+  gap: 2px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.blueprint-stage-text strong {
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Author */
+.blueprint-author {
+  grid-area: author;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 24px 0 0;
+}
+
+.blueprint-author img {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 18%;
+}
+
+.blueprint-author p {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+}
+
+.blueprint-author strong {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.blueprint-author span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Signup card */
+.blueprint-form {
+  grid-area: form;
+  display: grid;
+  gap: 14px;
+  margin: 28px 0 0;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015)),
+    rgba(8, 15, 24, 0.7);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8);
+}
+
+.blueprint-form-title {
+  margin: 0;
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.blueprint-form .form-grid {
+  margin: 0;
+}
+
+.blueprint-form input {
+  border-radius: 12px;
+}
+
+.blueprint-submit {
+  width: 100%;
+  min-height: 56px;
+  margin-top: 4px;
+  font-size: 1.08rem;
+}
+
+.blueprint-fineprint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .blueprint-inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "head"
+      "showcase"
+      "stages"
+      "author"
+      "form";
+  }
+
+  .blueprint-showcase {
+    position: relative;
+    top: auto;
+    margin-top: 44px;
+    gap: 28px;
+  }
+
+  .blueprint-stack {
+    width: min(58%, 320px);
+  }
+
+  .blueprint-band-rink {
+    top: 38%;
+    left: 50%;
+  }
+}
+
+@media (max-width: 640px) {
+  .blueprint-band {
+    margin-bottom: 64px;
+    padding: 64px 0 56px;
+  }
+
+  .blueprint-showcase {
+    margin-top: 36px;
+  }
+
+  .blueprint-stack {
+    width: 62%;
+  }
+
+  .blueprint-quote blockquote {
+    font-size: 1.25rem;
+  }
+
+  .blueprint-stages li {
+    grid-template-columns: 42px minmax(0, 1fr);
+    padding: 12px 0;
+  }
+
+  .blueprint-stage-text strong {
+    font-size: 1.2rem;
+  }
+
+  .blueprint-stage-text {
+    font-size: 0.9rem;
+  }
+
+  .blueprint-form {
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
+}
+
+/* Minor hockey badge beside each coach's home association (coaches page).
+   The legacy headshot rules target every image in .coach-profile-top, so reset them here. */
+.coach-origin-line {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+body[data-page] .coach-profile .coach-origin-line img.coach-minor-logo {
+  flex: none;
+  width: auto;
+  height: 44px;
+  max-width: 64px;
+  max-height: none;
+  aspect-ratio: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+@media (max-width: 640px) {
+  body[data-page] .coach-profile .coach-origin-line img.coach-minor-logo {
+    height: 36px;
+    max-width: 52px;
+  }
+}

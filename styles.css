@@ -1,3 +1,5 @@
+/* Legacy styles live in a cascade layer so design.css (unlayered) always wins. */
+@layer legacy {
 :root {
   --bg: #091019;
   --bg-soft: #111d2a;
@@ -484,9 +486,9 @@ h1 {
 
 .hero-home h1 {
   margin-bottom: 0;
-  font-size: clamp(2.5rem, 4.15vw, 4.25rem);
-  line-height: 0.92;
-  letter-spacing: 0.015em;
+  font-size: clamp(2.7rem, 5vw, 5.1rem);
+  line-height: 0.88;
+  letter-spacing: 0.005em;
   max-width: 100%;
 }
 
@@ -599,6 +601,7 @@ span {
 
 .hero-dates-strip span,
 .hero-dates-strip a {
+  flex: 0 1 auto;
   padding: 5px 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -609,7 +612,8 @@ span {
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
   text-decoration: none;
   transition:
     border-color 180ms ease,
@@ -1303,7 +1307,8 @@ span {
 
 .camp-card-media {
   position: relative;
-  height: 240px;
+  aspect-ratio: 9 / 16;
+  height: auto;
 }
 
 .camp-status {
@@ -1435,37 +1440,6 @@ span {
 .camp-location a:hover {
   color: var(--muted-strong);
   text-decoration-color: rgba(122, 201, 255, 0.75);
-}
-
-.camp-jump-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: -4px 0 18px;
-}
-
-.camp-jump-list a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 38px;
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-  color: var(--text);
-  font-family: "Barlow Condensed", sans-serif;
-  font-size: 0.94rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1.2;
-  text-decoration: none;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.045);
-}
-
-.camp-jump-list a:hover {
-  border-color: rgba(122, 201, 255, 0.28);
-  background: rgba(122, 201, 255, 0.08);
 }
 
 .camp-description {
@@ -1973,6 +1947,44 @@ blockquote {
     rgba(11, 22, 34, 0.82);
 }
 
+.stay-in-touch-panel p:last-of-type {
+  max-width: 56ch;
+}
+
+.recap-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.recap-gallery img,
+.recap-gallery video {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  height: auto;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  object-position: center 30%;
+  border: 1px solid var(--line);
+}
+
+.registration-closed-panel {
+  display: grid;
+  gap: 12px;
+  padding: 34px;
+}
+
+.registration-closed-panel p {
+  max-width: 56ch;
+  color: var(--muted-strong);
+}
+
+.camp-card-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .register-layout {
   align-items: start;
   grid-template-columns: minmax(0, 1fr);
@@ -2087,7 +2099,6 @@ body[data-page="register"] .camp-schedule-block {
   margin-top: 4px;
 }
 
-body[data-page="register"] .page-hero-copy h1,
 body[data-page="register"] .registration-panel h2 {
   letter-spacing: 0;
   text-transform: none;
@@ -2104,17 +2115,6 @@ body[data-page="register"] .page-hero-copy p {
   max-width: 48ch;
   color: var(--muted-strong);
   font-size: 1rem;
-}
-
-.register-info-panel {
-  display: grid;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.register-info-content {
-  display: grid;
-  gap: 14px;
 }
 
 .spots-meter-list {
@@ -3313,40 +3313,6 @@ body[data-page="about"] .page-hero-visual img {
     padding-bottom: 68px;
   }
 
-  body[data-page="home"] main {
-    display: flex;
-    flex-direction: column;
-  }
-
-  body[data-page="home"] .hero-home {
-    display: contents;
-  }
-
-  body[data-page="home"] .hero-copy {
-    order: 1;
-  }
-
-  body[data-page="home"] .camp-chooser-section {
-    order: 2;
-  }
-
-  body[data-page="home"] .trust-bar {
-    order: 3;
-  }
-
-  body[data-page="home"] .hero-video-panel {
-    order: 4;
-    margin-bottom: 44px;
-  }
-
-  body[data-page="home"] .coaches-home-section {
-    order: 5;
-  }
-
-  body[data-page="home"] main > section:not(.hero-home):not(.camp-chooser-section):not(.trust-bar):not(.coaches-home-section) {
-    order: 6;
-  }
-
   .site-header {
     grid-template-columns: 1fr auto;
     gap: 12px;
@@ -3593,10 +3559,16 @@ body[data-page="about"] .page-hero-visual img {
     grid-template-columns: 1fr;
   }
 
-  .coach-card img,
+  .coach-card img {
+    width: 100%;
+  }
+
   .coach-profile-top img {
     width: 100%;
-    max-height: 300px;
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+    object-position: var(--coach-profile-position, center 16%);
   }
 
   body[data-page="coaches"] .page-hero {
@@ -3720,7 +3692,6 @@ body[data-page="register"] .form-field textarea:focus {
   font-size: 2.2rem;
   color: var(--text);
 }
-}
 
 /* ============================================================
    ABOUT PAGE — specific overrides
@@ -3813,8 +3784,9 @@ body[data-page="camps"] .page-hero-visual img {
   }
 
   body[data-page="camps"] .hero-dates-strip {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 6px;
     width: 100%;
     margin-inline: 0;
@@ -3824,10 +3796,12 @@ body[data-page="camps"] .page-hero-visual img {
 
   body[data-page="camps"] .hero-dates-strip span,
   body[data-page="camps"] .hero-dates-strip a {
+    flex: 0 1 auto;
     min-width: 0;
     padding: 6px 8px;
     font-size: 0.78rem;
     text-align: center;
+    white-space: normal;
   }
 
   body[data-page="camps"] .hero-dates-strip::-webkit-scrollbar {
@@ -3862,39 +3836,6 @@ body[data-page="camps"] .page-hero-visual img {
     margin-top: 0;
   }
 
-  body[data-page="camps"] .camp-jump-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: -8px;
-    gap: 7px;
-  }
-
-  body[data-page="camps"] .camp-jump-list a {
-    min-height: 42px;
-    padding: 8px 7px;
-    text-align: center;
-    font-size: 0.72rem;
-  }
-}
-
-/* Specialty camp cards (4th, 5th) — ice border to distinguish from main 3 */
-.camp-grid .camp-card:nth-child(4),
-.camp-grid .camp-card:nth-child(5) {
-  border-color: rgba(122, 201, 255, 0.18);
-  background:
-    linear-gradient(180deg, rgba(122, 201, 255, 0.05), rgba(255, 255, 255, 0.01)),
-    rgba(11, 22, 34, 0.82);
-}
-
-.camp-grid .camp-card:nth-child(5) {
-  opacity: 0.9;
-}
-
-.camp-grid .camp-card:nth-child(5) .button {
-  color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: transparent;
-  box-shadow: none;
 }
 
 /* ============================================================
@@ -4023,18 +3964,6 @@ h3 { font-weight: 600; }
   line-height: inherit;
 }
 
-/* 9 — Camp grid flagship highlight (2nd = July, 3rd = August) */
-.camp-grid .camp-card:nth-child(2) {
-  border-color: rgba(255, 46, 52, 0.22);
-  background:
-    linear-gradient(180deg, rgba(255, 46, 52, 0.06), rgba(255, 255, 255, 0.015)),
-    rgba(11, 22, 34, 0.88);
-}
-
-.camp-grid .camp-card:nth-child(3) {
-  border-color: rgba(122, 201, 255, 0.18);
-}
-
 /* 10 — Page hero h1 — bigger, punchier on interior pages */
 .page-hero-copy h1 {
   max-width: 12.5ch;
@@ -4120,6 +4049,31 @@ h3 { font-weight: 600; }
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+}
+
+@media (min-width: 861px) and (max-width: 1000px) {
+  .brand-text small {
+    display: none;
+  }
+
+  .site-header {
+    gap: 10px;
+  }
+
+  .site-nav {
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 8px 8px;
+    font-size: 0.9rem;
+  }
+
+  .button-small {
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 0.85rem;
+  }
 }
 
 @media (min-width: 1081px) {
@@ -4312,18 +4266,6 @@ h3 { font-weight: 600; }
     line-height: 1.55;
   }
 
-  body[data-page="home"] .hero-dates-strip {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: min(100%, 268px);
-    margin-inline: auto;
-  }
-
-  body[data-page="home"] .hero-dates-strip span,
-  body[data-page="home"] .hero-dates-strip a {
-    text-align: center;
-  }
-
   body[data-page="home"] .hero-actions {
     gap: 8px;
   }
@@ -4360,28 +4302,6 @@ h3 { font-weight: 600; }
 
   body[data-page="home"] .camp-chooser-main h3 {
     font-size: clamp(1.34rem, 7vw, 1.75rem);
-  }
-
-  body[data-page="home"] .camp-chooser-actions {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  body[data-page="home"] .camp-chooser-actions .button:not(.button-secondary) {
-    order: 1;
-    width: 100%;
-  }
-
-  body[data-page="home"] .camp-chooser-actions .button-secondary {
-    order: 2;
-    padding: 6px 0;
-    border: 0;
-    color: var(--muted);
-    background: transparent;
-    box-shadow: none;
-    text-decoration: underline;
-    text-underline-offset: 3px;
   }
 
   .coach-pathway-body {
@@ -4701,10 +4621,6 @@ h3 { font-weight: 600; }
   .hero-video {
     max-height: 70vh;
   }
-
-  .camp-card-media {
-    height: 210px;
-  }
 }
 
 @media (max-width: 860px) {
@@ -4718,7 +4634,7 @@ h3 { font-weight: 600; }
 
   body[data-page="camps"] .page-hero-copy {
     gap: 9px;
-    padding: 16px !important;
+    padding: 16px;
   }
 
   body[data-page="camps"] .page-hero-copy .eyebrow {
@@ -4732,21 +4648,24 @@ h3 { font-weight: 600; }
   }
 
   body[data-page="camps"] .hero-dates-strip {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 5px;
   }
 
   body[data-page="camps"] .hero-dates-strip span,
   body[data-page="camps"] .hero-dates-strip a {
-    padding: 6px 4px;
-    font-size: 0.68rem;
-    line-height: 1.05;
+    flex: 0 1 auto;
+    padding: 6px 8px;
+    font-size: 0.7rem;
+    line-height: 1.15;
     letter-spacing: 0.04em;
+    white-space: normal;
   }
 
   body[data-page="camps"] .camps-hero-actions {
-    display: grid !important;
+    display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: stretch;
     gap: 7px;
@@ -4848,23 +4767,64 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
   background: rgba(255, 255, 255, 0.06);
 }
 
+/* Development hero — same image-led treatment as camps */
+body[data-page="development"] .page-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 0.6fr) minmax(0, 0.4fr);
+  min-height: clamp(360px, 38vw, 460px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: var(--radius-xl);
+  background: #071019;
+  box-shadow: var(--shadow);
+}
+
+body[data-page="development"] .page-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(7, 14, 22, 0.94) 0%, rgba(7, 14, 22, 0.78) 42%, rgba(7, 14, 22, 0.18) 72%),
+    linear-gradient(180deg, rgba(7, 14, 22, 0.1) 0%, rgba(7, 14, 22, 0.5) 100%);
+}
+
+body[data-page="development"] .page-hero-copy {
+  z-index: 1;
+  align-content: center;
+  min-height: 0;
+  max-width: 620px;
+  padding: clamp(34px, 5vw, 58px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-page="development"] .page-hero-copy h1 {
+  max-width: 11ch;
+  margin-bottom: 2px;
+  font-size: clamp(3.1rem, 6vw, 5rem);
+  line-height: 0.88;
+}
+
+body[data-page="development"] .page-hero-visual {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  min-height: 100%;
+}
+
+body[data-page="development"] .page-hero-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 56%;
+}
+
 @media (max-width: 860px) {
-  body[data-page="register"] {
-    height: 100dvh;
-    overflow: hidden;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
-  }
-
-  body[data-page="register"] .page-shell {
-    height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
-  }
-
   body[data-page="register"] .page-hero {
     display: block;
     min-height: 280px;
@@ -4883,7 +4843,7 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
     gap: 8px;
     min-height: 280px;
     max-width: none;
-    padding: 18px !important;
+    padding: 18px;
   }
 
   body[data-page="register"] .page-hero-copy .eyebrow {
@@ -4910,22 +4870,6 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
     object-position: center 90%;
   }
 
-  body[data-page="camps"] {
-    height: 100dvh;
-    overflow: hidden;
-    overscroll-behavior-y: auto;
-    touch-action: pan-y;
-  }
-
-  body[data-page="camps"] .page-shell {
-    height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
-  }
-
   body[data-page="camps"] .site-header {
     margin-bottom: 12px;
   }
@@ -4948,7 +4892,7 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
     gap: 9px;
     min-height: 286px;
     max-width: none;
-    padding: 18px !important;
+    padding: 18px;
   }
 
   body[data-page="camps"] .page-hero-copy .eyebrow {
@@ -4971,8 +4915,9 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
   }
 
   body[data-page="camps"] .hero-dates-strip {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
     gap: 5px;
     margin-top: 0;
@@ -4980,15 +4925,17 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
 
   body[data-page="camps"] .hero-dates-strip span,
   body[data-page="camps"] .hero-dates-strip a {
-    padding: 6px 4px;
-    font-size: 0.68rem;
-    line-height: 1.05;
+    flex: 0 1 auto;
+    padding: 6px 8px;
+    font-size: 0.7rem;
+    line-height: 1.15;
     letter-spacing: 0.04em;
     text-align: center;
+    white-space: normal;
   }
 
   body[data-page="camps"] .camps-hero-actions {
-    display: grid !important;
+    display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 7px;
     margin-top: 0;
@@ -5000,6 +4947,46 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
     font-size: 0.7rem;
     line-height: 1.1;
     text-decoration: none;
+  }
+
+  body[data-page="development"] .page-hero {
+    display: block;
+    min-height: 286px;
+    margin-bottom: 12px;
+  }
+
+  body[data-page="development"] .page-hero::after {
+    background:
+      linear-gradient(180deg, rgba(7, 14, 22, 0.72) 0%, rgba(7, 14, 22, 0.94) 74%),
+      linear-gradient(90deg, rgba(7, 14, 22, 0.55), rgba(7, 14, 22, 0.18));
+  }
+
+  body[data-page="development"] .page-hero-copy {
+    display: grid;
+    align-content: end;
+    gap: 9px;
+    min-height: 286px;
+    max-width: none;
+    padding: 18px;
+  }
+
+  body[data-page="development"] .page-hero-copy .eyebrow {
+    font-size: 0.72rem;
+    line-height: 1.2;
+  }
+
+  body[data-page="development"] .page-hero-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.3rem, 11vw, 3rem);
+    line-height: 0.86;
+  }
+
+  body[data-page="development"] .page-hero-visual {
+    display: block;
+  }
+
+  body[data-page="development"] .page-hero-visual img {
+    object-position: center 40%;
   }
 }
 
@@ -5038,4 +5025,649 @@ body[data-page="camps"] .camps-hero-actions .button-secondary {
     min-width: 40px;
     min-height: 40px;
   }
+}
+
+/* ============================================================
+   IMAGE-LED HERO SYSTEM - camps / development / register
+   Source photos are portrait (3:4); the layout adapts per device
+   so they are never forced into a wide crop.
+     >=861px  two-column, photo beside copy, uncropped
+     641-860  stacked, copy panel then photo
+     <=640px  full-bleed portrait with scrim
+   ============================================================ */
+
+@media (min-width: 641px) {
+  body[data-page="camps"] .page-hero,
+  body[data-page="development"] .page-hero,
+  body[data-page="register"] .page-hero {
+    position: static;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.66fr);
+    align-items: stretch;
+    gap: 18px;
+    min-height: 0;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  body[data-page="camps"] .page-hero::after,
+  body[data-page="development"] .page-hero::after,
+  body[data-page="register"] .page-hero::after {
+    display: none;
+  }
+
+  body[data-page="camps"] .page-hero-copy,
+  body[data-page="development"] .page-hero-copy,
+  body[data-page="register"] .page-hero-copy {
+    z-index: auto;
+    align-content: center;
+    max-width: none;
+    padding: clamp(26px, 3vw, 40px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background:
+      linear-gradient(180deg, rgba(122, 201, 255, 0.07), transparent 34%),
+      var(--panel);
+    box-shadow: var(--shadow);
+  }
+
+  body[data-page="camps"] .page-hero-copy h1,
+  body[data-page="development"] .page-hero-copy h1,
+  body[data-page="register"] .page-hero-copy h1 {
+    font-size: clamp(2.4rem, 4.2vw, 3.8rem);
+    line-height: 0.9;
+  }
+
+  body[data-page="camps"] .page-hero-copy h1 {
+    max-width: 12ch;
+  }
+
+  body[data-page="development"] .page-hero-copy h1,
+  body[data-page="register"] .page-hero-copy h1 {
+    max-width: none;
+  }
+
+  body[data-page="camps"] .page-hero-visual,
+  body[data-page="development"] .page-hero-visual,
+  body[data-page="register"] .page-hero-visual {
+    display: block;
+    position: static;
+    inset: auto;
+    z-index: auto;
+    align-self: center;
+    aspect-ratio: 3 / 4;
+    min-height: 0;
+  }
+
+  body[data-page="camps"] .page-hero-visual img,
+  body[data-page="development"] .page-hero-visual img,
+  body[data-page="register"] .page-hero-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 45%;
+  }
+
+  body[data-page="camps"] .hero-dates-strip {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  body[data-page="camps"] .page-hero,
+  body[data-page="development"] .page-hero,
+  body[data-page="register"] .page-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: min(158vw, 780px);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: var(--radius-xl);
+    background: #071019;
+    box-shadow: var(--shadow);
+  }
+
+  body[data-page="camps"] .page-hero-visual,
+  body[data-page="development"] .page-hero-visual,
+  body[data-page="register"] .page-hero-visual {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+  }
+
+  body[data-page="camps"] .page-hero-visual img,
+  body[data-page="development"] .page-hero-visual img,
+  body[data-page="register"] .page-hero-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+
+  body[data-page="camps"] .page-hero::after,
+  body[data-page="development"] .page-hero::after,
+  body[data-page="register"] .page-hero::after {
+    display: block;
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      180deg,
+      rgba(7, 14, 22, 0.12) 0%,
+      rgba(7, 14, 22, 0.22) 28%,
+      rgba(7, 14, 22, 0.6) 50%,
+      rgba(7, 14, 22, 0.92) 74%,
+      rgba(7, 14, 22, 0.98) 100%
+    );
+  }
+
+  body[data-page="camps"] .page-hero-copy,
+  body[data-page="development"] .page-hero-copy,
+  body[data-page="register"] .page-hero-copy {
+    min-height: 0;
+    padding: 18px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  body[data-page="camps"] .page-hero-copy h1,
+  body[data-page="development"] .page-hero-copy h1,
+  body[data-page="register"] .page-hero-copy h1 {
+    max-width: none;
+    font-size: clamp(2.1rem, 8.6vw, 2.6rem);
+    line-height: 0.9;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.5);
+  }
+
+  body[data-page="camps"] .page-hero-copy p,
+  body[data-page="development"] .page-hero-copy p,
+  body[data-page="register"] .page-hero-copy p {
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* Coach preview grid steps down progressively. Going straight from 4 columns
+   to 1 at 1080px blew each card up past the source resolution (554-720px),
+   which upscaled the headshots and made them soft. */
+@media (min-width: 861px) and (max-width: 1080px) {
+  .coach-preview-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 641px) and (max-width: 860px) {
+  .coach-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Portrait recap tiles would stack into a very long single column on a phone,
+   so pair them up instead. */
+@media (max-width: 640px) {
+  .recap-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+/* D1 Blueprint signup form (homepage Stay In Touch panel) */
+.stay-in-touch-panel p:last-of-type {
+  max-width: 56ch;
+}
+
+.stay-in-touch-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.stay-in-touch-form .form-grid {
+  max-width: 640px;
+}
+
+.stay-in-touch-notice {
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid rgba(70, 210, 142, 0.36);
+  border-radius: var(--radius-md);
+  background: rgba(70, 210, 142, 0.1);
+  color: var(--text);
+  font-size: 0.92rem;
+}
+
+.stay-in-touch-notice.is-error {
+  border-color: rgba(255, 46, 52, 0.32);
+  background: rgba(255, 46, 52, 0.1);
+}
+
+@media (min-width: 1081px) {
+  .trust-bar-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Homepage FAQ, built on the camp-more accordion */
+.faq-list {
+  display: grid;
+  gap: 10px;
+  max-width: 860px;
+}
+
+.faq-item summary {
+  font-family: "Manrope", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+  padding-block: 12px;
+}
+
+.faq-item .camp-description {
+  max-width: 70ch;
+}
+
+/* ============================================================
+   MOBILE HERO CARD (<=640px)
+   Media runs edge to edge across the top of the card and fades into the
+   dark panel where the copy sits. Phone photos put the players in the lower
+   half and empty ceiling up top, so the band is aimed at the action and
+   text never sits on a busy background.
+   ============================================================ */
+@media (max-width: 640px) {
+  .brand-text small {
+    display: none;
+  }
+
+  body[data-page="register"] .header-text-link {
+    display: none;
+  }
+
+  /* Inner pages: camps, development, register, coaches, about */
+  /* Own compositing layer: without it Chrome can draw a hairline seam
+     through the overlay where raster tiles meet. */
+  body[data-page] .page-hero,
+  body[data-page="home"] .hero-home {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  body[data-page] .page-hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: var(--radius-xl);
+    background: #071019;
+    box-shadow: var(--shadow);
+  }
+
+  body[data-page] .page-hero::after {
+    display: none;
+  }
+
+  body[data-page] .page-hero-visual {
+    order: -1;
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    display: block;
+    width: 100%;
+    height: clamp(250px, 72vw, 330px);
+    min-height: 0;
+    aspect-ratio: auto;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: #071019;
+    box-shadow: none;
+  }
+
+  body[data-page] .page-hero-visual::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 -2px;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(7, 16, 25, 0) 42%,
+      rgba(7, 16, 25, 0.8) 80%,
+      #071019 94%
+    );
+  }
+
+  body[data-page] .page-hero-visual img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    object-fit: cover;
+    object-position: center var(--hero-focus-y, 70%);
+  }
+
+  body[data-page] .page-hero-copy {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 12px;
+    min-height: 0;
+    max-width: none;
+    margin-top: -44px;
+    padding: 0 20px 24px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: left;
+  }
+
+  body[data-page] .page-hero-copy h1 {
+    max-width: none;
+    margin: 0;
+    font-size: clamp(2.15rem, 10.4vw, 2.75rem);
+    line-height: 0.92;
+    text-shadow: none;
+  }
+
+  body[data-page] .page-hero-copy p {
+    text-shadow: none;
+  }
+
+  body[data-page="camps"] .page-hero-visual img,
+  body[data-page="register"] .page-hero-visual img {
+    --hero-focus-y: 78%;
+  }
+
+  body[data-page="development"] .page-hero-visual img {
+    --hero-focus-y: 74%;
+  }
+
+  body[data-page="about"] .page-hero-visual img {
+    --hero-focus-y: 88%;
+  }
+
+  body[data-page="coaches"] .page-hero-visual img {
+    --hero-focus-y: 40%;
+  }
+
+  /* Camp chips become one swipeable row instead of three stacked rows */
+  body[data-page="camps"] .hero-dates-strip {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+    padding: 2px 20px 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body[data-page="camps"] .hero-dates-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  body[data-page="camps"] .hero-dates-strip a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    min-height: 36px;
+  }
+
+  /* Homepage: highlight video across the top of the hero card */
+  body[data-page="home"] .hero-home {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    border-radius: var(--radius-xl);
+    background: #071019;
+    box-shadow: var(--shadow);
+  }
+
+  body[data-page="home"] .hero-video-panel {
+    order: -1;
+    position: relative;
+    display: block;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  body[data-page="home"] .hero-video-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 -2px;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgba(7, 16, 25, 0) 46%,
+      rgba(7, 16, 25, 0.82) 80%,
+      #071019 94%
+    );
+  }
+
+  body[data-page="home"] .hero-video-frame {
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  body[data-page="home"] .hero-video {
+    width: 100%;
+    height: clamp(300px, 92vw, 390px);
+    max-height: none;
+    aspect-ratio: auto;
+    border-radius: 0;
+    object-fit: cover;
+    object-position: center 72%;
+  }
+
+  body[data-page="home"] .hero-video-caption {
+    display: none;
+  }
+
+  body[data-page="home"] .hero-copy {
+    position: relative;
+    z-index: 1;
+    justify-items: start;
+    gap: 14px;
+    min-height: 0;
+    margin-top: -48px;
+    padding: 0 20px 24px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    text-align: left;
+  }
+
+  body[data-page="home"] .hero-home h1 {
+    justify-self: start;
+    max-width: none;
+    font-size: clamp(2.2rem, 10.6vw, 2.8rem);
+    line-height: 0.92;
+    text-align: left;
+  }
+
+  body[data-page="home"] .hero-text {
+    justify-self: start;
+    max-width: none;
+    text-align: left;
+  }
+
+  body[data-page="home"] .hero-actions {
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   MOBILE POLISH (<=640px): tighter rhythm, fewer screens of scroll
+   ============================================================ */
+@media (max-width: 640px) {
+  .split-heading {
+    gap: 10px;
+  }
+
+  .section-heading {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+  }
+
+  /* Inline links inside card copy shouldn't push their line apart */
+  .feature-card p .text-link {
+    display: inline;
+    margin-top: 0;
+  }
+
+  /* Trust bar: one grouped card instead of three full-width tiles */
+  .trust-bar {
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    background: var(--panel);
+    box-shadow: var(--shadow);
+  }
+
+  .trust-bar div {
+    padding: 16px 18px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .trust-bar div + div {
+    border-top: 1px solid var(--line);
+  }
+
+  .trust-bar div:not(:first-child)::before {
+    display: none;
+  }
+
+  .trust-bar strong {
+    margin-bottom: 4px;
+    font-size: 1.35rem;
+  }
+
+  .trust-bar span {
+    max-width: none;
+    font-size: 0.9rem;
+  }
+
+  /* Homepage coaches: 2x2 grid so all four faces show at once */
+  .coach-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .coach-preview-grid .coach-card-media {
+    aspect-ratio: 4 / 4.7;
+  }
+
+  .coach-preview-grid .coach-card-body {
+    grid-template-rows: none;
+    gap: 4px;
+    padding: 12px 12px 14px;
+  }
+
+  .coach-preview-grid .coach-origin,
+  .coach-preview-grid .coach-summary {
+    display: none;
+  }
+
+  .coach-preview-grid .coach-name {
+    font-size: 1.1rem;
+  }
+
+  .coach-preview-grid .coach-role {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+}
+
+/* ============================================================
+   MOBILE SWIPE ROWS (<=640px)
+   Stacked full-width cards made the camps and coaches pages 6-16
+   screens long. Vertical reels and pathway cards swipe sideways
+   instead, with the next card peeking in as the swipe cue.
+   ============================================================ */
+@media (max-width: 640px) {
+  body[data-page="camps"] .camp-grid {
+    display: flex;
+    gap: 12px;
+    margin-inline: calc((100% - 100vw) / 2);
+    padding: 4px calc((100vw - 100%) / 2) 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: calc((100vw - 100%) / 2);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body[data-page="camps"] .camp-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  body[data-page="camps"] .camp-grid .camp-card {
+    flex: 0 0 82%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+
+  .coach-pathway-grid {
+    display: flex;
+    gap: 12px;
+    margin-inline: -18px;
+    padding: 2px 18px 8px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .coach-pathway-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .coach-pathway-card {
+    flex: 0 0 80%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+}
+
+/* Collapsible long bio on coach profiles */
+.coach-more {
+  margin-top: 4px;
+}
+
+.coach-more .camp-description {
+  margin: 0;
+}
 }

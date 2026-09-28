@@ -35,13 +35,17 @@ const camps = [
       ages: ["2017-2019", "2014-2016", "2011-2013"],
       schedule: ["5:15 PM - 6:15 PM", "6:30 PM - 7:30 PM", "7:45 PM - 8:45 PM"],
       price: "$100",
-      status: "Open",
+      status: "Sold Out",
+      availability: {
+        label: "Sold Out",
+        tone: "urgent",
+      },
       featured: true,
-      isPast: true,
       ratio: "2 hours total ice time",
-      image: "./Camp%20photo%202025.jpg",
+      image: "./assets/web/camp-summer-opener.jpg",
       imagePosition: "center 60%",
       imageScale: 1,
+      video: "./assets/june-summer-opener-reel.mp4",
       registrationUrl:
         "https://docs.google.com/forms/d/e/1FAIpQLSe5dbYjWqMRzDmrlEIfm7CgM3HWaQVweGBMq3oFdcvieOBznA/viewform?usp=header",
     },
@@ -67,6 +71,7 @@ const camps = [
       featured: true,
       ratio: "5 hours total ice time",
       image: "./assets/July%20Image%20.avif",
+      video: "./assets/camp-reel-total-skill-integration.mp4",
       imagePosition: "center 56%",
       registrationUrl:
         "https://docs.google.com/forms/d/e/1FAIpQLSeWPE7Z1zUAAYU2WSUCEqn_ckGgbYs6y_C4dmW8E_LHHJE3SA/viewform?usp=header",
@@ -85,14 +90,15 @@ const camps = [
       ages: ["2017-2019", "2014-2016", "2011-2013"],
       schedule: ["5:15 PM - 6:15 PM", "6:30 PM - 7:30 PM", "7:45 PM - 8:45 PM"],
       price: "$200",
-      status: "Open",
+      status: "Sold Out",
       availability: {
-        label: "Limited Spots Remaining",
+        label: "Sold Out",
         tone: "urgent",
       },
       featured: true,
       ratio: "4 hours total ice time",
       image: "./assets/Aug%20Image.avif",
+      video: "./assets/camp-highlights-2026.mp4",
       registrationUrl:
         "https://docs.google.com/forms/d/e/1FAIpQLScevbK02WKHT4vNYHs78JzHiPEGCqQoJxAE3-_I5FmmqqEgvw/viewform?usp=header",
     },
@@ -117,7 +123,8 @@ const camps = [
       },
       featured: true,
       ratio: "2 hours total ice time",
-      image: "./assets/20250808_181730%20copy.jpg?v=3",
+      image: "./assets/web/camp-coaches-teaching.jpg",
+      video: "./assets/body-contact-prep-reel.mp4",
       registrationUrl:
         "https://docs.google.com/forms/d/e/1FAIpQLSeKqm18D3uHm4KmBVOsWHptRRk_tklEXFLyCn8hEvuiQlDREA/viewform?usp=header",
     },
@@ -125,9 +132,9 @@ const camps = [
       month: "July",
       title: "Position-Specific Clinic",
       shortDescription:
-        "Position-specific reps with 4 current NCAA/pro coaches — forwards with Brett & Jordan, defensemen with Logan & Breck.",
+        "Position-specific reps with 4 current NCAA/pro coaches: forwards with Brett & Jordan, defencemen with Logan & Breck.",
       fullDescription:
-        "Forwards and defensemen train in dedicated groups with current NCAA and pro players, focusing on habits, reads, and skills that match their position.",
+        "Forwards and defencemen train in dedicated groups with current NCAA and pro players, focusing on habits, reads, and skills that match their position.",
       dates: "July 25 & 26",
       location: "KC Twin Arenas, 13160 140 Avenue NW, Edmonton",
       locationUrl:
@@ -146,30 +153,9 @@ const camps = [
       featured: true,
       ratio: "2 hours total ice time",
       image: "./assets/Position%20Specific%20Image.avif",
+      video: "./assets/fd-clinic-reel-u15.mp4",
       registrationUrl:
         "https://docs.google.com/forms/d/e/1FAIpQLScyyE3i7Hiqhz6Ja7cmHQQ5MA1ToqnkeTxz0Av2-hBRThMbyA/viewform?usp=header",
-    },
-    {
-      month: "Year-Round",
-      title: "Private Sessions",
-      shortDescription:
-        "Private, small-group, and team coaching booked directly with ABG.",
-      fullDescription:
-        "Private sessions can be built around one player, a small group, or a full team. Families and teams can reach out directly to set up the right fit.",
-      dates: "Book by request",
-      location: "Edmonton ice slots or team practices arranged directly with ABG",
-      locationUrl:
-        "mailto:abgeliteskills@gmail.com?subject=Private%20Session%20Inquiry",
-      ages: ["Any age group", "Small groups", "Team coaching"],
-      schedule: ["Flexible scheduling", "Private 1-on-1", "Available by request"],
-      price: "Contact for rates",
-      status: "Private",
-      featured: false,
-      ratio: "Personalized instruction",
-      image: "./assets/About%20Hero.jpg",
-      imagePosition: "center 24%",
-      registrationUrl:
-        "mailto:abgeliteskills@gmail.com?subject=Private%20Session%20Inquiry",
     },
 ];
 
@@ -179,52 +165,53 @@ const coaches = [
     {
       name: "Logan Acheson",
       role: "KC Minor Hockey",
-      position: "Defense",
-      currentTeam: "University of Alaska Anchorage",
-      currentLevel: "NCAA",
+      minorHockeyLogo: "./assets/minor-hockey/kc-hockey-club.png",
+      position: "Defence",
+      currentTeam: "Pro",
+      currentLevel: "",
+      teamLine: "Pro · Alaska Anchorage (NCAA D1)",
       location: "Edmonton, AB",
-      headshot:
-        "https://static.wixstatic.com/media/a00900_ee6055e0424441258b4b7f0f0d2dbcb8~mv2.jpg/v1/fill/w_720%2Ch_760%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/screenshot_20251124_114428_brave_edited_edited.jpg",
-      previewPosition: "center 16%",
-      mobilePreviewPosition: "center 12%",
+      headshot: "./assets/logan-acheson-headshot.jpeg",
+      previewPosition: "center 20%",
+      mobilePreviewPosition: "center 15%",
       featured: true,
       highlights: [
         "Over 100 career NCAA games",
         "Assistant captain experience",
-        "AJHL Most Points by a Defenseman",
+        "AJHL Most Points by a Defenceman",
       ],
       summary:
-        "Logan brings a two-way defenseman’s lens to the ice, with a focus on mobility, habits, and game intelligence.",
+        "Logan brings a two-way defenceman’s lens to the ice, with a focus on mobility, habits, and game intelligence.",
       bio:
-        "Raised in Edmonton and developed through KC Minor Hockey, Logan built his path from local hockey into junior leadership and NCAA competition. His coaching centers on elite defensive habits, mobility, and the small details that drive real game impact.",
+        "Raised in Edmonton and developed through KC Minor Hockey, Logan built his path from local hockey into junior leadership, NCAA Division I, and pro hockey. His coaching centers on elite defensive habits, mobility, and the small details that drive real game impact.",
       detailedBio:
-        "Logan’s versatility as a defenseman makes him an invaluable asset to the ABG coaching team. With a focus on balancing defensive responsibility with offensive contribution, he emphasizes a well-rounded approach to the game. Logan is dedicated to instilling the importance of elite defensive habits and active involvement in the offensive zone. As a true student of the game, he is constantly evolving his craft to ensure his players are learning the most modern, high-level skills in the sport.",
+        "Logan’s versatility as a defenceman makes him an invaluable asset to the ABG coaching team. With a focus on balancing defensive responsibility with offensive contribution, he emphasizes a well-rounded approach to the game. Logan is dedicated to instilling the importance of elite defensive habits and active involvement in the offensive zone. As a true student of the game, he is constantly evolving his craft to ensure his players are learning the most modern, high-level skills in the sport.",
       pathway: [
         {
           title: "University of Alaska Anchorage (NCAA)",
           image:
-            "https://static.wixstatic.com/media/a00900_43074e07c3b44db48ee040ab228d8232~mv2.jpg/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1s5a0313.jpg",
-          imageAlt: "UAA Seawolves defenseman Logan Acheson in action during an NCAA Division 1 hockey game.",
+            "./assets/coach-logan-acheson-pathway-1-university-of-alaska-anchorage.jpg",
+          imageAlt: "UAA Seawolves defenceman Logan Acheson in action during an NCAA Division 1 hockey game.",
           bullets: [
             "Over 100 career NCAA games",
             "Assistant captain",
-            "Known as a high-IQ, all-around two-way defenseman",
+            "Known as a high-IQ, all-around two-way defenceman",
           ],
         },
         {
           title: "Spruce Grove Saints (AJHL)",
           image:
-            "https://static.wixstatic.com/media/a00900_bffbc6052e434132aeab6c1943dbd898~mv2.jpg/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/17910687395920574_heic.jpg",
+            "./assets/coach-logan-acheson-pathway-2-spruce-grove-saints-ajhl.jpg",
           imageAlt: "ABG Elite Skills founder Logan Acheson as captain of the Spruce Grove Saints AJHL hockey team.",
           bullets: [
             "Led the Spruce Grove Saints as a premier captain",
-            "AJHL Most Points by a Defenseman",
+            "AJHL Most Points by a Defenceman",
           ],
         },
         {
           title: "KC Centennials (U16 AAA)",
           image:
-            "https://static.wixstatic.com/media/a00900_6cbf43aeaf9c4567851909d5ccbe8f1b~mv2.jpg/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/18021142534932454_heic.jpg",
+            "./assets/coach-logan-acheson-pathway-3-kc-centennials-u16-aaa.jpg",
           imageAlt: "ABG Elite Skills founder Logan Acheson as a captain for KC Minor Hockey in Edmonton.",
           bullets: [
             "Played 100% of minor hockey for the Knights of Columbus",
@@ -236,12 +223,14 @@ const coaches = [
     {
       name: "Brett Rylance",
       role: "KC Minor Hockey",
+      minorHockeyLogo: "./assets/minor-hockey/kc-hockey-club.png",
       position: "Forward",
-      currentTeam: "Long Island University",
-      currentLevel: "NCAA",
+      currentTeam: "Pro, France",
+      currentLevel: "Ligue Magnus",
+      teamLine: "Pro, France · Long Island (NCAA D1)",
       location: "Edmonton, AB",
       headshot:
-        "https://static.wixstatic.com/media/a00900_0b13bc7d4a3d430083761325cd95d380~mv2.jpg/v1/fill/w_720%2Ch_760%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/a00900_0b13bc7d4a3d430083761325cd95d380~mv2.jpg",
+        "./assets/coach-brett-rylance-headshot.jpg",
       previewPosition: "center 18%",
       mobilePreviewPosition: "center 13%",
       featured: true,
@@ -253,14 +242,14 @@ const coaches = [
       summary:
         "Brett emphasizes speed, transition, offensive confidence, and the awareness needed to create at pace.",
       bio:
-        "Brett’s experience in the BCHL and NCAA gives him a strong feel for offense, transition, and what it takes to produce at the next level. His coaching helps players sharpen decision-making while leaning into their strengths.",
+        "Brett’s experience in the BCHL, the NCAA, and now pro hockey in France gives him a strong feel for offense, transition, and what it takes to produce at the next level. His coaching helps players sharpen decision-making while leaning into their strengths.",
       detailedBio:
         "Brett’s experience as a top-tier forward in the BCHL and NCAA has equipped him with a deep understanding of what it takes to produce at the highest levels. His coaching focuses on the pillars of speed, situational awareness, and offensive transition. By encouraging players to embrace their individual strengths, Brett helps them elevate their game and find the confidence needed to compete in all-situation hockey.",
       pathway: [
         {
           title: "Long Island University (NCAA)",
           image:
-            "https://static.wixstatic.com/media/a00900_f92075c7ec3342258c56e476b33fbd62~mv2.png/v1/fill/w_900,h_900,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/a00900_f92075c7ec3342258c56e476b33fbd62~mv2.png",
+            "./assets/coach-brett-rylance-pathway-1-long-island-university-ncaa.jpg",
           imageAlt: "ABG Elite Skills coach Brett Rylance wearing the A as alternate captain for the LIU Sharks NCAA Division I hockey team.",
           bullets: [
             "Over 75 career NCAA points",
@@ -271,7 +260,7 @@ const coaches = [
         {
           title: "Chilliwack Chiefs (BCHL)",
           image:
-            "https://static.wixstatic.com/media/a00900_ce63144b7ce741d9ae68ccbcbb90fd73~mv2.jpg/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a00900_ce63144b7ce741d9ae68ccbcbb90fd73~mv2.jpg",
+            "./assets/coach-brett-rylance-pathway-2-chilliwack-chiefs-bchl.jpg",
           imageAlt: "ABG Elite Skills coach Brett Rylance in action for the Chilliwack Chiefs of the BCHL.",
           bullets: [
             "Played 169 games for the Chilliwack Chiefs",
@@ -281,7 +270,7 @@ const coaches = [
         {
           title: "KC Squires (U15 AAA)",
           image:
-            "https://static.wixstatic.com/media/a00900_5dfc6256822a4cbea5b8db3f9a19e2f0~mv2.jpg/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a00900_5dfc6256822a4cbea5b8db3f9a19e2f0~mv2.jpg",
+            "./assets/coach-brett-rylance-pathway-3-kc-squires-u15-aaa.jpg",
           imageAlt: "ABG Elite Skills coach Brett Rylance in action as a youth player for KC Minor Hockey in Edmonton.",
           bullets: [
             "Played 100% of minor hockey for the Knights of Columbus",
@@ -293,12 +282,14 @@ const coaches = [
     {
       name: "Jordan Biro",
       role: "Sherwood Park Minor Hockey",
+      minorHockeyLogo: "./assets/minor-hockey/sherwood-park-minor-hockey.png",
       position: "Forward",
-      currentTeam: "Greensboro Gargoyles",
+      currentTeam: "Wichita Thunder",
       currentLevel: "ECHL",
+      teamLine: "Wichita Thunder (ECHL) · AIC (NCAA D1)",
       location: "Sherwood Park, AB",
       headshot:
-        "https://static.wixstatic.com/media/a00900_306c6647526b48eeb475c7e94fd75d85~mv2.jpg/v1/fill/w_720%2Ch_760%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/screenshot_20250106_101942_chrome.jpg",
+        "./assets/coach-jordan-biro-headshot.jpg",
       previewPosition: "center 17%",
       mobilePreviewPosition: "center 12%",
       featured: true,
@@ -317,7 +308,7 @@ const coaches = [
         {
           title: "American International College (NCAA)",
           image:
-            "https://static.wixstatic.com/media/a00900_5883a787918c4cdb9da7c34d632167a8~mv2.png/v1/fill/w_900,h_900,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/screenshot_20240827_192757_snapchat_edit.png",
+            "./assets/coach-jordan-biro-pathway-1-american-international-college.jpg",
           imageAlt: "ABG Elite Skills instructor Jordan Biro playing NCAA Division I hockey for the AIC YellowJackets.",
           bullets: [
             "Recorded 80 career points across 166 NCAA games",
@@ -328,7 +319,7 @@ const coaches = [
         {
           title: "Spruce Grove Saints (AJHL)",
           image:
-            "https://static.wixstatic.com/media/a00900_6111ab75741149e5b10f074c546a6936~mv2.png/v1/fill/w_900,h_900,al_c,q_90,usm_0.66_1.00_0.01,enc_avif,quality_auto/17929995320920582_edited.png",
+            "./assets/coach-jordan-biro-pathway-2-spruce-grove-saints-ajhl.jpg",
           imageAlt: "ABG Elite Skills coach Jordan Biro in action for the Spruce Grove Saints AJHL team.",
           bullets: [
             "AJHL champion with Spruce Grove",
@@ -340,13 +331,15 @@ const coaches = [
     },
     {
       name: "Breck McKinley",
-      role: "St Albert Minor Hockey",
-      position: "Defense",
+      role: "St. Albert Minor Hockey",
+      minorHockeyLogo: "./assets/minor-hockey/st-albert-minor-hockey.png",
+      position: "Defence",
       currentTeam: "Bowling Green State University",
       currentLevel: "NCAA",
+      teamLine: "Bowling Green State (NCAA D1)",
       location: "St. Albert, AB",
       headshot:
-        "https://static.wixstatic.com/media/a00900_ed1e09d3f5164d049172e2164d5d85b9~mv2.png/v1/fill/w_720%2Ch_760%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/a00900_ed1e09d3f5164d049172e2164d5d85b9~mv2.png",
+        "./assets/coach-breck-mckinley-headshot.jpg",
       previewPosition: "center 15%",
       mobilePreviewPosition: "center 10%",
       featured: true,
@@ -356,31 +349,31 @@ const coaches = [
         "AJHL First All-Star Team finalist",
       ],
       summary:
-        "Breck focuses on puck-moving detail, positioning, mobility, and modern defenseman habits.",
+        "Breck focuses on puck-moving detail, positioning, mobility, and modern defenceman habits.",
       bio:
-        "Breck teaches the details that help defensemen control pace from the back end. His perspective blends junior production, NCAA consistency, and a sharp understanding of technical positioning and stick work.",
+        "Breck teaches the details that help defencemen control pace from the back end. His perspective blends junior production, NCAA consistency, and a sharp understanding of technical positioning and stick work.",
       detailedBio:
-        "Breck specializes in the technical details of the modern puck-moving defenseman. His approach is centered on mobility, puck distribution, and the professional habits required to move from minor hockey into the junior and college ranks. Breck emphasizes the details: the small, high-level adjustments in positioning and stick work that allow players to control the pace of the game from the back end.",
+        "Breck specializes in the technical details of the modern puck-moving defenceman. His approach is centered on mobility, puck distribution, and the professional habits required to move from minor hockey into the junior and college ranks. Breck emphasizes the details: the small, high-level adjustments in positioning and stick work that allow players to control the pace of the game from the back end.",
       pathway: [
         {
           title: "Bowling Green State University (NCAA)",
           image:
-            "https://static.wixstatic.com/media/a00900_46f86f9895404fa8b3ad81a018815c4f~mv2.jpg/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/18038081810362580_heic.jpg",
-          imageAlt: "Bowling Green defenseman and ABG Elite Skills coach Breck McKinley.",
+            "./assets/coach-breck-mckinley-pathway-1-bowling-green-state-university.jpg",
+          imageAlt: "Bowling Green defenceman and ABG Elite Skills coach Breck McKinley.",
           bullets: [
             "Named CCHA Defenseman of the Week twice",
             "Over 100 career NCAA games",
-            "Consistent top-pairing defenseman",
+            "Consistent top-pairing defenceman",
           ],
         },
         {
           title: "Spruce Grove Saints (AJHL)",
           image:
-            "https://static.wixstatic.com/media/a00900_b29efcdd0d7c46bab8724b590e3935ca~mv2.jpg/v1/fill/w_900,h_900,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/18041215298323903_heic.jpg",
+            "./assets/coach-breck-mckinley-pathway-2-spruce-grove-saints-ajhl.jpg",
           imageAlt: "ABG Elite Skills coach Breck McKinley wearing the A as alternate captain for the Spruce Grove Saints.",
           bullets: [
             "Tallied 109 points in 134 games for the Saints",
-            "Named to the AJHL First All-Star Team and finalist for AJHL Outstanding Defenseman",
+            "Named to the AJHL First All-Star Team and finalist for AJHL Outstanding Defenceman",
             "Named assistant captain for Canada West at the World Junior A Challenge",
           ],
         },
@@ -393,29 +386,55 @@ const coaches = [
 const testimonials = [
     {
       quote:
+        "I have the highest praise for Logan and his camps and direct coaching sessions! His attention to detail is almost unbelievable.",
+      name: "Marni W.",
+      roleLabel: "Parent",
+      team: "Google review",
+      image: "./assets/Aug%20Image.avif",
+      featured: true,
+    },
+    {
+      quote:
+        "My son loved these development camps. They were challenging, engaging and fun. The leadership and skill levels were fantastic.",
+      name: "Adriana E.",
+      roleLabel: "Parent",
+      team: "Google review",
+      image: "./assets/July%20Image%20.avif",
+      featured: true,
+    },
+    {
+      quote:
         "The games were really fun, the coaches had a good attitude, and they pushed my potential at the camp. It was fun, but we also worked hard. I would do that camp again.",
       name: "Cameron Olson",
       roleLabel: "Player",
       team: "KC U11 HADP Cougars",
-      image: "./assets/20250711_201636%20copy.jpg",
+      image: "./assets/web/camp-group-kneel.jpg",
       featured: true,
     },
     {
       quote:
-        "By the second day, Hayden’s confidence had completely changed.",
-      name: "Parent of U13 Participant",
+        "The kids had an amazing time, and Logan and his team did such a great job making an effort with each player on the ice.",
+      name: "Meagan O.",
       roleLabel: "Parent",
-      team: "ABG family",
-      image: "./assets/20250808_181730%20copy.jpg",
+      team: "Google review",
+      image: "./assets/Position%20Specific%20Image.avif",
       featured: true,
     },
     {
       quote:
-        "Great communication with kids! My child struggles with following instructions, and for the first time, he was able to focus and follow directions. I strongly believe this is because of the great coaching team. My son loved this camp!",
-      name: "Parent of U9 Participant",
+        "My son has always enjoyed these camps. This will be his 3rd year as a returning player.",
+      name: "Ron K.",
       roleLabel: "Parent",
-      team: "ABG family",
-      image: "./assets/20250711_195811.jpg",
+      team: "Google review",
+      image: "./assets/web/camp-coaches-teaching.jpg",
+      featured: true,
+    },
+    {
+      quote: "One of the best camps in Edmonton. Thanks coach Logan and team.",
+      name: "Yic C.",
+      roleLabel: "Google review",
+      team: "",
+      image: "./assets/web/camp-huddle.jpg",
       featured: true,
     },
 ];

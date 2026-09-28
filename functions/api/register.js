@@ -33,7 +33,7 @@ export async function onRequestPost(context) {
     if (campConfig?.closed) {
       return jsonResponse({
         ok: false,
-        error: `${camp.campName} is sold out for summer 2026 — thank you for the incredible response! Email abgeliteskills@gmail.com to be added to next year's early access list.`,
+        error: `${camp.campName} is sold out for summer 2026. Thank you for the incredible response! Email abgeliteskills@gmail.com to be added to next year's early access list.`,
       });
     }
 
