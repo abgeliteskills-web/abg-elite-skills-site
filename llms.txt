@@ -36,12 +36,22 @@ Summer 2026 camps (skater price; goalie pricing was lower):
 
 ## The D1 Blueprint
 
-A free guide by Logan Acheson on player development at every age from 7 to 18: focus at 7-9, foundation skills at 10-12, habits at 13-15, and execution at 16-18. Sign up on the homepage to get it by email.
+A free 20-page guide by Logan Acheson on what matters for player development at every age from 7 to 18, drawn from his own path from KC minor hockey to NCAA Division I and pro hockey:
+- Ages 7 to 9, Focus: find love for the game. Fun, attention span, copying a drill properly, and playing other sports.
+- Ages 10 to 12, Foundation: putting in the work. Skating edges, puck touches over ice time, and getting pushed by better players.
+- Ages 13 to 15, Habits: the small things, done properly. Shoulder checks, stopping at the net, calling for passes, stick on the ice, plus daily mobility.
+- Ages 16 to 18, Execution: doing it when it counts. Work nobody sees, the mental game, studying video, strength and recovery, and surviving the jump to junior.
+- A closing section on resilience and the setbacks that didn't end his career.
+
+Read the stage-by-stage overview and get the full guide by email at https://abgeliteskills.com/d1-blueprint.
 
 ## Pages
 
-- [Home](https://abgeliteskills.com/): overview, testimonials, D1 Blueprint signup, FAQ
-- [Camps](https://abgeliteskills.com/camps): summer 2026 camp recap and private sessions
-- [Development](https://abgeliteskills.com/development): video breakdowns and mentorship calls with pricing
-- [Coaches](https://abgeliteskills.com/coaches): full coach backgrounds
-- [About](https://abgeliteskills.com/about): mission and coaching philosophy
+Each page is also available as Markdown at the .md address shown, or by requesting it with Accept: text/markdown.
+
+- [Home](https://abgeliteskills.com/index.md): overview, testimonials, D1 Blueprint signup, FAQ
+- [Camps](https://abgeliteskills.com/camps.md): summer 2026 camp recap and private sessions
+- [Development](https://abgeliteskills.com/development.md): video breakdowns and mentorship calls with pricing
+- [Coaches](https://abgeliteskills.com/coaches.md): full coach backgrounds, stats, and playing pathways
+- [About](https://abgeliteskills.com/about.md): mission and coaching philosophy
+- [The D1 Blueprint](https://abgeliteskills.com/d1-blueprint.md): hockey player development by age, 7 to 18, and the free guide signup

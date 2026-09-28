@@ -1,4 +1,7 @@
+# Content signals (https://contentsignals.org): ABG welcomes search engines and AI tools.
+# search: show in search results. ai-input: use in AI answers. ai-train: use to train AI models.
 User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 Allow: /
 
 Sitemap: https://abgeliteskills.com/sitemap.xml

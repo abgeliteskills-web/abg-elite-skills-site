@@ -26,7 +26,7 @@
 
 const BLUEPRINT_PDF_FILE_ID = "1OpZqCsA8tLjKYXMUD0vdJTPK9dadhYdx"; // Update the guide via Drive "Manage versions" so this ID never changes.
 const REPLY_TO_EMAIL = "abgeliteskills@gmail.com";
-const SENDER_NAME = "Logan Acheson | ABG Elite Skills";
+const SENDER_NAME = "Logan Acheson";
 const SHEET_NAME = "Signups";
 const SITE_URL = "https://abgeliteskills.com";
 

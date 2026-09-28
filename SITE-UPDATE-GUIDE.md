@@ -9,6 +9,17 @@ This site is a simple static website. Most routine updates happen in one place:
 - Styling: `/Users/loganach/Desktop/ABG Elite Skills Website- COdex/styles.css`
 - Behavior: `/Users/loganach/Desktop/ABG Elite Skills Website- COdex/script.js`
 
+### After editing data.js (important)
+
+Coaches, camps, and testimonials are also written straight into the HTML so AI crawlers and
+search engines that don't run JavaScript can read them. After any change to `data.js`, run:
+
+```
+node tools/prerender.mjs
+```
+
+Then commit and push as usual. `node tools/prerender.mjs --check` tells you if a page is out of date.
+
 ### Updating Camps
 
 Edit the `camps` array in `data.js`.

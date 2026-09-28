@@ -587,7 +587,8 @@ main > .section {
 
 .split-heading h2,
 .faq-heading h2,
-.blueprint-head h2 {
+.blueprint-head h2,
+.blueprint-head h1 {
   font-size: clamp(2.4rem, 4.6vw, 4.2rem);
   line-height: 0.94;
 }
@@ -1272,7 +1273,8 @@ footer.site-footer {
 
   .split-heading h2,
   .faq-heading h2,
-  .blueprint-head h2 {
+  .blueprint-head h2,
+  .blueprint-head h1 {
     font-size: clamp(2.1rem, 9.5vw, 2.8rem);
   }
 
@@ -2378,6 +2380,7 @@ summary {
   grid-template-areas:
     "showcase head"
     "showcase stages"
+    "showcase overview"
     "showcase author"
     "showcase form";
   column-gap: clamp(40px, 6vw, 96px);
@@ -2405,7 +2408,8 @@ summary {
   background: var(--red);
 }
 
-.blueprint-head h2 {
+.blueprint-head h2,
+.blueprint-head h1 {
   margin: 0;
   text-transform: uppercase;
 }
@@ -2647,6 +2651,7 @@ summary {
       "head"
       "showcase"
       "stages"
+      "overview"
       "author"
       "form";
   }
@@ -2738,4 +2743,350 @@ body[data-page] .coach-profile .coach-origin-line img.coach-minor-logo {
     height: 36px;
     max-width: 52px;
   }
+}
+
+/* ============================================================
+   D1 BLUEPRINT PAGE (/d1-blueprint)
+   Opens with the same signup band as the homepage, then the guide
+   stage by stage, the setbacks timeline, FAQ, and a closing band.
+   ============================================================ */
+
+body[data-page="blueprint"] .blueprint-hero {
+  margin-top: -18px;
+  padding-top: clamp(140px, 13vw, 170px);
+  border-top: 0;
+}
+
+.blueprint-head h1 {
+  font-size: clamp(3rem, 6vw, 5.6rem);
+  line-height: 0.9;
+}
+
+a.blueprint-stage-text {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+a.blueprint-stage-text:hover strong {
+  color: var(--ice-soft);
+}
+
+.blueprint-why-note {
+  max-width: 46rem;
+  margin: 0;
+  color: #c8d4e2;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Stage-by-stage articles */
+.blueprint-overview {
+  display: grid;
+}
+
+.stage-article {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(28px, 5vw, 72px);
+  padding: clamp(48px, 6vw, 80px) 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.stage-article-head {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+  display: grid;
+  gap: 8px;
+}
+
+.stage-article-number {
+  color: transparent;
+  font-family: var(--display);
+  font-size: clamp(4.5rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 0.85;
+  -webkit-text-stroke: 1.5px rgba(255, 46, 52, 0.7);
+}
+
+.stage-article-head .eyebrow {
+  margin: 10px 0 0;
+}
+
+.stage-article-head h3 {
+  margin: 0;
+  font-size: clamp(2.6rem, 4.6vw, 4rem);
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.stage-article-tagline {
+  margin: 4px 0 0;
+  color: var(--ice-soft);
+  font-size: 1.1rem;
+}
+
+.stage-article-body {
+  display: grid;
+  gap: 18px;
+  color: #c8d4e2;
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.stage-article-body p {
+  margin: 0;
+}
+
+.stage-article-body h4 {
+  margin: 10px 0 0;
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stage-article-body ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stage-article-body li {
+  position: relative;
+  padding-left: 26px;
+}
+
+.stage-article-body li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--red);
+  font-weight: 700;
+}
+
+.stage-article-body strong {
+  color: #fff;
+}
+
+.stage-article-quote {
+  position: relative;
+  margin: 8px 0;
+  padding: 22px 24px 22px 26px;
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--red);
+  border-radius: 4px 16px 16px 4px;
+  color: #fff;
+  font-size: 1.08rem;
+  line-height: 1.6;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stage-article-quote::before {
+  content: "From my career";
+  display: block;
+  margin-bottom: 8px;
+  color: #ff575c;
+  font-family: var(--display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.stage-article-lists {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.stage-article-lists > div {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 22px;
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01));
+}
+
+.stage-article-lists h4 {
+  margin: 0;
+}
+
+.stage-article-lists > div:last-child li::before {
+  content: "×";
+  color: var(--muted);
+}
+
+.stage-article-lists li {
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+/* Setbacks timeline */
+.setback-timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 28px 0 0;
+  list-style: none;
+}
+
+.setback-timeline::before {
+  content: "";
+  position: absolute;
+  top: 34px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 46, 52, 0.6), rgba(122, 201, 255, 0.6));
+}
+
+.setback-timeline li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding-top: 26px;
+}
+
+.setback-timeline li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: 0 0 0 5px rgba(255, 46, 52, 0.18);
+}
+
+.setback-timeline li.is-outcome::before {
+  background: var(--ice);
+  box-shadow: 0 0 0 5px rgba(122, 201, 255, 0.2);
+}
+
+.setback-timeline span {
+  color: var(--muted);
+  font-family: var(--display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.setback-timeline strong {
+  color: #fff;
+  font-family: var(--display);
+  font-size: 1.35rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.setback-timeline li.is-outcome strong {
+  color: var(--ice-soft);
+}
+
+@media (max-width: 860px) {
+  .stage-article {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+
+  .stage-article-head {
+    position: static;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 18px;
+    align-items: end;
+  }
+
+  .stage-article-number {
+    grid-row: span 3;
+    font-size: 4.6rem;
+  }
+
+  .stage-article-head .eyebrow {
+    margin: 0;
+  }
+
+  .stage-article-tagline {
+    grid-column: 1 / -1;
+  }
+
+  .setback-timeline {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+    padding: 0 0 0 30px;
+  }
+
+  .setback-timeline::before {
+    top: 4px;
+    bottom: 4px;
+    left: 6px;
+    right: auto;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(255, 46, 52, 0.6), rgba(122, 201, 255, 0.6));
+  }
+
+  .setback-timeline li {
+    padding-top: 0;
+  }
+
+  .setback-timeline li::before {
+    top: 4px;
+    left: -30px;
+  }
+}
+
+@media (max-width: 640px) {
+  body[data-page="blueprint"] .blueprint-hero {
+    padding-top: 112px;
+  }
+
+  .stage-article {
+    padding: 44px 0;
+  }
+
+  .stage-article-head h3 {
+    font-size: 2.6rem;
+  }
+
+  .stage-article-body {
+    font-size: 1rem;
+  }
+
+  .stage-article-quote {
+    padding: 18px 18px 18px 20px;
+    font-size: 1rem;
+  }
+
+  .stage-article-lists {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stage-article-lists > div {
+    padding: 18px;
+  }
+
+  .setback-timeline strong {
+    font-size: 1.2rem;
+  }
+}
+
+/* Homepage band: link through to the full overview page. */
+.blueprint-overview-link {
+  grid-area: overview;
+  justify-self: start;
+  margin-top: 18px;
 }
