@@ -78,5 +78,20 @@ export async function onRequest(context) {
     }
   }
 
-  return context.next();
+  const response = await context.next();
+
+  // Point AI agents at the Markdown version of each page, llms.txt, and the sitemap.
+  const pageName = url.pathname.replace(/^\/|\/$/g, "").replace(/\.html$/, "") || "index";
+  if (MARKDOWN_PAGES.has(pageName) && (response.headers.get("Content-Type") || "").includes("text/html")) {
+    const withLinks = new Response(response.body, response);
+    withLinks.headers.append(
+      "Link",
+      `<https://${CANONICAL_HOST}/${pageName}.md>; rel="alternate"; type="text/markdown", ` +
+        `<https://${CANONICAL_HOST}/llms.txt>; rel="describedby"; type="text/plain", ` +
+        `<https://${CANONICAL_HOST}/sitemap.xml>; rel="sitemap"; type="application/xml"`
+    );
+    return withLinks;
+  }
+
+  return response;
 }

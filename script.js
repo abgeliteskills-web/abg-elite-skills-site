@@ -201,6 +201,27 @@ document.addEventListener("click", (event) => {
   });
 });
 
+// Most bookings start with an email or phone tap, so count every one as contact_click
+// (mark it as a key event in Google Analytics), with which link and where it was on the page.
+document.addEventListener("click", (event) => {
+  const contactLink = event.target.closest('a[href^="mailto:"], a[href^="tel:"]');
+
+  if (!contactLink) {
+    return;
+  }
+
+  const href = contactLink.getAttribute("href") || "";
+  const section = contactLink.closest("[id]:not(html, body), section[aria-labelledby], footer, header");
+
+  trackSiteEvent("contact_click", {
+    contact_method: href.startsWith("tel:") ? "phone" : "email",
+    link_text: contactLink.textContent.trim().replace(/\s+/g, " "),
+    email_subject: new URLSearchParams(href.split("?")[1] || "").get("subject") || undefined,
+    page_path: window.location.pathname,
+    placement: section?.id || section?.getAttribute("aria-labelledby") || section?.tagName.toLowerCase(),
+  });
+});
+
 navToggle?.addEventListener("click", () => {
   const isOpen = siteNav?.classList.toggle("is-open");
   navToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
